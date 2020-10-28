@@ -28,13 +28,13 @@ public class SysUserDetailsService extends ServiceImpl<SysUserMapper, SysUser> i
     @Override
     public UserDetails loadUserByUsername(String username) {
         QueryWrapper<SysUser> wrapper = new QueryWrapper<>();
-        wrapper.eq("user_name",username);
+        wrapper.eq("user_name", username);
         SysUser sysUser = getOne(wrapper);
         Set<String> dbAuthsSet = new HashSet<String>();
         dbAuthsSet.add("admin");
         Collection<? extends GrantedAuthority> authorities = AuthorityUtils
                 .createAuthorityList(dbAuthsSet.toArray(new String[0]));
-        LoginUser user = new LoginUser(sysUser.getId(),sysUser.getUserName(),sysUser.getPassword(),authorities);
+        LoginUser user = new LoginUser(sysUser.getId(), sysUser.getUserName(), sysUser.getPassword(), authorities);
         return user;
     }
 }

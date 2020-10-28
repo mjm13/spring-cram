@@ -5,7 +5,7 @@ import com.meijm.oauth2.entity.SysUser;
 
 /**
  * <p>
- *  Mapper 接口
+ * Mapper 接口
  * </p>
  *
  * @author zhanglei

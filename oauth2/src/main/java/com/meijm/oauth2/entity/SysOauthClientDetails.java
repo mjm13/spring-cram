@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.meijm.oauth2.frame.SysJsonTypeHandler;
 import lombok.Data;
 
-import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 

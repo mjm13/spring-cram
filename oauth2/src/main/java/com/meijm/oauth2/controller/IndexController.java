@@ -13,10 +13,10 @@ import java.util.Map;
 public class IndexController {
 
     @GetMapping("/index")
-    public ResponseEntity<Map<String,Object>> index(){
-        Map<String,Object> data = new HashMap<>();
+    public ResponseEntity<Map<String, Object>> index() {
+        Map<String, Object> data = new HashMap<>();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        data.put("authentication",authentication);
+        data.put("authentication", authentication);
         return ResponseEntity.ok(data);
     }
 }

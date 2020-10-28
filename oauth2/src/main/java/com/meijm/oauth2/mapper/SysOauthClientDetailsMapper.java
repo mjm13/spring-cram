@@ -2,11 +2,10 @@ package com.meijm.oauth2.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.meijm.oauth2.entity.SysOauthClientDetails;
-import com.meijm.oauth2.entity.SysUser;
 
 /**
  * <p>
- *  Mapper 接口
+ * Mapper 接口
  * </p>
  *
  * @author zhanglei

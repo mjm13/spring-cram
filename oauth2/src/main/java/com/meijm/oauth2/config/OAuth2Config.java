@@ -1,11 +1,8 @@
 package com.meijm.oauth2.config;
 
 import com.meijm.oauth2.service.SysClientDetailsService;
-import com.meijm.oauth2.service.SysUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,7 +12,6 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
-import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 
 @Configuration
 @EnableResourceServer
@@ -40,8 +36,7 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
         endpoints
                 // 请求方式
                 .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST)
-                // 指定token存储位置
-                // 自定义生成令牌
+                // 可重写TokenEnhancer 自定生成令牌规则
                 .tokenEnhancer(endpoints.getTokenEnhancer())
                 // 用户账号密码认证
                 .userDetailsService(userDetailsService)
@@ -53,7 +48,7 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer oauthServer) {
-        oauthServer.allowFormAuthenticationForClients().checkTokenAccess("permitAll()");
+        oauthServer.allowFormAuthenticationForClients();
     }
 
     /**

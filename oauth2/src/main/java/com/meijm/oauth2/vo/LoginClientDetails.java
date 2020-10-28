@@ -4,7 +4,6 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.meijm.oauth2.entity.SysOauthClientDetails;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.oauth2.provider.ClientDetails;
 
 import java.util.Collection;
@@ -23,19 +22,21 @@ public class LoginClientDetails extends SysOauthClientDetails implements ClientD
     }
 
     @Override
-    public Collection<GrantedAuthority> getAuthorities(){
+    public Collection<GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> authorities = null;
         Set<String> dbAuthorities = getDbAuthorities();
-        if(CollectionUtil.isNotEmpty(dbAuthorities)){
+        if (CollectionUtil.isNotEmpty(dbAuthorities)) {
             authorities = AuthorityUtils
                     .createAuthorityList(dbAuthorities.toArray(new String[0]));
         }
         return authorities;
     }
+
     @Override
     public boolean isScoped() {
         return getScope() != null && !getScope().isEmpty();
     }
+
     @Override
     public boolean isSecretRequired() {
         return getClientSecret() != null;
