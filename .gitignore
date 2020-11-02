@@ -33,3 +33,5 @@ build/
 .vscode/
 /.mvn
 /logs-oauth2
+/logs-activiti/*.log
+/*.log
