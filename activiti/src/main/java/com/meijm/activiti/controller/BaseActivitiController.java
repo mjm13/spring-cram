@@ -30,9 +30,10 @@ public class BaseActivitiController {
 
     //发起一个流程
     @RequestMapping(value = "start", method = RequestMethod.GET)
-    public ProcessInstance start() {
+    public Map<String,Object> start() {
         //mjm 为任意值,表示与业务关联的信息,
-        return runtimeService.startProcessInstanceByKey("SimpleProcess", "mjm");
+        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("SimpleProcess_id", "mjm");
+        return BeanUtil.copyProperties(processInstance,Map.class,"currentFlowElement","subProcessInstance","identityLinks","executions");
     }
 
     //查看指定用户任务列表
