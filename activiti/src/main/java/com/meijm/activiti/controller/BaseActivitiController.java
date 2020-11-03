@@ -28,20 +28,20 @@ public class BaseActivitiController {
 
     //发起一个流程
     @RequestMapping(value = "start", method = RequestMethod.GET)
-    public Map<String,Object> start() {
+    public Map<String, Object> start() {
         //mjm 为任意值,表示与业务关联的信息,
         ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("SimpleProcess_id", "mjm");
-        return BeanUtil.copyProperties(processInstance,Map.class,"currentFlowElement","subProcessInstance","identityLinks","executions");
+        return BeanUtil.copyProperties(processInstance, Map.class, "currentFlowElement", "subProcessInstance", "identityLinks", "executions");
     }
 
     //查看指定用户任务列表
     @RequestMapping(value = "taskList", method = RequestMethod.GET)
-    public List<Map<String,Object>> taskList() {
+    public List<Map<String, Object>> taskList() {
         //mjm 为流程定义中分配的人员 对应 processes/SimpleProcess.bpmn20.xml:5
-        List<Task> tasks =  taskService.createTaskQuery().taskAssignee("admin").list();
+        List<Task> tasks = taskService.createTaskQuery().taskAssignee("admin").list();
         return tasks.stream().map(task -> {
-            Map<String,Object> data = new HashMap<>();
-            data = BeanUtil.copyProperties(task,Map.class,"execution","processInstance","variableInstances");
+            Map<String, Object> data = new HashMap<>();
+            data = BeanUtil.copyProperties(task, Map.class, "execution", "processInstance", "variableInstances");
             return data;
         }).collect(Collectors.toList());
     }
