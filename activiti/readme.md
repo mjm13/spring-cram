@@ -123,9 +123,13 @@ spring.datasource.url=jdbc:p6spy:mysql://localhost:3306/m-activiti?serverTimezon
 
 # 参考资料
 https://www.activiti.org/userguide/#springSpringBoot
+
 https://blog.csdn.net/yang_zzu/article/details/103998671
+
 https://www.cnblogs.com/tianguodk/p/9414363.html
+
 https://blog.csdn.net/qq_40887780/article/details/83588130
+
 https://www.cnblogs.com/liaojie970/p/8857710.html
 
 
