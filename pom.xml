@@ -20,6 +20,7 @@
     <modules>
         <module>oauth2</module>
         <module>activiti</module>
+        <module>statemachine</module>
     </modules>
 
     <properties>
