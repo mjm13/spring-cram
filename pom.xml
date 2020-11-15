@@ -21,6 +21,7 @@
         <module>oauth2</module>
         <module>activiti</module>
         <module>statemachine</module>
+        <module>customSecurity</module>
     </modules>
 
     <properties>
