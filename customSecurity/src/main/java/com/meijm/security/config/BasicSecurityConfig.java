@@ -20,7 +20,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationEn
  * @createtime 2019/12/16-10:05
  **/
 
-@Order(2)
+@Order(1)
 @Configuration
 public class BasicSecurityConfig extends WebSecurityConfigurerAdapter {
 
