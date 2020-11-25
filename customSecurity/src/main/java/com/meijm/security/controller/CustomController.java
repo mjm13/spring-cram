@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/custom1")
-public class Custom1Controller {
+@RequestMapping("/custom")
+public class CustomController {
     //返回当前用户
     @GetMapping("/index")
     public Object index(){

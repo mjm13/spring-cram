@@ -1,15 +1,12 @@
 package com.meijm.statemachine;
 
-import com.meijm.statemachine.config.Events;
-import com.meijm.statemachine.config.States;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.statemachine.StateMachine;
-import org.springframework.statemachine.config.StateMachineFactory;
-import org.springframework.statemachine.persist.StateMachinePersister;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+@EnableJpaRepositories("org.springframework.statemachine.data.jpa")
+@EntityScan("org.springframework.statemachine.data.jpa")
 @SpringBootApplication
 public class StatemachineApplication {
     public static void main(String[] args) {
