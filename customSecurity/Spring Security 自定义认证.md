@@ -1,95 +1,112 @@
-# [Spring Security多入口](https://docs.spring.io/spring-security/site/docs/5.4.1/reference/html5/#multiple-httpsecurity)
-官方为了方便演示使用的是一个主类,两个内部类来实现的多入口,下面的例子将其拆分为两个配置类,两个用户方便理解.
+# 角色说明
+* CustomAuthenticationFilter:构建Token类并交给AuthenticationProvider进行验证,继承自AbstractAuthenticationProcessingFilter,AbstractAuthenticationProcessingFilter为UsernamePasswordAuthenticationFilter的父类,封装了登陆过程用到的常用内容及方法.也可以不继承此类完核心功能即可.
+* CustomAuthenticationProvider:对支持的token进行校验与shiro中Realm类似,区别是Security将授权与认证合并了.
+* CustomAuthenticationToken:自定义token,存储自定义内容,程序中使用SecurityContextHolder.getContext().getAuthentication()来获取
 
-# 配置
+# java配置
+## 过滤器配置
 ``` java
+public class CustomAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
+
+    public CustomAuthenticationFilter() {
+        super(new AntPathRequestMatcher("/custom/**"));
+        //
+        setContinueChainBeforeSuccessfulAuthentication(true);
+    }
+
+    @Override
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
+        CustomAuthenticationToken authentication = null;
+        try {
+            Enumeration<String> headers = request.getHeaders("secretKey");
+            String secretKey = headers.nextElement();
+            // 通过request中参数构建自定义token,与CustomAuthenticationProvider对应即可
+            authentication = new CustomAuthenticationToken(secretKey, secretKey);
+            //设置附属信息,sessionid,ip
+            setDetails(request, authentication);
+            //通过Provider验证token
+            authentication = (CustomAuthenticationToken) getAuthenticationManager().authenticate(authentication);
+            //
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        } catch (Exception e) {
+            throw new AuthenticationServiceException("secretKey认证失败",e);
+        }
+        return authentication;
+    }
+
+    protected void setDetails(HttpServletRequest request,
+                              CustomAuthenticationToken authRequest) {
+        authRequest.setDetails(authenticationDetailsSource.buildDetails(request));
+    }
+}
+```
+
+**说明**
+* 此示例是在请求头中增加参数用于认证,并没有后续的登陆成功处理所以设置了setContinueChainBeforeSuccessfulAuthentication
+* setContinueChainBeforeSuccessfulAuthentication设置为true表示认证成功之后进入后续过滤,不走后续的登陆成功处理
+* 需要手动将认证结果存入SecurityContextHolder中避免后续拿不到认证信息.
+
+
+
+## Provider 配置
+``` java
+@Component
+public class CustomAuthenticationProvider implements AuthenticationProvider {
+
+
+    @Override
+    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+        String secretKey = (String) authentication.getCredentials();
+        //自定义校验逻辑
+        if(!"123".equals(secretKey)){
+            throw new InsufficientAuthenticationException("认证错误");
+        }
+        Set<String> dbAuthsSet = new HashSet<String>();
+        dbAuthsSet.add("customUser");
+
+        Collection<? extends GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(dbAuthsSet.toArray(new String[0]));
+        return new CustomAuthenticationToken(secretKey, secretKey, authorities);
+    }
+
+    @Override
+    public boolean supports(Class<?> authentication) {
+        return CustomAuthenticationToken.class.isAssignableFrom(authentication);
+    }
+}
+```
+
+## SecurityConfig配置
+
+``` java
+@Order(2)
 @Configuration
-public class FormSecurityConfig extends WebSecurityConfigurerAdapter {
+public class CustomSecurityConfig extends WebSecurityConfigurerAdapter {
+    @Autowired
+    private CustomAuthenticationProvider customAuthenticationProvider;
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().disable()
+                .antMatcher("/custom/**")
+                .addFilterBefore(customAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER)
+                .and().authorizeRequests().antMatchers("/custom/**").authenticated();
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.authenticationProvider(customAuthenticationProvider);
+    }
 
     @Bean
-    public static PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+    public CustomAuthenticationFilter customAuthenticationFilter() throws Exception {
+        CustomAuthenticationFilter filter = new CustomAuthenticationFilter();
+        filter.setAuthenticationManager(super.authenticationManagerBean());
+        return filter;
     }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.cors().disable()
-                .csrf().disable()
-                .authorizeRequests().antMatchers("/form/**")
-                .hasRole("USER")
-                .and()
-                .formLogin().successForwardUrl("/form/index");
-    }
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-                .inMemoryAuthentication()
-                .withUser("user")
-                .password(passwordEncoder().encode("user"))
-                .roles("USER");
-    }
 }
 ```
-**说明:**
-* 上面的配置为系统指定了user为默认用户,拥有USER权限,
-* 指定以form起始的路径需要校验USER权限
-* 增加formLogin,指定/form/index为登陆成功指向的页面
-
-``` java
-@Order(1)
-@Configuration
-public class BasicSecurityConfig extends WebSecurityConfigurerAdapter {
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-                .antMatcher("/basic/**")
-                .authorizeRequests().anyRequest()
-                .hasRole("BASIC")
-                .and()
-                .httpBasic();
-    }
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-                .inMemoryAuthentication()
-                .withUser("basic")
-                .password(passwordEncoder.encode("basic"))
-                .roles("BASIC");
-    }
-}
-```
-**说明:**
-* 使用@Order(1)指定了加载顺序
-* 上面的配置为系统指定了basic为默认用户,拥有BASIC权限,
-* 指定以basic起始的路径需要校验BASIC权限
-* 增加httpBasic验证
-
-# 注意事项
-1. HttpSecurity配置以authorizeRequests为起始表示针对所有请求路径
-2. HttpSecurity配置以antMatcher("/basic/**")为新增一个入口
-3. FormSecurityConfig 未写@Order继承WebSecurityConfigurerAdapter中注解序号为100
-4. 由于formLogin会增加默认登陆页过滤器/login所以不能使用其它路径作为起始,否则会导致默认登录页不生效
-5. 如果authorizeRequests加载顺序靠前会导致后续配置的antMatcher对应的路径失效.
-
-
-
-
 
 # 相关代码
-https://gitee.com/MeiJM/spring-cram/tree/master/customSecurity
-
-# 参考资料
-https://docs.spring.io/spring-security/site/docs/5.4.1/reference/html5/#multiple-httpsecurity
-
-https://www.baeldung.com/spring-security-multiple-entry-points
-
-https://github.com/spring-projects/spring-security/issues/5593
-
-https://github.com/mageddo/java-examples/blob/6a7dd2b/spring-security/basic-and-form-auth-together/src/main/java/com/mageddo/springsecurity/SecurityConfig.java
-
+https://gitee.com/MeiJM/spring-cram/tree/master/customSecurity 中CustomSecurityConfig相关部分
