@@ -136,6 +136,7 @@ public class StateMachineLogListener extends StateMachineListenerAdapter<String,
 	@Override
 	public void stateContext(StateContext<String, String> stateContext) {
 		if(stateContext!=null){
+			this.stateContext = stateContext;
 			log.info("{} in stateContext Listener",stateContext.getStateMachine().getId());
 		}else{
 			log.info("---------------------stateContext---------------------------------------");

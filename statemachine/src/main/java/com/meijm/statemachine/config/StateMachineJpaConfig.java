@@ -15,21 +15,11 @@
  */
 package com.meijm.statemachine.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-import org.springframework.statemachine.config.EnableStateMachineFactory;
-import org.springframework.statemachine.config.StateMachineConfigurerAdapter;
 import org.springframework.statemachine.config.StateMachineFactory;
-import org.springframework.statemachine.config.builders.StateMachineConfigurationConfigurer;
-import org.springframework.statemachine.config.builders.StateMachineModelConfigurer;
-import org.springframework.statemachine.config.model.StateMachineModelFactory;
-import org.springframework.statemachine.data.*;
 import org.springframework.statemachine.data.jpa.JpaPersistingStateMachineInterceptor;
 import org.springframework.statemachine.data.jpa.JpaStateMachineRepository;
-import org.springframework.statemachine.data.support.StateMachineJackson2RepositoryPopulatorFactoryBean;
 import org.springframework.statemachine.persist.StateMachineRuntimePersister;
 import org.springframework.statemachine.service.DefaultStateMachineService;
 import org.springframework.statemachine.service.StateMachineService;
@@ -37,17 +27,28 @@ import org.springframework.statemachine.service.StateMachineService;
 @Configuration
 public class StateMachineJpaConfig {
 
-	@Bean
-	public StateMachineRuntimePersister<String, String, String> stateMachineRuntimePersister(
-			JpaStateMachineRepository jpaStateMachineRepository) {
-		return new JpaPersistingStateMachineInterceptor<>(jpaStateMachineRepository);
-	}
+    /**
+     * StateMachineRuntimePersister为状态机运行时持久化配置
+     * @param jpaStateMachineRepository
+     * @return
+     */
+    @Bean
+    public StateMachineRuntimePersister<String, String, String> stateMachineRuntimePersister(
+            JpaStateMachineRepository jpaStateMachineRepository) {
+        return new JpaPersistingStateMachineInterceptor<>(jpaStateMachineRepository);
+    }
 
-	@Bean
-	public StateMachineService<String, String> stateMachineService(
-			StateMachineFactory<String, String> stateMachineFactory,
-			StateMachineRuntimePersister<String, String, String> stateMachineRuntimePersister) {
-		return new DefaultStateMachineService<String, String>(stateMachineFactory, stateMachineRuntimePersister);
-	}
+    /**
+     * StateMachineService为状态状态机持久化控制,用于获取或关闭状态机
+     * @param stateMachineFactory
+     * @param stateMachineRuntimePersister
+     * @return
+     */
+    @Bean
+    public StateMachineService<String, String> stateMachineService(
+            StateMachineFactory<String, String> stateMachineFactory,
+            StateMachineRuntimePersister<String, String, String> stateMachineRuntimePersister) {
+        return new DefaultStateMachineService<String, String>(stateMachineFactory, stateMachineRuntimePersister);
+    }
 
 }
