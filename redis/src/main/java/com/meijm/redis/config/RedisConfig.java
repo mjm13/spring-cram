@@ -15,22 +15,21 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
-
 import java.time.Duration;
 
 @Configuration
 @EnableCaching
 public class RedisConfig {
-
     /**
      * 固定方法名称,否则session序列化不会使用json格式
+     * org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration#setDefaultRedisSerializer(org.springframework.data.redis.serializer.RedisSerializer)
      * @return
      */
     @Bean
     public RedisSerializer<Object> springSessionDefaultRedisSerializer() {
         //使用Jackson2JsonRedisSerializer来序列化和反序列化redis的value值（默认使用JDK的序列化方式）
         Jackson2JsonRedisSerializer serializer = new Jackson2JsonRedisSerializer(Object.class);
-
+        //序列化配置
         ObjectMapper mapper = new ObjectMapper();
         mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
         serializer.setObjectMapper(mapper);
@@ -52,10 +51,10 @@ public class RedisConfig {
         return RedisCacheManager
                 .builder(factory)
                 .cacheDefaults(config)
+//                .withCacheConfiguration("cacheName",customConfig)
                 .build();
 
     }
-
 
     @Bean
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory connectionFactory) {
