@@ -22,6 +22,7 @@
         <module>activiti</module>
         <module>statemachine</module>
         <module>customSecurity</module>
+        <module>redis</module>
     </modules>
 
     <properties>
