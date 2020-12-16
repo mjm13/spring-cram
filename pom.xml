@@ -23,6 +23,7 @@
         <module>statemachine</module>
         <module>customSecurity</module>
         <module>redis</module>
+        <module>thread</module>
     </modules>
 
     <properties>
