@@ -24,6 +24,7 @@
         <module>customSecurity</module>
         <module>redis</module>
         <module>thread</module>
+        <module>cloud-netflix</module>
     </modules>
 
     <properties>

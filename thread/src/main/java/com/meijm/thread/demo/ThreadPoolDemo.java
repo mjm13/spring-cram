@@ -16,6 +16,10 @@ public class ThreadPoolDemo {
         ExecutorService service = Executors.newWorkStealingPool();
         service.execute(() -> {
             System.out.println("执行线程");
+            for (int i = 0; i < 10; i++) {
+                System.out.println();
+            }
+            System.out.println("执行完成");
         });
     }
 
