@@ -1,8 +1,12 @@
 package com.meijm.zuul.filter;
 
 import com.netflix.zuul.ZuulFilter;
+import com.netflix.zuul.context.RequestContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.PRE_TYPE;
 import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.ROUTE_TYPE;
@@ -26,7 +30,9 @@ public class RouteFilter extends ZuulFilter {
     }
     @Override
     public Object run() {
-       log.info("in ROUTE_TYPE filter");
-        return null;
+        Map<String,String> routeMap = new HashMap<>();
+        routeMap.put("route","in route");
+        log.info("in ROUTE_TYPE filter :{} content", RequestContext.getCurrentContext());
+        return routeMap;
     }
 }

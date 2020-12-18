@@ -1,6 +1,7 @@
 package com.meijm.zuul.filter;
 
 import com.netflix.zuul.ZuulFilter;
+import com.netflix.zuul.context.RequestContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -26,7 +27,7 @@ public class ErrorFilter extends ZuulFilter {
     }
     @Override
     public Object run() {
-       log.info("in ERROR_TYPE filter");
+        log.info("in ERROR_TYPE filter :{} content", RequestContext.getCurrentContext());
         return null;
     }
 }
