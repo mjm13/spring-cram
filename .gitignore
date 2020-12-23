@@ -39,3 +39,5 @@ build/
 /log-m-zuul/*.gz
 /logs-redis/*.log
 /logs-redis/*.gz
+/log-m-rureka-server1/*.log
+/log-m-rureka-server2/*.log

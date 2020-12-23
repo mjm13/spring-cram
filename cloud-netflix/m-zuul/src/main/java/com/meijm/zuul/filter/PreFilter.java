@@ -35,10 +35,10 @@ public class PreFilter extends ZuulFilter {
         preMap.put("pre","返回信息");
 //        SEND_FORWARD_FILTER_RAN
         RequestContext ctx = RequestContext.getCurrentContext();
-        ctx.setSendZuulResponse(false);
+//        ctx.setSendZuulResponse(false);
 //        ctx.setResponseStatusCode(200);
 //        ctx.set("sendForwardFilter.ran", true);
-        ctx.setResponseBody(JSONUtil.toJsonStr(preMap));
+//        ctx.setResponseBody(JSONUtil.toJsonStr(preMap));
 //        ctx.getResponse().setContentType("application/json;charset=UTF-8");
        log.info("in PRE_TYPE filter :{} content",ctx);
         return null;
