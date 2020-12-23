@@ -26,13 +26,14 @@ public class RouteFilter extends ZuulFilter {
 
     @Override
     public boolean shouldFilter() {
-        return true;
+        RequestContext ctx = RequestContext.getCurrentContext();
+        return ctx.sendZuulResponse();
     }
     @Override
     public Object run() {
         Map<String,String> routeMap = new HashMap<>();
         routeMap.put("route","in route");
         log.info("in ROUTE_TYPE filter :{} content", RequestContext.getCurrentContext());
-        return routeMap;
+        return null;
     }
 }

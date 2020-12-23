@@ -2,7 +2,11 @@ package com.meijm.zuul.filter;
 
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
+import com.netflix.zuul.exception.ZuulException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cloud.netflix.zuul.util.ZuulRuntimeException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -26,13 +30,18 @@ public class PostFilter extends ZuulFilter {
 
     @Override
     public boolean shouldFilter() {
-        return true;
+        RequestContext ctx = RequestContext.getCurrentContext();
+        return ctx.sendZuulResponse();
     }
     @Override
     public Object run() {
         Map<String,String> postMap = new HashMap<>();
         postMap.put("post","in post");
         log.info("in POST_TYPE filter :{} content", RequestContext.getCurrentContext());
-        return postMap;
+//        if(RequestContext.getCurrentContext().getResponseStatusCode()!= HttpStatus.OK.value()){
+//            ZuulException zuulException = new ZuulException("请求失败",RequestContext.getCurrentContext().getResponseStatusCode(),"xxx");
+//            throw new ZuulRuntimeException(zuulException);
+//        }
+        return null;
     }
 }

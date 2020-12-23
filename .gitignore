@@ -35,3 +35,7 @@ build/
 /logs-oauth2
 /logs-activiti/*.log
 /*.log
+/log-m-zuul/*.log
+/log-m-zuul/*.gz
+/logs-redis/*.log
+/logs-redis/*.gz
