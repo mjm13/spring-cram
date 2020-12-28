@@ -25,6 +25,7 @@
         <module>redis</module>
         <module>thread</module>
         <module>cloud-netflix</module>
+        <module>roketmq</module>
     </modules>
 
     <properties>
