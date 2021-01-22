@@ -8,9 +8,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.shell.jline.PromptProvider;
 
 @SpringBootApplication
-public class RoketmqApplication {
+public class RoketMqApplication {
     public static void main(String[] args) {
-        SpringApplication.run(RoketmqApplication.class, args);
+        SpringApplication.run(RoketMqApplication.class, args);
     }
 
     @Bean

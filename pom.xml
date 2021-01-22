@@ -26,6 +26,7 @@
         <module>thread</module>
         <module>cloud-netflix</module>
         <module>roketmq</module>
+        <module>basis</module>
     </modules>
 
     <properties>
@@ -50,7 +51,7 @@
             <artifactId>p6spy</artifactId>
             <version>3.8.5</version>
         </dependency>
-<!--sl4j日志转换-->
+        <!--sl4j日志转换-->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>log4j-over-slf4j</artifactId>
@@ -109,6 +110,8 @@
         </plugins>
     </build>
 
+
+
     <repositories>
         <repository>
             <id>spring-milestones</id>
@@ -134,6 +137,12 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.springframework.shell</groupId>
+                <artifactId>spring-shell-starter</artifactId>
+                <version>2.0.0.RELEASE</version>
+            </dependency>
+
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
