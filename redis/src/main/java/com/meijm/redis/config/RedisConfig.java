@@ -22,7 +22,7 @@ import java.time.Duration;
 public class RedisConfig {
     /**
      * 固定方法名称,否则session序列化不会使用json格式
-     * org.springframework.session.data.redis.listener.annotation.web.http.RedisHttpSessionConfiguration#setDefaultRedisSerializer(org.springframework.data.redis.serializer.RedisSerializer)
+     * org.springframework.session.data.redis.springConsumer.annotation.web.http.RedisHttpSessionConfiguration#setDefaultRedisSerializer(org.springframework.data.redis.serializer.RedisSerializer)
      * @return
      */
     @Bean

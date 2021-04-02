@@ -27,6 +27,7 @@
         <module>cloud-netflix</module>
         <module>roketmq</module>
         <module>basis</module>
+        <module>mycat</module>
     </modules>
 
     <properties>

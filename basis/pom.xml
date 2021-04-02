@@ -16,5 +16,16 @@
             <groupId>org.springframework.shell</groupId>
             <artifactId>spring-shell-starter</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <version>1.13.1</version>
+            <artifactId>jsoup</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.6</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 </project>

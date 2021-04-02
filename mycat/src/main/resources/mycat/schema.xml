@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!DOCTYPE mycat:schema SYSTEM "schema.dtd">
+<!--schema :核心配置，管理逻辑库，表，分片规则-->
+<mycat:schema xmlns:mycat="http://io.mycat/">
+<!--垂直拆分配置-->
+    <schema name="TESTDB" checkSQLschema="false" sqlMaxLimit="100">
+        <table name="user" dataNode="userDn1"   primaryKey="id"></table>
+        <table name="order" dataNode="ordeDn1"     primaryKey="id"></table>
+        <table name="datadictionary" dataNode="userDn1,ordeDn1"  type="global"  primaryKey="id"></table>
+    </schema>
+
+    <dataNode name="userDn1" dataHost="userDB" database="userMg" />
+    <dataNode name="ordeDn1" dataHost="orderDB" database="orderMg" />
+
+    <dataHost name="userDB" maxCon="1000" minCon="10"  dbType="mysql" dbDriver="native"  balance="1">
+        <heartbeat>select user()</heartbeat>
+        <writeHost host="hostM1" url="127.0.0.1:3331" user="root" password="root">
+            <readHost host="hostS1" url="127.0.0.1:3331" user="root" password="root" />
+        </writeHost>
+    </dataHost>
+
+    <dataHost name="orderDB" maxCon="1000" minCon="10"  dbType="mysql" dbDriver="native" balance="1" >
+        <heartbeat>select user()</heartbeat>
+        <writeHost host="hostM2" url="127.0.0.1:3332" user="root" password="root">
+            <readHost host="hostS2" url="127.0.0.1:3332" user="root" password="root" />
+        </writeHost>
+    </dataHost>
+
+    <!--    读写分离配置  -->
+    <!--    <schema name="TESTDB" checkSQLschema="false" sqlMaxLimit="100" dataNode="dn204">-->
+    <!--    </schema>-->
+    <!--    <dataNode name="dn204" dataHost="database204" database="mycattest" />-->
+    <!--    <dataHost name="database204" maxCon="1000" minCon="10" balance="3"-->
+    <!--              writeType="0" dbType="mysql" dbDriver="native" switchType="1"  slaveThreshold="100">-->
+    <!--        <heartbeat>select user()</heartbeat>-->
+    <!--        <writeHost host="hostM1" url="127.0.0.1:3306" user="root" password="root">-->
+    <!--            <readHost host="hostS2" url="172.16.24.205:3306" user="root" password="root" />-->
+    <!--        </writeHost>-->
+    <!--    </dataHost>-->
+
+</mycat:schema>

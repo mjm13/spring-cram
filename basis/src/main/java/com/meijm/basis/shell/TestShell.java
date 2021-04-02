@@ -12,7 +12,7 @@ public class TestShell {
     @Autowired
     ApplicationContext applicationContext;
 
-    @ShellMethod("listener test")
+    @ShellMethod("springConsumer test")
     public void listener(){
         applicationContext.publishEvent(new TestEvent(this, "test1"));
         applicationContext.publishEvent(new TestEvent(this, "test2"));
