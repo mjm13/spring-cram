@@ -28,6 +28,7 @@
         <module>roketmq</module>
         <module>basis</module>
         <module>mycat</module>
+        <module>quartz</module>
     </modules>
 
     <properties>

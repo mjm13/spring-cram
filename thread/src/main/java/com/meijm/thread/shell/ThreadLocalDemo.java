@@ -2,6 +2,7 @@ package com.meijm.thread.demo;
 
 import com.alibaba.ttl.TransmittableThreadLocal;
 import com.alibaba.ttl.TtlRunnable;
+import org.springframework.shell.standard.ShellComponent;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -15,6 +16,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * InheritableThreadLocal  子线程修改后其它线程会取修改后的值而不是父线程的值,修改不会影响父线程值
  * TransmittableThreadLocal 子线程修改不影响后续线程访问,修改不会影响父线程值
  */
+@ShellComponent
 public class ThreadLocalDemo {
     private static ThreadLocal<String> tl = new ThreadLocal();
     private static ThreadLocal<String> ttl = new TransmittableThreadLocal<>();
