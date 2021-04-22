@@ -11,7 +11,7 @@ debug: 当此属性设置为true时，将打印出logback内部日志信息，�
 	<property name="log.pattern.error.file" value="%d{yyyy-MM-dd HH:mm:ss.SSS}%-5level ${PID:- } --- [%thread] %logger %method : %m%n%caller{1..3}%xException" />
 	<!-- 彩色日志格式 -->
 <!--	<property name="log.pattern.console" value="%clr(%d{yyyy-MM-dd HH:mm:ss}) %clr(%-5level) %clr(${PID:- }){magenta} %clr(-&#45;&#45;){faint} %clr([%-10.10thread]){faint} %clr(%-40.40logger{39}){blue} %clr(:){faint} %m%n%xException" />-->
-	<property name="log.pattern.console" value="%clr([%-5.7thread]){faint} %clr(%-40.40logger{39}){blue} %clr(:){faint} %m%n%xException" />
+	<property name="log.pattern.console" value="%clr([%-10.10thread]){faint} %clr(%-40.40logger{39}){blue} %clr(:){faint} %m%n%xException" />
 
 	<!-- 控制台输出 -->
 	<conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />

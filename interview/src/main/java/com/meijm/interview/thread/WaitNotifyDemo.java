@@ -15,30 +15,11 @@ import java.util.List;
 public class WaitNotifyDemo{
 
     public static void main(String[] args) throws InterruptedException {
-        Object lock = new Object();
-        List<WaitNotifyThread> nds = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            WaitNotifyThread notifyDemo = new WaitNotifyThread("WaitNotifyThread-" + i, lock);
-            notifyDemo.start();
-            nds.add(notifyDemo);
-        }
-        Thread.sleep(1000);
-            //批量唤醒
-//        synchronized (lock) {
-//            log.info("开始唤醒nde");
-//            lock.notifyAll();
-//        }
 
+        //批量唤醒
+        WaitNotifyThread.notifyAllDemo();
         //逐个唤醒
-        // 在idea中运行除了main进程 还有Monitor Ctrl-Break所以需要判断activeCount>2
-        while (Thread.activeCount() > 2) {
-            synchronized (lock) {
-                lock.notify();
-                Thread.sleep(1000);
-            }
-        }
-        Thread.currentThread().getThreadGroup().list();
-        log.info("主程序结束,Thread.activeCount():{}",Thread.activeCount());
+        WaitNotifyThread.notifyDemo();
     }
 }
 
@@ -63,5 +44,45 @@ class WaitNotifyThread extends Thread {
             }
         }
         log.info("结束wait");
+    }
+
+    public static void notifyDemo() throws InterruptedException {
+        Object lock = new Object();
+        List<WaitNotifyThread> nds = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            WaitNotifyThread notifyDemo = new WaitNotifyThread("WaitNotifyThread-" + i, lock);
+            notifyDemo.start();
+            nds.add(notifyDemo);
+        }
+        Thread.sleep(1000);
+        //逐个唤醒
+        // 在idea中运行除了main进程 还有Monitor Ctrl-Break所以需要判断activeCount>2
+        while (Thread.activeCount() > 2) {
+            synchronized (lock) {
+                lock.notify();
+                Thread.sleep(1000);
+            }
+        }
+        Thread.currentThread().getThreadGroup().list();
+        log.info("主程序结束,Thread.activeCount():{}",Thread.activeCount());
+    }
+
+    public static void notifyAllDemo() throws InterruptedException {
+        Object lock = new Object();
+        List<WaitNotifyThread> nds = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            WaitNotifyThread notifyDemo = new WaitNotifyThread("WaitNotifyThread-" + i, lock);
+            notifyDemo.start();
+            nds.add(notifyDemo);
+        }
+        Thread.sleep(1000);
+        //批量唤醒
+        synchronized (lock) {
+            log.info("开始唤醒nde");
+            lock.notifyAll();
+        }
+
+        Thread.currentThread().getThreadGroup().list();
+        log.info("主程序结束,Thread.activeCount():{}",Thread.activeCount());
     }
 }

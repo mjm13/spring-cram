@@ -10,25 +10,16 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class JoinDemo {
     public static void main(String[] args) {
-        Thread previousThread = null;
-        log.info("join-开始执行");
-        for (int i = 0; i < 10; i++) {
-            JoinThread joinDemo = new JoinThread(previousThread, i);
-            joinDemo.start();
-            previousThread = joinDemo;
-        }
-        while (Thread.activeCount() > 2) {
-        }
-        log.info("join-结束执行");
+        SequentialExecThread.demo();
     }
 }
 
 @Slf4j
-class JoinThread extends Thread {
+class SequentialExecThread extends Thread {
     int i;
     Thread previousThread; //上一个线程
 
-    public JoinThread(Thread previousThread, int i) {
+    public SequentialExecThread(Thread previousThread, int i) {
         this.previousThread = previousThread;
         this.i = i;
     }
@@ -46,4 +37,16 @@ class JoinThread extends Thread {
         log.info("执行线程{}", i);
     }
 
+    public static void demo(){
+        Thread previousThread = null;
+        log.info("join-开始执行");
+        for (int i = 0; i < 10; i++) {
+            SequentialExecThread joinDemo = new SequentialExecThread(previousThread, i);
+            joinDemo.start();
+            previousThread = joinDemo;
+        }
+        while (Thread.activeCount() > 2) {
+        }
+        log.info("join-结束执行");
+    }
 }

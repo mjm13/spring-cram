@@ -1,11 +1,14 @@
 package com.meijm.interview.thread;
 
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.ttl.TransmittableThreadLocal;
-import org.springframework.shell.standard.ShellComponent;
+import com.alibaba.ttl.TtlRunnable;
+import lombok.extern.slf4j.Slf4j;
 
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 示例展示ThreadLocal,InheritableThreadLocal,TransmittableThreadLocal
@@ -14,56 +17,61 @@ import java.util.concurrent.atomic.AtomicInteger;
  * InheritableThreadLocal  子线程修改后其它线程会取修改后的值而不是父线程的值,修改不会影响父线程值
  * TransmittableThreadLocal 阿里开源--子线程修改不影响后续线程访问,修改不会影响父线程值
  */
-@ShellComponent
+@Slf4j
 public class ThreadLocalDemo {
     private static ThreadLocal<String> tl = new ThreadLocal();
     private static ThreadLocal<String> ttl = new TransmittableThreadLocal<>();
     private static ThreadLocal<String> itl = new InheritableThreadLocal();
-    private static AtomicInteger index = new AtomicInteger(1);
-
-
-    private static ExecutorService executorService = Executors.newFixedThreadPool(1);
 
     //InheritableThreadLocal 跨线程传递问题
-    public static void main(String[] args) {
-        System.out.println(String.format("线程名称-%s, 变量值=%s", Thread.currentThread().getName(), itl.get()));
+    public static void main(String[] args) throws InterruptedException {
+        log.info("开始执行");
+        setLocal("0");
+        fc("初始为0");
 
-        executorService.execute(()->{
-            System.out.println(String.format("线程名称-%s, 变量值=%s", Thread.currentThread().getName(), itl.get()));
-        });
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
 
-        itl.set("1"); // 等上面的线程池第一次启用完了，父线程再给自己赋值
+        CountDownLatch latch = new CountDownLatch(1);
+        executorService.submit(TtlRunnable.get(() -> {
+            fc("子线程修改前为0");
+            setLocal("1");
+            fc("子线程修改为1");
+            latch.countDown();
+        }));
 
-        executorService.execute(()->{
-            System.out.println(String.format("线程名称-%s, 变量值=%s", Thread.currentThread().getName(), itl.get()));
-        });
+        latch.await();
 
-        System.out.println(String.format("线程名称-%s, 变量值=%s", Thread.currentThread().getName(), itl.get()));
+        CountDownLatch latch2 = new CountDownLatch(1);
+        executorService.submit(TtlRunnable.get(() -> {
+            fc("其它线程查看");
+            latch2.countDown();
+        }));
+        latch2.await();
+
+        fc("主线程修改前1");
+        setLocal("2");
+        fc("主线程修改为2");
+
+        CountDownLatch latch3 = new CountDownLatch(1);
+        executorService.submit(TtlRunnable.get(() -> {
+            fc("其它线程查看");
+            latch3.countDown();
+        }));
+        latch3.await();
+        log.info("执行结束");
     }
 
-//    public static void main(String[] args) throws Exception {
-//        setLocal("主线程初始化");
-//        fc(index);
-//        ExecutorService executorService = Executors.newSingleThreadExecutor();
-//        Runnable runnable = TtlRunnable.get(new Runnable() {
-//            @Override
-//            public void run() {
-//                System.out.println("-----------------开始-------------------");
-//                fc(index);
-//                setLocal("子线程修改后");
-//                fc(index);
-//                System.out.println("------------------结束----------------------");
-//            }
-//        });
-//        TimeUnit.SECONDS.sleep(1);
-//        executorService.submit(runnable);
-//        TimeUnit.SECONDS.sleep(1);
-//        System.out.println("****************************************");
-//        fc(index);
-//        System.out.println("****************************************");
-//        executorService.submit(runnable);
-//        TimeUnit.SECONDS.sleep(1);
-//    }
+    private static void checkOver(ExecutorService threadPool) {
+        threadPool.shutdown();
+        try {
+            if (!threadPool.awaitTermination(60, TimeUnit.SECONDS)) {
+                threadPool.shutdownNow();
+            }
+        } catch (InterruptedException ex) {
+            threadPool.shutdownNow();
+            Thread.currentThread().interrupt();
+        }
+    }
 
     private static void setLocal(String val) {
         tl.set(val);
@@ -71,9 +79,12 @@ public class ThreadLocalDemo {
         itl.set(val);
     }
 
-    private static void fc(AtomicInteger index) {
-        String temp = "%s-当前线程名称: %s,%s:%s|%s:%s|%s:%s ";
-        System.out.println(String.format(temp, index.toString(), Thread.currentThread().getName(), "ThreadLocal", tl.get(), "TransmittableThreadLocal", ttl.get(), "InheritableThreadLocal", itl.get()));
-        index.getAndIncrement();
+    private static void fc(String msg) {
+        String temp = "{}ThreadLocal:{} | TransmittableThreadLocal:{} |InheritableThreadLocal:{} ";
+        msg = StrUtil.padAfter(msg,13," ");
+        String tlValue = StrUtil.padAfter(tl.get(),4," ");
+        String ttlValue = StrUtil.padAfter(ttl.get(),4," ");
+        String itlValue = StrUtil.padAfter(itl.get(),4," ");
+        log.info(temp, msg, tlValue, ttlValue, itlValue);
     }
 }
