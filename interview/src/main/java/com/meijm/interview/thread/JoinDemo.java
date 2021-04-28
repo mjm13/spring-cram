@@ -29,7 +29,6 @@ class SequentialExecThread extends Thread {
         try {
             if (previousThread != null) {
                 previousThread.join();
-                Thread.yield();
             }
         } catch (InterruptedException e) {
             e.printStackTrace();

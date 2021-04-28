@@ -2,10 +2,21 @@ package com.meijm.interview.lock;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
+/**
+ * ReentrantLock公平锁,非公平锁及synchronized获取锁情况
+ * java.util.concurrent.locks.AbstractQueuedSynchronizer.Node#next 865行
+ */
 @Slf4j
 public class ReentrantLockDemo {
+    /**
+     * 非公平锁,都可争夺
+     */
+    public static final ReentrantLock conditionLock = new ReentrantLock();
+
+    public static final Condition condition = conditionLock.newCondition();
     /**
      * 非公平锁,都可争夺
      */
@@ -16,6 +27,7 @@ public class ReentrantLockDemo {
     public static final ReentrantLock fairLock = new ReentrantLock(true);
 
     public static void main(String[] args) throws InterruptedException {
+        ReentrantLockConditionThread.test();
         //synchronized 锁
 //        SynchronizedThread.test();
 
@@ -23,7 +35,49 @@ public class ReentrantLockDemo {
 //        FairLockThread.test();
 
         //非公平锁 无序打印
-        NonFairLockThread.test();
+//        NonFairLockThread.test();
+    }
+}
+
+/**
+ * 测试condition功能
+ * Condition.await:加入等待队列，并释放锁
+ * TODO awaitNanos  不阻塞等待?
+ * Condition.signal/Condition.await()
+ *
+ * Object.notify()/Object.wait()
+ */
+@Slf4j
+class ReentrantLockConditionThread extends Thread{
+    @Override
+    public void run() {
+        ReentrantLockDemo.conditionLock.lock();
+        try{
+            log.info("开始等待-ReentrantLockDemo.condition.await()");
+             ReentrantLockDemo.condition.await();
+            log.info("结束等待:");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            ReentrantLockDemo.conditionLock.unlock();
+            log.info("程序结束");
+        }
+    }
+
+    public static void test() throws InterruptedException {
+        log.info("主程序开始");
+        ReentrantLockConditionThread rlct = new ReentrantLockConditionThread();
+        rlct.start();
+        Thread.sleep(1000);
+        ReentrantLockDemo.conditionLock.lock();
+        try{
+            log.info("释放condition");
+            ReentrantLockDemo.condition.signal();
+        }finally {
+            ReentrantLockDemo.conditionLock.unlock();
+        }
+
+        log.info("主程序结束");
     }
 }
 
@@ -53,7 +107,7 @@ class SynchronizedThread extends Thread {
     }
 }
 /**
- * ReentrantLock 基础使用,同synchronized关键字
+ * ReentrantLock-FairLock 公平锁
  */
 @Slf4j
 class FairLockThread extends Thread {
@@ -81,7 +135,9 @@ class FairLockThread extends Thread {
         }
     }
 }
-
+/**
+ * ReentrantLock-NonFairLock 非公平锁
+ */
 @Slf4j
 class NonFairLockThread extends Thread {
     public NonFairLockThread(String name) {

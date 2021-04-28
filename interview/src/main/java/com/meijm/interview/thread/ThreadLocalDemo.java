@@ -14,8 +14,12 @@ import java.util.concurrent.TimeUnit;
  * 示例展示ThreadLocal,InheritableThreadLocal,TransmittableThreadLocal
  * 跨线程访问时的访问效果
  * ThreadLocal 无法跨线程传值
- * InheritableThreadLocal  子线程修改后其它线程会取修改后的值而不是父线程的值,修改不会影响父线程值
- * TransmittableThreadLocal 阿里开源--子线程修改不影响后续线程访问,修改不会影响父线程值
+ * InheritableThreadLocal
+ *  1.子线程修改后其它线程会取修改后的值而不是父线程的值,修改不会影响父线程值
+ *  2.父线程再次修改也不会改变子线程中修改的值------------会导致赋值逻辑不清
+ * TransmittableThreadLocal 阿里开源--需配置java启动参数或使用指定API生产run接口
+ * 1.子线程修改不影响后续线程访问,修改不会影响父线程值
+ * 2.父线程再次修改会影响子新开线程中内容
  */
 @Slf4j
 public class ThreadLocalDemo {
@@ -25,6 +29,13 @@ public class ThreadLocalDemo {
 
     //InheritableThreadLocal 跨线程传递问题
     public static void main(String[] args) throws InterruptedException {
+        /**
+         * 各种线程变量传递情况
+         */
+        ThreadLocalDemo.demo();
+    }
+
+    public static void demo() throws InterruptedException {
         log.info("开始执行");
         setLocal("0");
         fc("初始为0");
@@ -48,7 +59,7 @@ public class ThreadLocalDemo {
         }));
         latch2.await();
 
-        fc("主线程修改前1");
+        fc("主线程修改前0");
         setLocal("2");
         fc("主线程修改为2");
 
@@ -59,18 +70,6 @@ public class ThreadLocalDemo {
         }));
         latch3.await();
         log.info("执行结束");
-    }
-
-    private static void checkOver(ExecutorService threadPool) {
-        threadPool.shutdown();
-        try {
-            if (!threadPool.awaitTermination(60, TimeUnit.SECONDS)) {
-                threadPool.shutdownNow();
-            }
-        } catch (InterruptedException ex) {
-            threadPool.shutdownNow();
-            Thread.currentThread().interrupt();
-        }
     }
 
     private static void setLocal(String val) {
