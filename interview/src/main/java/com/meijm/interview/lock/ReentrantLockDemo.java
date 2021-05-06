@@ -36,13 +36,14 @@ public class ReentrantLockDemo {
 
         //非公平锁 无序打印
 //        NonFairLockThread.test();
+
+        ReentrantLockConditionThread.test();
     }
 }
 
 /**
  * 测试condition功能
  * Condition.await:加入等待队列，并释放锁
- * TODO awaitNanos  不阻塞等待?
  * Condition.signal/Condition.await()
  *
  * Object.notify()/Object.wait()

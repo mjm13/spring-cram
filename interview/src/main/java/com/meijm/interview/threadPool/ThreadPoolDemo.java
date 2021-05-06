@@ -14,5 +14,14 @@ public class ThreadPoolDemo {
 
 @Slf4j
 class ThreadPoolTest{
+    public static void demo(){
+        Executors.newFixedThreadPool(1);
+        Executors.newSingleThreadExecutor();
 
+        Executors.newCachedThreadPool();
+        Executors.newScheduledThreadPool(2);
+
+
+        Executors.newWorkStealingPool(1);
+    }
 }
