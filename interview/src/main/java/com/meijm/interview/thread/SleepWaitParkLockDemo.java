@@ -7,10 +7,12 @@ import java.util.List;
 import java.util.concurrent.locks.LockSupport;
 
 /**
- * 测试sleep和wait对锁的释放情况
+ * 测试sleep,wait,park对锁的释放情况
+ *  sleep/park:不会释放锁
+ *  wait:释放锁
  */
 @Slf4j
-public class SleepWaitParkDemo {
+public class SleepWaitParkLockDemo {
     public static void main(String[] args) throws InterruptedException {
         //释放锁
 //        WaitThread.test();

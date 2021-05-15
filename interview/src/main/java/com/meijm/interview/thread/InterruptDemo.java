@@ -3,9 +3,9 @@ package com.meijm.interview.thread;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * interrupt 中断此线程
- * interrupt() 外部程序设置线程为终止状态
- * 线程本身通过this.isInterrupted() 获取状态变化,判断是否需要结束
+ * interrupt() : 标识此线程为终止状态,配合isInterrupted()使用
+ * interrupted() :
+ * :isInterrupted() : 获取线程终止状态,线程中可通过此状态判断是否需要终止线程
  */
 @Slf4j
 public class InterruptDemo {
@@ -74,13 +74,14 @@ class InterrupWaitThread extends Thread {
 @Slf4j
 class InterrupedThread{
     public static void demo() throws InterruptedException {
-        log.info("Thread.currentThread().isInterrupted():{}",Thread.currentThread().isInterrupted());
+        log.info("当前线程终止状态isInterrupted:{}",Thread.currentThread().isInterrupted());
+        log.info("调用interrupt,设置当前线程为终止状态");
         Thread.currentThread().interrupt();
-        log.info("Thread.currentThread().isInterrupted():{}",Thread.currentThread().isInterrupted());
+        log.info("当前线程终止状态isInterrupted:{}",Thread.currentThread().isInterrupted());
         log.info("第一次调用Thread.interrupted(),返回值：{}",Thread.interrupted());
-        log.info("Thread.currentThread().isInterrupted():{}",Thread.currentThread().isInterrupted());
+        log.info("当前线程终止状态isInterrupted:{}",Thread.currentThread().isInterrupted());
         log.info("第二次调用Thread.interrupted(),返回值：{}", Thread.interrupted());
-        log.info("Thread.currentThread().isInterrupted():{}",Thread.currentThread().isInterrupted());
+        log.info("当前线程终止状态isInterrupted:{}",Thread.currentThread().isInterrupted());
         log.info("=================end===============================");
     }
 }
