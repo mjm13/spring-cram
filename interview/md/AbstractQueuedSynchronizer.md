@@ -1,7 +1,7 @@
 # AbstractQueuedSynchronizer 
 AQS是一个内部维护了先进先出队列+标识(数字)的模型，标识使用CAS模式修改，作为多线程工具的基础组件
 
-![img](D:\Project\Self_Project\spring-cram\interview\md-images\AQS队列结构.png)
+![img](..\md-images\AQS队列结构.png)
 
 ## 属性
 
@@ -42,7 +42,7 @@ public final void acquire(int arg) {
 }
 ```
 
-![](D:\Project\Self_Project\spring-cram\interview\md-images\AQS-acquire.png)
+![](..\md-images\AQS-acquire.png)
 
 > tryAcquire:子类按需实现,使用独占模式更新state,增加state，成功返回true失败返回false
 >
@@ -64,7 +64,7 @@ public final boolean release(int arg) {
 }
 ```
 
-![](D:\Project\Self_Project\spring-cram\interview\md-images\AQS-release.png)
+![](..\md-images\AQS-release.png)
 
 > tryRelease:子类按需实现,使用独占模式更新state，减少state,并处理对应独占线程
 
@@ -82,7 +82,7 @@ public final void acquireShared(int arg) {
 }
 ```
 
-![](D:\Project\Self_Project\spring-cram\interview\md-images\AQS-acquireShared.png)
+![](..\md-images\AQS-acquireShared.png)
 
 > tryAcquireShared:子类按需实现，对返回值有如下要求：
 >
@@ -104,7 +104,7 @@ public final boolean releaseShared(int arg) {
 }
 ```
 
-![](D:\Project\Self_Project\spring-cram\interview\md-images\AQS-releaseShared.png)
+![](..\md-images\AQS-releaseShared.png)
 
 > tryReleaseShared:子类按需实现,使用共享模式更新state，减少state
 
@@ -261,6 +261,8 @@ public final void await() throws InterruptedException {
         reportInterruptAfterWait(interruptMode);
 }
 ```
+
+
 
 #### 唤醒线程:signal
 
