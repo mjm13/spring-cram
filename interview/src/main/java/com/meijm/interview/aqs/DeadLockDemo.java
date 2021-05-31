@@ -3,11 +3,12 @@ package com.meijm.interview.aqs;
 import lombok.extern.slf4j.Slf4j;
 /**
  * 当两个线程持有的锁为对放目标锁时发生死锁
+ *  synchronized ：
  */
 @Slf4j
 public class DeadLockDemo {
     /**
-     * PowerShell
+     * 查看死锁PowerShell
      *   .\jps.exe   查看进程编号
      *   .\jstack.exe 进程编号  查看状态
      *    Found one Java-level deadlock:  查看到死锁

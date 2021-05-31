@@ -5,9 +5,6 @@ import com.google.common.collect.Sets;
 
 import java.io.*;
 import java.util.*;
-import java.util.stream.Stream;
-
-import static java.util.stream.Collectors.toList;
 
 /**
  * https://www.cnblogs.com/coderzhw/p/12150677.html
@@ -24,6 +21,7 @@ public class RetainAllTest {
         retainAllByJDK();
 
     }
+
     /**
      * 用JDK方法求交集
      */

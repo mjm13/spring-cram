@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * interrupt() : 标识此线程为终止状态,配合isInterrupted()使用
- * interrupted() :
+ * interrupted() :重制中断状态，原有线程为中断返回true，原有线程不是中断返回false
  * :isInterrupted() : 获取线程终止状态,线程中可通过此状态判断是否需要终止线程
  */
 @Slf4j

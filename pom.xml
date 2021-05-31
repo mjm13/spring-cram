@@ -29,6 +29,7 @@
         <module>basis</module>
         <module>mycat</module>
         <module>quartz</module>
+        <module>udp</module>
     </modules>
 
     <properties>

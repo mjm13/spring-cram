@@ -52,7 +52,7 @@ ThreadLocal/InheritableThreadLocal 使用流程:
 
 TransmittableThreadLocal:可传递至子线程,子线程独立操作,新开线程也会获取新的值,需配合TtlRunnable或修改java启动参数来使用
 
-整个过程的完整时序图:
+整个过程的官方完整时序图:
 ![](../md-images/TransmittableThreadLocal调用流程.png)
 依据官方时序图自己的整理:
 ![](../md-images/TransmittableThreadLocal调用流程-M.png)

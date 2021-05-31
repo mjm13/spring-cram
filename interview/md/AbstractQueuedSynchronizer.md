@@ -12,17 +12,25 @@ AQS是一个内部维护了先进先出队列+标识(数字)的模型，标识�
 | volatile int state          | 0为空闲其它组件按需使用，使用cas来赋值，          |
 | Thread exclusiveOwnerThread | 持有线程                                          |
 
-> state为volatile的int，不同的业务场景按需实现，例如ReentrantLock中0代表未上锁
+> state为volatile的int，不同的业务场景按需实现，
 >
 > 独占模式：
 >
 > ReentrantLock.Sync中state为0表示未锁定>0表示被几个线程持有
 >
-> `ReentrantReadWriteLock.Sync中state为读锁+写锁组合 通过位运算符来获取` 待验证
->
 > ThreadPoolExecutor.Worker中state为0表示未执行
 >
 > 共享模式：
+>
+> CountDownLatch.Sync中state为初始化时指定,表示有多少个线程可持有,
+>
+> Semaphore.Sync中state与CountDownLatch相同
+>
+> 
+>
+> 混合模式:
+>
+> ReentrantReadWriteLock.Sync中state为共享锁+独占锁组合 通过位运算16位来分割,最大的读锁写锁个数为65535
 
 ## 关键方法
 
@@ -220,7 +228,7 @@ private void setHeadAndPropagate(Node node, int propagate) {
 | Node prev       | 前驱节点，比如当前节点被取消，那就需要前驱节点和后继节点来完成连接。 |
 | Node next       | 后继节点。                                                   |
 | Thread thread   | 入队列时的当前线程。                                         |
-| Node nextWaiter | 为NULL表示为独占模式,另有SHARED和其它condition?              |
+| Node nextWaiter | 为NULL表示为独占模式            |
 
 > PROPAGATE:共享模式中会通过状态是否小于0来判断是否需要唤醒后续节点,共享模式下多个线程可同时持有state变更,waitStatus会频繁从0切换为SIGNAL,区分SIGNAL增加的中间状态所以称为传播值
 
@@ -233,13 +241,21 @@ private void setHeadAndPropagate(Node node, int propagate) {
 
 > 为Condition接口实现,Condition的目的主要是替代Object的wait,notify,notifyAll方法的,它是基于Lock实现的.(而Lock是来替代synchronized方法).
 
+**结构**
+
 ![img](D:\Project\Self_Project\spring-cram\interview\md-images\ConditionObject队列结构.png)
+
+**使用时序图**
+
+![](D:\Project\Self_Project\spring-cram\interview\md-images\AQS-Condition-使用流程.png)
 
 ### 关键方法
 
 #### 阻塞线程:await 
 
-await:对应Object.wait(),通过AQS机制释放锁定的资源,终止当前线程,恢复后使用AQS独占模式重新锁定资源
+对应Object.wait(),通过AQS机制释放锁定的资源,终止当前线程,恢复后使用AQS独占模式重新锁定资源
+
+**acquireQueued:此时node节点已转换为AQS中节点**
 
 ```java
 public final void await() throws InterruptedException {
@@ -262,9 +278,13 @@ public final void await() throws InterruptedException {
 }
 ```
 
-
+![](..\md-images\AQS-Condition-await.png)
 
 #### 唤醒线程:signal
+
+> transferForSignal转换节点后await()中acquireQueued(node,savedState)操作的节点已是AQS中的节点
+>
+> isHeldExclusively:子类实现.判断是否独家持有
 
 ```java
 public final void signal() {
@@ -275,3 +295,5 @@ public final void signal() {
         doSignal(first);
 }
 ```
+
+![](..\md-images\AQS-Condition-signal.png)
