@@ -26,6 +26,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class HashMapDemo {
     public static void main(String[] args) throws InterruptedException {
+
         // 多线程数据异常
 //        wrongData();
         //计算下逻辑
@@ -43,6 +44,7 @@ public class HashMapDemo {
      *  位操作符效率高于取模
      */
     public static void keyIndex(){
+        HashMap a = new HashMap();
         String  key = "edfadsfasdfasdfa";
         int hashCode  = key.hashCode();
         log.info("hashCode:{},Binary:{}",hashCode,NumberUtil.getBinaryStr(hashCode));

@@ -1,6 +1,7 @@
 package com.meijm.interview.javase;
 
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * ConcurrentHashMap
@@ -12,6 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class ConcurrentHashMapDemo {
     public static void main(String[] args) {
+
         ConcurrentHashMap<String, String> map = new ConcurrentHashMap<>();
         map.put("xxx","bbb");
     }

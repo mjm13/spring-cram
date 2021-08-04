@@ -2,6 +2,8 @@ package com.meijm.interview.thread;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.ArrayList;
+
 /**
  * yield 出让系统资源,建议系统调度其它线程
  * 多用于模拟实际环境

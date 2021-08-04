@@ -25,7 +25,7 @@ public class LazyMode {
      */
     public static LazyMode getSyncLazyInstance(){
         if(instance==null){
-            synchronized (Object.class){
+            synchronized (LazyMode.class){
                 if(instance==null){
                     instance = new LazyMode();
                 }

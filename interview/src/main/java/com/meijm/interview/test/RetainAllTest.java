@@ -1,9 +1,8 @@
-package com.meijm.interview.algorithm;
+package com.meijm.interview.test;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.lang.Snowflake;
 import cn.hutool.core.util.IdUtil;
-import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
 import com.google.common.collect.Sets;
 import com.sun.org.apache.xml.internal.serialize.LineSeparator;

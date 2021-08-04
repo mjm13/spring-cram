@@ -4,6 +4,8 @@ import com.meijm.interview.design.create.factory.lib.ProductA;
 import com.meijm.interview.design.create.factory.lib.ProductA1;
 import com.meijm.interview.design.create.factory.lib.ProductA2;
 
+import java.text.DateFormat;
+
 /**
  * 简单工厂：具体工厂（一个）、抽象产品、具体产品
  * <p>
