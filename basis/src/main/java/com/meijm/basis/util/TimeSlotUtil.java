@@ -1,4 +1,4 @@
-package com.meijm.basis.bean;
+package com.meijm.basis.util;
 
 import cn.hutool.core.date.DateUtil;
 
@@ -40,7 +40,7 @@ public class TimeSlotUtil {
         List<Date> list2 = list1.stream().sorted().collect(Collectors.toList());
         System.out.println(list1.toString());
         System.out.println(list2.toString());
-        return !list1.toString().equals(list2.toString());
+        return !list1.equals(list2);
     }
 
     public static void main(String[] args) {
