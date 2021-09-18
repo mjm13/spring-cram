@@ -23,13 +23,15 @@
         <module>statemachine</module>
         <module>customSecurity</module>
         <module>redis</module>
-        <module>thread</module>
+        <module>interview</module>
         <module>cloud-netflix</module>
-        <module>roketmq</module>
         <module>basis</module>
         <module>mycat</module>
         <module>quartz</module>
         <module>udp</module>
+        <module>jdkfeatures</module>
+        <module>mq</module>
+        <module>spring-integrate</module>
     </modules>
 
     <properties>

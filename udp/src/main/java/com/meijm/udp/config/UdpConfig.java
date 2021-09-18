@@ -11,9 +11,19 @@ import org.springframework.messaging.MessageHandler;
 
 @Configuration
 public class UdpConfig {
+    /**
+     * udp传输端口
+     */
     @Value("${udp.port}")
     private Integer udpPort;
 
+
+    /**
+     * 接收的消息配置
+     * 指定接收的端口
+     * @param udpClient
+     * @return
+     */
     @Bean
     public IntegrationFlow processUniCastUdpMessage(MessageHandler udpClient) {
         return IntegrationFlows
@@ -22,6 +32,11 @@ public class UdpConfig {
                 .get();
     }
 
+    /**
+     * 发送消息配置
+     * 指定ip和端口
+     * @return
+     */
     @Bean
     public UnicastSendingMessageHandler sending(){
         return new UnicastSendingMessageHandler("localhost", udpPort);
