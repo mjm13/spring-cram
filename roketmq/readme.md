@@ -1,4 +1,11 @@
 # TODO 
+```shell
+# 启动Namesrv 服务
+nohup sh bin/mqnamesrv &
+# 启动 Broker 服务
+nohup sh bin/mqbroker -c conf/broker.conf  -n 127.0.0.1:9876 &
+```
+
  -[x] 回溯消费
  通过mqadmin中resetOffsetByxxxx
  
