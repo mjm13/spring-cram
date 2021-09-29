@@ -5,7 +5,6 @@ import cn.hutool.core.lang.Snowflake;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.google.common.collect.Sets;
-import com.sun.org.apache.xml.internal.serialize.LineSeparator;
 
 import java.io.*;
 import java.util.*;
@@ -37,13 +36,13 @@ public class RetainAllTest {
         ){
             Snowflake id = IdUtil.createSnowflake(0,1);
             for (int i = 0; i <100000 ; i++) {
-                String idstr = id.nextIdStr()+ LineSeparator.Windows;
+                String idstr = id.nextIdStr()+ StrUtil.CRLF;
                 if(i%333 ==0){
                     bw1.write(idstr);
                     bw2.write(idstr);
                 }else{
                     bw1.write(idstr);
-                    idstr = id.nextIdStr()+ LineSeparator.Windows;
+                    idstr = id.nextIdStr()+ StrUtil.CRLF;
                     bw2.write(idstr);
                 }
 

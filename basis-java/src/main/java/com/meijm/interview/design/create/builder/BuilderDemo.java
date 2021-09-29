@@ -4,7 +4,7 @@ import org.springframework.boot.autoconfigure.web.servlet.DispatcherServletAutoC
 
 import java.util.Calendar;
 
-import static sun.util.calendar.BaseCalendar.MONDAY;
+import static java.util.Calendar.SUNDAY;
 
 /**
  * 建造者模式
@@ -20,6 +20,6 @@ import static sun.util.calendar.BaseCalendar.MONDAY;
 public class BuilderDemo {
     public static void main(String[] args) {
         Calendar cal = new Calendar.Builder().setCalendarType("iso8601")
-                .setWeekDate(2013, 1, MONDAY).build();
+                .setWeekDate(2013, 1, SUNDAY).build();
     }
 }
