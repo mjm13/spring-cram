@@ -9,11 +9,19 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>mycat</artifactId>
+    <artifactId>integration-middleware</artifactId>
+    <packaging>pom</packaging>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
 
+    <modules>
+        <module>kafka</module>
+        <module>roketmq</module>
+        <module>redis</module>
+        <module>quartz</module>
+        <module>activiti</module>
+    </modules>
 </project>

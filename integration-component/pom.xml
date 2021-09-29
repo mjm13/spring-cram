@@ -9,11 +9,19 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>mycat</artifactId>
+    <artifactId>integration-component</artifactId>
+    <packaging>pom</packaging>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
+
+    <modules>
+        <module>customSecurity</module>
+        <module>oauth2</module>
+        <module>statemachine</module>
+        <module>udp</module>
+    </modules>
 
 </project>

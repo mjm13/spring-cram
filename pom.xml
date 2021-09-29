@@ -10,7 +10,7 @@
 
     <groupId>com.meijm</groupId>
     <artifactId>spring-cram</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>spring-cram</name>
     <packaging>pom</packaging>
     <description>spring 相关学习记录</description>
@@ -18,19 +18,12 @@
 
 
     <modules>
-        <module>oauth2</module>
-        <module>activiti</module>
-        <module>statemachine</module>
-        <module>customSecurity</module>
-        <module>redis</module>
-        <module>interview</module>
-        <module>cloud-netflix</module>
-        <module>basis</module>
+        <module>basis-java</module>
+        <module>basis-spring</module>
         <module>mycat</module>
-        <module>quartz</module>
-        <module>udp</module>
-        <module>kafka</module>
-        <module>roketmq</module>
+        <module>cloud-netflix</module>
+        <module>integration-middleware</module>
+        <module>integration-component</module>
     </modules>
 
     <properties>
