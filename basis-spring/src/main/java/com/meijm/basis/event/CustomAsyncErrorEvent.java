@@ -1,16 +1,9 @@
-package com.meijm.basis.common.event;
+package com.meijm.basis.event;
 
 import org.springframework.context.ApplicationEvent;
 
-import java.util.Map;
 
-/**
- * Event - 通知
- *
- * @author bangmuju Team
- * @version 5.0
- */
-public class TestEvent extends ApplicationEvent {
+public class CustomAsyncErrorEvent extends ApplicationEvent {
 
 	private static final long serialVersionUID = -4180050946434009635L;
 
@@ -26,7 +19,7 @@ public class TestEvent extends ApplicationEvent {
 	 * @param source 事件源
 	 * @param type   类型
 	 */
-	public TestEvent(Object source, String type) {
+	public CustomAsyncErrorEvent(Object source, String type) {
 		super(source);
 		this.type = type;
 	}
