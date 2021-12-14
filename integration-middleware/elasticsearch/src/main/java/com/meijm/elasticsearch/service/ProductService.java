@@ -3,6 +3,7 @@ package com.meijm.elasticsearch.service;
 import com.meijm.elasticsearch.entity.Product;
 import com.meijm.elasticsearch.esrepository.ProductRespository;
 import lombok.extern.slf4j.Slf4j;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
@@ -10,6 +11,8 @@ import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.query.Criteria;
 import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -41,13 +44,12 @@ public class ProductService {
 
     
     public List<Product> findList(Product product) {
-        CriteriaQuery criteriaQuery = new CriteriaQuery(new Criteria()
-                .and(new Criteria("name").contains(product.getName()))
-                .and(new Criteria("specifications").is(product.getManufactor()))
-                .and(new Criteria("describe").is(product.getDescribe()))
-                .and(new Criteria("manufactor").is(product.getSpecifications())));
+        log.info("elasticsearchRestTemplate.indexOps(Product.class).exists():{}",elasticsearchRestTemplate.indexOps(Product.class).exists());
+        NativeSearchQuery nativeSearchQuery = new NativeSearchQueryBuilder()
+                .withQuery(QueryBuilders.matchQuery("name", "张"))
+                .build();
 
-        SearchHits<Product> searchHits = elasticsearchRestTemplate.search(criteriaQuery, Product.class);
+        SearchHits<Product> searchHits = elasticsearchRestTemplate.search(nativeSearchQuery, Product.class);
         List<Product> result = searchHits.get().map(SearchHit::getContent).collect(Collectors.toList());
         return result;
     }
