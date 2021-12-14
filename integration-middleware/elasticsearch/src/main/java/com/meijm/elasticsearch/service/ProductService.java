@@ -45,7 +45,6 @@ public class ProductService {
                 .and(new Criteria("name").contains(product.getName()))
                 .and(new Criteria("specifications").is(product.getManufactor()))
                 .and(new Criteria("describe").is(product.getDescribe()))
-                .and(new Criteria("model").is(product.getModel()))
                 .and(new Criteria("manufactor").is(product.getSpecifications())));
 
         SearchHits<Product> searchHits = elasticsearchRestTemplate.search(criteriaQuery, Product.class);
