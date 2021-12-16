@@ -50,7 +50,7 @@ public class ProductController {
         return productService.stringQuery();
     }
 
-    @PostMapping("/nativeQuery")
+    @PostMapping("/criteriaQuery")
     public List<Product> criteriaQuery() {
         return productService.criteriaQuery();
     }
