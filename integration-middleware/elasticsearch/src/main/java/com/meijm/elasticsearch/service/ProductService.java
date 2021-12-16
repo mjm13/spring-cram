@@ -4,6 +4,8 @@ import com.meijm.elasticsearch.entity.Product;
 import com.meijm.elasticsearch.esrepository.ProductRespository;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.aggregations.AggregationBuilders;
+import org.elasticsearch.search.aggregations.Aggregations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.data.elasticsearch.core.SearchHit;
@@ -12,6 +14,7 @@ import org.springframework.data.elasticsearch.core.query.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,6 +44,15 @@ public class ProductService {
         SearchHits<Product> searchHits = elasticsearchRestTemplate.search(nativeSearchQuery, Product.class);
         List<Product> result = searchHits.get().map(SearchHit::getContent).collect(Collectors.toList());
         return result;
+    }
+
+    public Map<String,Object> aggregationsQuery(){
+        String name = "OriginAgg";
+        NativeSearchQueryBuilder queryBuilder = new NativeSearchQueryBuilder();
+        queryBuilder.addAggregation(AggregationBuilders.terms(name).field("origin"));
+        SearchHits<Product> searchHits =elasticsearchRestTemplate.search(queryBuilder.build(),Product.class);
+        Aggregations aggregations = searchHits.getAggregations();
+        return aggregations.get(name).getMetaData();
     }
 
     public List<Product> criteriaQuery() {
