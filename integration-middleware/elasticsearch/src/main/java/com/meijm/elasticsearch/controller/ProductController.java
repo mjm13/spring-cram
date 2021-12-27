@@ -24,20 +24,10 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    @PostMapping("/saveAll")
-    public void saveAll() {
-        Snowflake snowflake = IdUtil.createSnowflake(1, 1);
-        List<Product> products = IntStream.range(0, 5000).parallel().mapToObj(operand -> {
-            Product product = new Product();
-            product.setId(snowflake.nextId());
-            product.setName(OtherSource.getInstance().randomChinese(5));
-            product.setCompany(FinancialSource.getInstance().randomBseStock()[0]);
-            product.setOrigin(AreaSource.getInstance().randomProvince());
-            product.setManufactor(OtherSource.getInstance().randomCompanyName(product.getOrigin()));
-            product.setSpecifications(OtherSource.getInstance().randomEAN());
-            return product;
-        }).collect(Collectors.toList());
-        productService.saveAll(products);
+    @PostMapping("/generateData")
+    public void generateData() {
+
+        productService.generateData();
     }
 
     @PostMapping("/deleteAll")

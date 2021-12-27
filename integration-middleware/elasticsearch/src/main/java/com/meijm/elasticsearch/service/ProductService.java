@@ -1,5 +1,10 @@
 package com.meijm.elasticsearch.service;
 
+import cn.hutool.core.lang.Snowflake;
+import cn.hutool.core.util.IdUtil;
+import com.apifan.common.random.source.AreaSource;
+import com.apifan.common.random.source.FinancialSource;
+import com.apifan.common.random.source.OtherSource;
 import com.meijm.elasticsearch.entity.Product;
 import com.meijm.elasticsearch.esrepository.ProductRespository;
 import lombok.extern.slf4j.Slf4j;
@@ -8,6 +13,7 @@ import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.Aggregations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
+import org.springframework.data.elasticsearch.core.IndexOperations;
 import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.query.*;
@@ -16,6 +22,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 @Slf4j
@@ -27,8 +34,22 @@ public class ProductService {
     private ElasticsearchRestTemplate elasticsearchRestTemplate;
 
 
-    public void saveAll(List<Product> orders) {
-        productRespository.saveAll(orders);
+    public void generateData() {
+        //创建索引
+        IndexOperations indexOperations = elasticsearchRestTemplate.indexOps(Product.class);
+        indexOperations.putMapping(indexOperations.createMapping());
+
+        Snowflake snowflake = IdUtil.createSnowflake(1, 1);
+        List<Product> products = IntStream.range(0, 5000).parallel().mapToObj(operand -> {
+            Product product = new Product();
+            product.setId(snowflake.nextId());
+            product.setName(OtherSource.getInstance().randomChinese(5));
+            product.setCompany(FinancialSource.getInstance().randomBseStock()[0]);
+            product.setOrigin(AreaSource.getInstance().randomProvince());
+            product.setManufactor(OtherSource.getInstance().randomCompanyName(product.getOrigin()));
+            product.setSpecifications(OtherSource.getInstance().randomEAN());
+            return product;
+        }).collect(Collectors.toList());
     }
 
 
