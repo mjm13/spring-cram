@@ -39,6 +39,8 @@ public class JavaMetaSpaceOOM {
  * java.lang.OutOfMemoryError
  * OOM -Xmx20m -Xms20m -XX:+HeapDumpOnOutOfMemoryError
  * -XX:+HeapDumpOnOutOfMemoryError   :配置创建堆栈日志
+ * -XX:HeapDumpPath=/usr/local/app/oom
+ *
  */
 class OOMTest {
     public static void main(String[] args) {
