@@ -25,5 +25,6 @@
         <module>activiti</module>
         <module>mycat</module>
         <module>elasticsearch</module>
+        <module>mybatis-plus</module>
     </modules>
 </project>
