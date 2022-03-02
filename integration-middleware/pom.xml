@@ -23,7 +23,6 @@
         <module>redis</module>
         <module>quartz</module>
         <module>activiti</module>
-        <module>mycat</module>
         <module>elasticsearch</module>
         <module>mybatis-plus</module>
         <module>mybatis</module>
