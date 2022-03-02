@@ -20,10 +20,10 @@
     <modules>
         <module>basis-java</module>
         <module>basis-spring</module>
-        <module>mycat</module>
         <module>cloud-netflix</module>
         <module>integration-middleware</module>
         <module>integration-component</module>
+        <module>middleware</module>
     </modules>
 
     <properties>
@@ -85,6 +85,7 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
