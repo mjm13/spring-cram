@@ -20,7 +20,6 @@
     <modules>
         <module>basis-java</module>
         <module>basis-spring</module>
-        <module>mycat</module>
         <module>cloud-netflix</module>
         <module>integration-middleware</module>
         <module>integration-component</module>

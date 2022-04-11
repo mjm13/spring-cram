@@ -30,7 +30,7 @@ public class HashMapDemo {
         // 多线程数据异常
 //        wrongData();
         //计算下逻辑
-//        keyIndex();
+        keyIndex();
     }
 
     /**
