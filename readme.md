@@ -17,3 +17,4 @@ git config http.sslVerify "false"
 git config --global http.sslVerify "false"
 ```
 
+增加继承边界测试com.meijm.interview.javase.InheritDemo
