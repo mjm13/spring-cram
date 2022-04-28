@@ -1,4 +1,4 @@
-package com.meijm.interview.aqs;
+package com.meijm.interview.concurrent;
 
 import lombok.extern.slf4j.Slf4j;
 

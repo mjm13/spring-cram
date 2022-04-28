@@ -1,11 +1,8 @@
-package com.meijm.interview.aqs;
+package com.meijm.interview.concurrent;
 
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * ReentrantLock公平锁,非公平锁及synchronized获取锁情况
