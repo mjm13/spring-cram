@@ -24,6 +24,7 @@
         <module>integration-middleware</module>
         <module>integration-component</module>
         <module>middleware</module>
+        <module>toolbox</module>
     </modules>
 
     <properties>
