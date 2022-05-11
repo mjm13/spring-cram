@@ -8,6 +8,8 @@ public class CustomAnnotationEvent extends ApplicationEvent {
      * 类型
      */
     private String type;
+
+    private Integer mark;
     /**
      * 构造方法
      *
@@ -17,6 +19,11 @@ public class CustomAnnotationEvent extends ApplicationEvent {
     public CustomAnnotationEvent(Object source, String type) {
         super(source);
         this.type = type;
+    }
+    public CustomAnnotationEvent(Object source, String type,Integer mark) {
+        super(source);
+        this.type = type;
+        this.mark = mark;
     }
     /**
      * 获取类型

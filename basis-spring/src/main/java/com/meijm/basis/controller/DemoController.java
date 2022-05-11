@@ -1,9 +1,6 @@
 package com.meijm.basis.controller;
 
-import com.meijm.basis.event.CustomAnnotationEvent;
-import com.meijm.basis.event.CustomAsyncErrorEvent;
-import com.meijm.basis.event.CustomAsyncEvent;
-import com.meijm.basis.event.CustomMetohEvent;
+import com.meijm.basis.event.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -11,6 +8,9 @@ import org.springframework.context.ApplicationEvent;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -38,6 +38,12 @@ public class DemoController {
                 break;
             case "anycError":
                 event = new CustomAsyncErrorEvent(this, type);
+                break;
+            case "obj":
+                Map<String,String> data = new HashMap<>();
+                data.put("type","1");
+                data.put("mark","2");
+                event = new CustomObjectEvent(this, data);
                 break;
             default:
                 event = new CustomAnnotationEvent(this, type);

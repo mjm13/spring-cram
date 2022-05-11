@@ -18,5 +18,11 @@
             <artifactId>jsqlparser</artifactId>
             <version>4.3</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.calcite</groupId>
+            <artifactId>calcite-core</artifactId>
+            <version>1.30.0</version>
+        </dependency>
     </dependencies>
 </project>

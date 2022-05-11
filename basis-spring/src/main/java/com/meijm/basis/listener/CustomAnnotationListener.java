@@ -1,10 +1,7 @@
 package com.meijm.basis.listener;
 
 import cn.hutool.json.JSONUtil;
-import com.meijm.basis.event.CustomAnnotationEvent;
-import com.meijm.basis.event.CustomAsyncErrorEvent;
-import com.meijm.basis.event.CustomAsyncEvent;
-import com.meijm.basis.event.CustomMetohEvent;
+import com.meijm.basis.event.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.event.EventListener;
@@ -32,6 +29,12 @@ public class CustomAnnotationListener {
     public void listenCustomAnnotationErrorEvent(CustomAnnotationEvent event) {
         log.info("listenCustomAnnotationEvent1:{}", JSONUtil.toJsonStr(event));
         throw new RuntimeException("异常测试1");
+    }
+
+
+    @EventListener(condition = "#event.object != null and '1' eq event.object.get('type') and '2' eq event.object.get('mark') ")
+    public void listenCustomObjectEvent(CustomObjectEvent event) {
+        log.info("listenCustomObjectEvent:{}", JSONUtil.toJsonStr(event));
     }
 
 
