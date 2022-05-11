@@ -33,9 +33,9 @@ public class CalciteDemo {
                 "\tsd.create_time DESC";
         SqlNode sqlNode = SqlParser.create(sqlStr, SqlParser.config().withLex(Lex.MYSQL)).parseQuery();
         sqlNode.accept( new SqlShuttle(){
-            public String visit(SqlNodeList nodeList) {
-                log.info("type:{}",literal.getKind());
-                return "";
+            public SqlNodeList visit(SqlNodeList nodeList) {
+                log.info("type:{}",nodeList.getKind());
+                return nodeList;
             }
         });
     }
