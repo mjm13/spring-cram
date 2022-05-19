@@ -1,19 +1,18 @@
-package com.meijm.toolbox.jsqlparser;
+# 使用Apcahe Calcite 解析sql
+# [Apcahe Calcite 简介](https://calcite.apache.org/)
 
-import lombok.extern.slf4j.Slf4j;
-import org.apache.calcite.config.Lex;
-import org.apache.calcite.sql.*;
-import org.apache.calcite.sql.parser.SqlParseException;
-import org.apache.calcite.sql.parser.SqlParser;
-import org.apache.calcite.sql.util.SqlBasicVisitor;
+Apcahe Calcite是一个基于SQL语法的查询引擎，可以使用sql语句查询多种数据源，例如csv，mongodb，redis等，
 
-@Slf4j
-public class CalciteDemo {
-    public static void main(String[] args) throws Exception {
-        selectDemo();
-    }
+**主要功能**
+● 标准SQL解析和校验：行业标准的 SQL 解析器、验证器和 JDBC 驱动程序。
+● 查询优化：在关系代数中表示查询，使用计划规则进行转换，并根据成本模型进行优化。
+● 任何数据，任务地方：连接到第三方数据源，浏览元数据，并通过将计算推送到数据进行优化。
 
-    public static void selectDemo() throws SqlParseException {
+> 下面的代码仅仅是解析sql部分的demo 
+
+# sql解析的使用
+
+```java
         String sqlStr = "SELECT\n" +
                 "\tsu.dept_id `deptId`,\n" +
                 "\tsu.user_id,\n" +
@@ -78,7 +77,7 @@ public class CalciteDemo {
                     log.info("--------------增加查询条件----------------------------------------");
                     try {
                         SqlNode condition = SqlParser.create("1=1").parseExpression();
-                        SqlNode where = SqlUtil.andExpressions(select.getWhere(), condition);
+                        SqlNode where = SqlUtil.andExpressions(select.getWhere(),condition);
                         select.setWhere(where);
                     } catch (SqlParseException e) {
                         throw new RuntimeException(e);
@@ -88,5 +87,8 @@ public class CalciteDemo {
                 return call.getOperator().acceptCall(this, call);
             }
         });
-    }
-}
+```
+
+
+# 参考资料
+https://calcite.apache.org/docs/tutorial.html

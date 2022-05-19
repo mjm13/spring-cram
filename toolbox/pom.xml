@@ -13,12 +13,13 @@
     <description>工具包例子</description>
 
     <dependencies>
+<!--        解析sql语句-->
         <dependency>
             <groupId>com.github.jsqlparser</groupId>
             <artifactId>jsqlparser</artifactId>
             <version>4.3</version>
         </dependency>
-
+<!--sql 引擎，查询任意数据源-->
         <dependency>
             <groupId>org.apache.calcite</groupId>
             <artifactId>calcite-core</artifactId>
