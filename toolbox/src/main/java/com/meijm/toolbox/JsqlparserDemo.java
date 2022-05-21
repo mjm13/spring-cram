@@ -1,4 +1,4 @@
-package com.meijm.toolbox.jsqlparser;
+package com.meijm.toolbox;
 
 import lombok.extern.slf4j.Slf4j;
 import net.sf.jsqlparser.JSQLParserException;
@@ -13,6 +13,11 @@ import net.sf.jsqlparser.statement.delete.Delete;
 import net.sf.jsqlparser.statement.select.*;
 import net.sf.jsqlparser.statement.update.Update;
 
+/**
+ * @Description 使用net.sf.jsqlparser解析sql语句
+ * @Author MeiJM
+ * @Date 2022/5/20
+ **/
 @Slf4j
 public class JsqlparserDemo {
     public static void main(String[] args) throws JSQLParserException {

@@ -1,7 +1,10 @@
-# Java泛型和继承一起使用时的场景
+# Java泛型的继承场景
 
-父类与接口
+**泛型作用：**
+1. 编译前检查
+2. 运行过程中自动转换类型
 
+## 父类与接口
 ```java
 interface GenericityInterface<T> {
     String getString(T t);
@@ -11,7 +14,7 @@ abstract class GenericityClass<A extends Collection, B> {
 }
 ```
 
-## 保持所有泛型
+## 沿用所有泛型
 
 ```java
 class SubGenericity1<T, B, A extends Collection> extends GenericityClass<A, B> implements GenericityInterface<T> {
@@ -43,7 +46,7 @@ class SubGenericity2<T extends Collection, B> extends GenericityClass<T, B> impl
 }
 ```
 
-## 使用部分父类/接口泛型
+## 部分使用泛型
 
 ```java
 class SubGenericity4<T> extends GenericityClass implements GenericityInterface<T> {
@@ -88,3 +91,27 @@ class SubGenericity3 extends GenericityClass implements GenericityInterface {
 }
 ```
 
+## 继承时指定类型
+```java
+class SubGenericity6 extends GenericityClass<List,String> implements GenericityInterface<Map> {
+    @Override
+    public String getString(Map o) {
+        return o.getClass().toString();
+    }
+
+    @Override
+    String getString(List collection,String o) {
+        return o.getClass().toString() + "|" + o.getClass();
+    }
+}
+```
+
+## 其它-获取运行时类型
+```java
+class Test<T>{
+    public Class getActualClass(){
+        ParameterizedType type = (ParameterizedType) this.getClass().getGenericSuperclass();
+        return (Class) type.getActualTypeArguments()[0];
+    }
+}
+```

@@ -1,4 +1,4 @@
-package com.meijm.toolbox.jsqlparser;
+package com.meijm.toolbox;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.calcite.config.Lex;
@@ -7,6 +7,11 @@ import org.apache.calcite.sql.parser.SqlParseException;
 import org.apache.calcite.sql.parser.SqlParser;
 import org.apache.calcite.sql.util.SqlBasicVisitor;
 
+/**
+ * @Description 使用org.apache.calcite解析sql
+ * @Author MeiJM
+ * @Date 2022/5/20
+ **/
 @Slf4j
 public class CalciteDemo {
     public static void main(String[] args) throws Exception {

@@ -3,7 +3,8 @@ package com.meijm.interview.javase;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Collection;
-
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -78,6 +79,18 @@ class SubGenericity5<T extends Collection,B> extends GenericityClass<T,B> implem
 
     @Override
     String getString(T collection, B o) {
+        return o.getClass().toString() + "|" + o.getClass();
+    }
+}
+
+class SubGenericity6 extends GenericityClass<List,String> implements GenericityInterface<Map> {
+    @Override
+    public String getString(Map o) {
+        return o.getClass().toString();
+    }
+
+    @Override
+    String getString(List collection,String o) {
         return o.getClass().toString() + "|" + o.getClass();
     }
 }
