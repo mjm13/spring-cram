@@ -44,7 +44,7 @@ public class BaseActivitiController {
     //查看指定用户任务列表
     @RequestMapping(value = "taskList", method = RequestMethod.GET)
     public List<Map<String, Object>> taskList() {
-        //mjm 为流程定义中分配的人员 对应 processes/SimpleProcess.bpmn20.xml:5
+        //mjm 为流程定义中分配的人员 对应 processes/SimpleProcess.bpmn:5
         List<Task> tasks = taskService.createTaskQuery().list();
         return tasks.stream().map(task -> {
             Map<String, Object> data = new HashMap<>();
@@ -62,7 +62,7 @@ public class BaseActivitiController {
             throw new ActivitiObjectNotFoundException("processId:" + processId + "-Assignee:admin");
         }
         taskService.complete(taskList.get(0).getId());
-        //mjm 为流程定义中分配的人员 对应 processes/SimpleProcess.bpmn20.xml:5
+        //mjm 为流程定义中分配的人员 对应 processes/SimpleProcess.bpmn:5
         return "操作完成!";
     }
 

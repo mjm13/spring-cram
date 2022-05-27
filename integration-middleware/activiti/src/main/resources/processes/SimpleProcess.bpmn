@@ -5,7 +5,6 @@
       <bpmn2:outgoing>Flow_0303tqi</bpmn2:outgoing>
     </bpmn2:startEvent>
     <bpmn2:userTask id="Activity_17qs34n" name="一级审批" activiti:assignee="2" activiti:candidateUsers="3,4">
-      <documentation>111</documentation>
       <bpmn2:incoming>Flow_0303tqi</bpmn2:incoming>
       <bpmn2:outgoing>Flow_0087rkm</bpmn2:outgoing>
     </bpmn2:userTask>

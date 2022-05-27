@@ -7,6 +7,10 @@ import java.util.List;
 import java.util.Map;
 
 
+interface GenericityInterface<T> {
+    String getString(T t);
+}
+
 /**
  * @Description 泛型继承相关demo
  * @Author MeiJM
@@ -16,11 +20,12 @@ import java.util.Map;
 public class GenericityDemo {
     public static void main(String[] args) {
     }
+
+    public <Ta> Ta gettemp(Ta t) {
+        return t;
+    }
 }
 
-interface GenericityInterface<T> {
-    String getString(T t);
-}
 abstract class GenericityClass<A extends Collection, B> {
     abstract String getString(A a, B b);
 }
@@ -49,6 +54,18 @@ class SubGenericity2<T extends Collection, B> extends GenericityClass<T, B> impl
     }
 }
 
+class SubGenericity21<T extends Collection> extends GenericityClass<T, T> implements GenericityInterface<T> {
+    @Override
+    public String getString(T o) {
+        return o.getClass().toString();
+    }
+
+    @Override
+    String getString(T a, T o) {
+        return o.getClass().toString() + "|" + o.getClass();
+    }
+}
+
 class SubGenericity3 extends GenericityClass implements GenericityInterface {
     @Override
     public String getString(Object o) {
@@ -60,6 +77,7 @@ class SubGenericity3 extends GenericityClass implements GenericityInterface {
         return o.getClass().toString() + "|" + o.getClass();
     }
 }
+
 class SubGenericity4<T> extends GenericityClass implements GenericityInterface<T> {
     @Override
     public String getString(T o) {
@@ -71,7 +89,8 @@ class SubGenericity4<T> extends GenericityClass implements GenericityInterface<T
         return o.getClass().toString() + "|" + o.getClass();
     }
 }
-class SubGenericity5<T extends Collection,B> extends GenericityClass<T,B> implements GenericityInterface {
+
+class SubGenericity5<T extends Collection, B> extends GenericityClass<T, B> implements GenericityInterface {
     @Override
     public String getString(Object o) {
         return o.getClass().toString();
@@ -83,14 +102,14 @@ class SubGenericity5<T extends Collection,B> extends GenericityClass<T,B> implem
     }
 }
 
-class SubGenericity6 extends GenericityClass<List,String> implements GenericityInterface<Map> {
+class SubGenericity6 extends GenericityClass<List, String> implements GenericityInterface<Map> {
     @Override
     public String getString(Map o) {
         return o.getClass().toString();
     }
 
     @Override
-    String getString(List collection,String o) {
-        return o.getClass().toString() + "|" + o.getClass();
+    String getString(List collection, String o) {
+        return o.getClass() + "|" + o.getClass();
     }
 }
