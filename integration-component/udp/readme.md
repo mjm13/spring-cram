@@ -11,6 +11,13 @@
             <artifactId>spring-integration-ip</artifactId>
         </dependency>
 ```
+* spring-boot-starter-integration：EIP(Enterprise Integration Pattern企业集成模式)的spring实现，主要用于各种消息类型的交互与编排。
+  Spring Cloud Stream就是基于spring-integration实现的。
+* spring-integration-ip：针对基于TCP/UDP协议的数据传输功能实现。org.springframework.integration下包含各种数据源及协议的实现，例如spring-integration-redis,spring-integration-jpa，
+
+> ESB就是基于EIP概念实现的针对企业消息管理
+
+> 下面的示例并没有使用integration的消息编排功能，只是在服务上监听UDP消息
 ## java配置
 ```java
 
@@ -78,7 +85,7 @@ public class UdpClient implements MessageHandler {
 }
 ```
 
-**发送消息**
+**发送测试消息**
 ```java
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,3 +106,7 @@ public class UdpServer {
     }
 }
 ```
+
+# 参考资料
+
+https://docs.spring.io/spring-integration/docs/5.3.10.RELEASE/reference/html/

@@ -6,11 +6,6 @@
 原始版在：http://jsqlparser.sourceforge.net/上，最后更新时间是2011年，后来Tobias在github上持续维护这个项目
 有兴趣的同学建议去官网看看
 
-# 解析sql简介
-1. 使用net.sf.jsqlparser.parser.CCJSqlParserUtil将输入转为Statement
-2. 使用访问者接口xxxAdapter或类型强转为具体的子类
-> 由于官网文档写的非常简洁，源码注释也不是太全面建议逐步调试观察。
-> 例如查询语句在此项目中分为WithItem部分，和SqlBody部分，SqlBody下才是具体的sql语句
 # 完整示例
 示例中数据表为ruoyi项目中的数据表。
 ```java
@@ -83,7 +78,11 @@
 
         log.info("语句：{}",querySql.toString());
 ```
-
+# 解析sql简介
+1. 使用net.sf.jsqlparser.parser.CCJSqlParserUtil将输入转为Statement
+2. 使用访问者接口xxxAdapter或类型强转为具体的子类
+> 由于官网文档写的非常简洁，源码注释也不是太全面建议逐步调试观察。
+> 例如查询语句在此项目中分为WithItem部分，和SqlBody部分，SqlBody下才是具体的sql语句
 
 
 
