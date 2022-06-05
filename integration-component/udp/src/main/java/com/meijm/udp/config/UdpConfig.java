@@ -27,7 +27,7 @@ public class UdpConfig {
     @Bean
     public IntegrationFlow processUniCastUdpMessage(MessageHandler udpClient) {
         return IntegrationFlows
-                .from(new UnicastReceivingChannelAdapter(udpPort))
+                .from(new UnicastReceivingChannelAdapter(udpPort,true))
                 .handle(udpClient)
                 .get();
     }
@@ -39,6 +39,6 @@ public class UdpConfig {
      */
     @Bean
     public UnicastSendingMessageHandler sending(){
-        return new UnicastSendingMessageHandler("localhost", udpPort);
+        return new UnicastSendingMessageHandler("localhost", udpPort,true);
     }
 }
