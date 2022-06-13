@@ -20,7 +20,7 @@ public class CallableDemo  {
         futureTaskDemo();
     }
 
-    public static void futureDemo() throws ExecutionException, InterruptedException{
+    public static   void futureDemo() throws ExecutionException, InterruptedException{
         ExecutorService service = Executors.newCachedThreadPool();
         List<Future> futures = new ArrayList<>();
         CountDownLatch latch = new CountDownLatch(100);
