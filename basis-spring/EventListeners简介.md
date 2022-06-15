@@ -1,9 +1,10 @@
+
+
 # Spring ApplicationEvent 使用
-ApplicationEvent为Spring的事件基类,可通过@EventListener或实现ApplicationListener接口进行监听
+ApplicationEvent为Spring的事件基类,可通过@EventListener或实现ApplicationListener接口进行监听，支持同步和异步两种模式，异步为使用Callable线程处理。
 
 ## 监听及触发事件
 **自定义事件**
-
 ```java
 import org.springframework.context.ApplicationEvent;
 
@@ -46,7 +47,7 @@ applicationContext.publishEvent(event);
 ```
 
 **监听事件**
-
+* 使用@EventListener注解监听。此模式支持条件过滤，异步处理，优点是使用方便。
 ```java
 @EventListener
 public void listenCustomAnnotationEventAll(CustomAnnotationEvent event) {
@@ -54,10 +55,8 @@ public void listenCustomAnnotationEventAll(CustomAnnotationEvent event) {
 }
 ```
 
-> 监听事件及抛出事件的类需为spring管理的bean
-
-## 其它
-
+* 监听事件及抛出事件的类需为spring管理的bean
+* EventListener可使用条件过滤，过滤支持类型过滤及SpEL表达式过滤
 ```java
 @EventListener(condition = "#event.type eq 'anycAnnotation' ")
 @Async
@@ -66,11 +65,11 @@ public void listenCustomAnnotationAsyncEvent(CustomAnnotationEvent event) {
 }
 ```
 
-* **异步事件:**在方法上增加@Async注解则会将事件处理转为异步处理,异常及耗时不会影响抛出事件的方法,需在启动类中增加@EnableAsync开启此功能
+* **异步事件:** 在方法上增加@Async注解则会将事件处理转为异步处理,异常及耗时不会影响抛出事件的方法,需在启动类中增加@EnableAsync开启此功能，需注意事务
 
-* **条件过滤:**@EventListener注解中condition为SpEL表达式,可访问参数中的属性进行判断是否处理此事件
+* **条件过滤:** @EventListener注解中condition为SpEL表达式,可访问参数中的属性进行判断是否处理此事件
 
-* **同时监听多个事件:**可使用@EventListene注解中classes条件扩充监听的事件
+* **同时监听多个事件:** 可使用@EventListene注解中classes条件扩充监听的事件
 
 ```java
 @EventListener(classes = { CustomAnnotationEvent.class, CustomAsyncErrorEvent.class,CustomAsyncEvent.class, CustomMetohEvent.class})
@@ -79,6 +78,17 @@ public void handleMultipleEvents(ApplicationEvent event) {
 }
 ```
 
+* 实现ApplicationListener接口监听事件。使用此模式只能监听一种类型，且异步模式，过滤逻辑需手动实现。优点是逻辑清晰。
+```
+@Component
+@Slf4j
+public class CustomMetohListener implements ApplicationListener<CustomMetohEvent> {
+    @Override
+    public void onApplicationEvent(CustomMetohEvent event) {
+        log.info("listenCustomMetohEvent:{}", JSONUtil.toJsonStr(event));
+    }
+}
+```
 
 
 ## 标准事件
@@ -91,6 +101,10 @@ public void handleMultipleEvents(ApplicationEvent event) {
 | ContextClosedEvent    | ApplicationContext关闭时发布         |
 
 > 另还有很多内置事件可通过查看ApplicationEvent子类来查看,例如SessionCreationEvent,KafkaEvent,RedisKeyspaceEvent等
+
+
+
+
 
 ## 参考资料
 

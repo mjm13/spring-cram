@@ -3,10 +3,7 @@ package com.meijm.activiti.controller;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import com.meijm.activiti.common.flow.RejectTask;
-import org.activiti.engine.ActivitiObjectNotFoundException;
-import org.activiti.engine.ManagementService;
-import org.activiti.engine.RuntimeService;
-import org.activiti.engine.TaskService;
+import org.activiti.engine.*;
 import org.activiti.engine.impl.identity.Authentication;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
@@ -46,12 +43,16 @@ public class BaseActivitiController {
     public List<Map<String, Object>> taskList() {
         //mjm 为流程定义中分配的人员 对应 processes/SimpleProcess.bpmn:5
         List<Task> tasks = taskService.createTaskQuery().list();
+        historyService.createHistoricTaskInstanceQuery().list();
         return tasks.stream().map(task -> {
             Map<String, Object> data = new HashMap<>();
             data = BeanUtil.copyProperties(task, Map.class, "execution", "processInstance", "variableInstances");
             return data;
         }).collect(Collectors.toList());
     }
+
+    @Autowired
+    private HistoryService historyService;
 
     //完成任务
     @RequestMapping(value = "completeTask", method = RequestMethod.GET)

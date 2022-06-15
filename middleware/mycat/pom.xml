@@ -11,5 +11,5 @@
 
     <artifactId>mycat</artifactId>
 
-
+    <packaging>pom</packaging>
 </project>
