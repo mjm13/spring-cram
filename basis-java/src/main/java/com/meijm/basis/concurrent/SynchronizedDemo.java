@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.openjdk.jol.info.ClassLayout;
 
 @Slf4j
-public class SynchronizedDemo {
+public  class SynchronizedDemo {
 
     public static void main(String[] args) {
         SynchronizedDemo demo = new SynchronizedDemo();
