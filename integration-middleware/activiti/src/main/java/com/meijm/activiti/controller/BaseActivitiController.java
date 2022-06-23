@@ -2,6 +2,7 @@ package com.meijm.activiti.controller;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.StrUtil;
 import com.meijm.activiti.common.flow.RejectTask;
 import org.activiti.engine.*;
 import org.activiti.engine.impl.identity.Authentication;
@@ -10,7 +11,9 @@ import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.List;
@@ -20,6 +23,8 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping(value = "baseActiviti")
 public class BaseActivitiController {
+    @Autowired
+    private RepositoryService repositoryService;
 
     @Autowired
     private RuntimeService runtimeService;
@@ -29,12 +34,21 @@ public class BaseActivitiController {
     @Autowired
     private ManagementService managementService;
 
+    /**
+     * @Description
+     * @Author MeiJM
+     * @Date 2022/6/20
+     * @param processDefinitionKey  M2022Defined
+     * @param businessKey       业务标识
+     * @return java.util.Map<java.lang.String, java.lang.Object>
+     **/
     //发起一个流程
     @RequestMapping(value = "start", method = RequestMethod.GET)
-    public Map<String, Object> start(String businessKey) {
+    public Map<String, Object> start(String processDefinitionKey,String businessKey) {
         //mjm businessKey为任意值,表示与业务关联的信息,便于集成
         Authentication.setAuthenticatedUserId("admin");
-        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("SimpleProcess_id", businessKey);
+        processDefinitionKey = StrUtil.blankToDefault(processDefinitionKey,"SimpleProcess_id");
+        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(processDefinitionKey, businessKey);
         return BeanUtil.copyProperties(processInstance, Map.class, "currentFlowElement", "subProcessInstance", "identityLinks", "executions");
     }
 
@@ -77,5 +91,7 @@ public class BaseActivitiController {
         managementService.executeCommand(new RejectTask(taskList.get(0).getId(),new HashMap<>(),"驳回"));
         return "操作完成!";
     }
+
+
 
 }

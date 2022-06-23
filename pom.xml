@@ -25,6 +25,7 @@
         <module>integration-component</module>
         <module>middleware</module>
         <module>toolbox</module>
+        <module>middleware/mysql</module>
     </modules>
 
     <properties>
