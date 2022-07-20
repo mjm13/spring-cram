@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.meijm.mybatisplus.mapper.AnalysisResultMapper">
+    <resultMap id="itemMap" type="com.meijm.mybatisplus.vo.AnalysisResultVO">
+        <result column="id" property="id"/>
+        <result column="project_id" property="projectId"/>
+        <result column="analysis_task_id" property="analysisTaskId"/>
+        <result column="report_scenario_id" property="reportScenarioId"/>
+        <result column="analysis_param" property="analysisParam"  />
+        <result column="report_type_id" property="reportTypeId"  />
+        <result column="sink_table" property="sinkTable"  />
+        <result column="report_indicator_id" property="reportIndicatorId"/>
+        <result column="exec_id" property="execId"/>
+        <result column="analysis_status" property="analysisStatus"/>
+        <result column="task_id" property="taskId"/>
+        <result column="analysis_param" property="analysisParam"/>
+        <result column="analysis_result" property="analysisResult"/>
+        <result column="analysis_result_title" property="analysisResultTitle"/>
+        <result column="analysis_result_original" property="analysisResultOriginal"/>
+        <result column="report_indicator_code" property="reportIndicatorCode"/>
+    </resultMap>
+    
+    <select id="findAnalysisResult" resultMap="itemMap">
+        SELECT
+            ar.id,
+            ar.project_id,
+            ar.analysis_task_id,
+            ar.sink_table,
+            ar.task_id,
+            ar.report_scenario_id,
+            ar.report_type_id,
+            ar.report_indicator_id,
+            ar.exec_id,
+            ar.analysis_status,
+            ar.analysis_param,
+            ar.analysis_result,
+            ar.analysis_result_title,
+            ar.analysis_result_original,
+            ar.enterprise_id,
+            ar.creator,
+            ar.creator_name,
+            ar.create_time,
+            ar.modifier,
+            ar.modifier_name,
+            ar.modify_time,
+            ri.code AS `report_indicator_code`
+        FROM
+            da_analysis_result AS ar
+            JOIN da_report_indicator AS ri ON ar.report_indicator_id = ri.id
+          where ar.id = 737035936587714568
+    </select>
+
+</mapper>

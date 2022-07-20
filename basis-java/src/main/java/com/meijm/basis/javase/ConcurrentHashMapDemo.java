@@ -1,5 +1,7 @@
 package com.meijm.basis.javase;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -12,8 +14,20 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class ConcurrentHashMapDemo {
     public static void main(String[] args) {
+        Map<Integer, String> map = new ConcurrentHashMap<>();
+//        Map<Integer, String> map = new HashMap<>();
+        for (int i = 0; i <50000 ; i++) {
+            int finalI = i;
+            new Thread(() -> {
+                map.put(finalI, finalI +"v");
+            }).start();
+        }
+        for (int i = 0; i <50000 ; i++) {
+            if (map.get(i)==null) {
+                System.out.println(i);
+            }
+        }
 
-        ConcurrentHashMap<String, String> map = new ConcurrentHashMap<>();
-        map.put("xxx","bbb");
+        System.out.println(map.size());
     }
 }

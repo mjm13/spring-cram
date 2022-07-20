@@ -8,7 +8,7 @@
           <activiti:field name="start" stringValue="start"/>
         </activiti:executionListener>
         <activiti:taskListener event="create" delegateExpression="${taskStartListener}">
-          <activiti:field name="url" stringValue="333"/>
+          <activiti:field name="url" stringValue="333" expression=""/>
         </activiti:taskListener>
       </extensionElements>
     </userTask>
