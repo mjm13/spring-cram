@@ -14,12 +14,15 @@ public class BeetlDemo {
         StringTemplateResourceLoader resourceLoader = new StringTemplateResourceLoader();
         Configuration cfg = Configuration.defaultConfiguration();
         GroupTemplate gt = new GroupTemplate(resourceLoader, cfg);
-        String templateStr = "_root";
+        String templateStr = "<%" +
+                "var len = json(_root);" +
+                "println('len'+len);" +
+                "%>";
         Template template = gt.getTemplate(templateStr);
         Map<String,Object> map = new HashMap<>();
         map.put("a",123);
         map.put("b","ada");
-        template.binding(map);
+        template.binding("_root",map);
         System.out.println(template.render());
     }
 }
