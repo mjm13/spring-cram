@@ -11,7 +11,7 @@ import java.security.Permissions;
 
 public class JaninoDemo {
 
-    public static void main(String[] args) throws CompileException, InvocationTargetException {
+    public static void main(String[] args) throws InvocationTargetException, CompileException {
 //        demo.expressionEvaluator();
         scriptEvaluator();
 
@@ -22,22 +22,26 @@ public class JaninoDemo {
      * @throws CompileException
      * @throws InvocationTargetException
      */
-    public static void expressionEvaluator() throws CompileException, InvocationTargetException {
+    public static void expressionEvaluator() {
         // Now here's where the story begins...
-        ExpressionEvaluator ee = new ExpressionEvaluator();
+        try {
+            ExpressionEvaluator ee = new ExpressionEvaluator();
 
-        // The expression will have two "int" parameters: "a" and "b".
-        ee.setParameters(new String[]{"a", "b"}, new Class[]{int.class, int.class});
+            // The expression will have two "int" parameters: "a" and "b".
+            ee.setParameters(new String[]{"a", "b"}, new Class[]{int.class, int.class});
 
-        // And the expression (i.e. "result") type is also "int".
-        ee.setExpressionType(int.class);
+            // And the expression (i.e. "result") type is also "int".
+            ee.setExpressionType(int.class);
 
-        // And now we "cook" (scan, parse, compile and load) the fabulous expression.
-        ee.cook("a + b");
+            // And now we "cook" (scan, parse, compile and load) the fabulous expression.
+            ee.cook("a + b");
 
-        // Eventually we evaluate the expression - and that goes super-fast.
-        int result = (Integer) ee.evaluate(new Integer[]{8, 9});
-        System.out.println(result);
+            // Eventually we evaluate the expression - and that goes super-fast.
+            int result = (Integer) ee.evaluate(new Integer[]{8, 9});
+            System.out.println(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void scriptEvaluator() throws CompileException, InvocationTargetException {
