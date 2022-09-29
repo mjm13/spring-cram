@@ -1,6 +1,5 @@
 package com.meijm.toolbox.temp;
 
-import lombok.Data;
 
 public class Param{
     private String a;

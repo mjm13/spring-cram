@@ -10,36 +10,27 @@ import org.apache.commons.io.IOUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
+import java.net.URL;
 
 public class PdfConverter {
 
     static final MutableDataHolder OPTIONS = PegdownOptionsAdapter.flexmarkOptions(
                     Extensions.ALL & ~(Extensions.ANCHORLINKS | Extensions.EXTANCHORLINKS_WRAP)
-                    , TocExtension.create()).toMutable()
-            .set(TocExtension.LIST_CLASS, PdfConverterExtension.DEFAULT_TOC_LIST_CLASS)
-            //.set(HtmlRenderer.GENERATE_HEADER_ID, true)
-            //.set(HtmlRenderer.RENDER_HEADER_ID, true)
-            ;
+                    , TocExtension.create()).toMutable();
+//            .set(TocExtension.LIST_CLASS, PdfConverterExtension.DEFAULT_TOC_LIST_CLASS) ;
 
-    private static void getResourceFileContent(StringWriter writer, String resourcePath) {
-        InputStream inputStream = PdfConverter.class.getResourceAsStream(resourcePath);
-        try {
-            IOUtils.copy(inputStream, writer, "UTF-8");
-            inputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     public static void main(String[] args) throws Exception {
-
+        URL url = PdfConverter.class.getClassLoader().getResource("HanYiQiHei-55Jian-Regular-2.ttf");
+        String path = PdfConverter.class.getClassLoader().getResource("HanYiQiHei-55Jian-Regular-2.ttf").getPath();
+        System.out.println(path);
 
         String nonLatinFonts = "" +
                 "<style>\n" +
                 "@font-face {\n" +
                 "  font-family: 'mjm';\n" +
 //                "  src: url('file:/C:/Windows/Fonts/simsun.ttc');\n" +
-                "  src: url('file:HanYiQiHei-55Jian-Regular-2.ttf');\n" +
+                "  src: url('file:"+path+"');\n" +
                 "  font-weight: normal;\n" +
                 "  font-style: normal;\n" +
                 "}\n" +
