@@ -20,8 +20,8 @@ public class RetainAllTest {
 //        retainAllByGuava();
 //        retainAllByBitSet();
 //        retainAllByTwoPoint();
-        retainAllByStream();
-//        retainAllByJDK();
+//        retainAllByStream();
+        retainAllByJDK();
 
 //        writeFile();
     }
@@ -35,9 +35,9 @@ public class RetainAllTest {
                 BufferedWriter bw2 = FileUtil.getWriter(file2,"UTF-8",true);
         ){
             Snowflake id = IdUtil.createSnowflake(0,1);
-            for (int i = 0; i <100000 ; i++) {
+            for (int i = 0; i <1000000 ; i++) {
                 String idstr = id.nextIdStr()+ StrUtil.CRLF;
-                if(i%333 ==0){
+                if(i%33 ==0){
                     bw1.write(idstr);
                     bw2.write(idstr);
                 }else{

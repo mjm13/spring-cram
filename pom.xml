@@ -25,7 +25,7 @@
         <module>integration-component</module>
         <module>middleware</module>
         <module>toolbox</module>
-        <module>middleware/mysql</module>
+        <module>cloud-alibaba</module>
     </modules>
 
     <properties>

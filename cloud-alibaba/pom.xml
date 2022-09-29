@@ -9,14 +9,19 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>middleware</artifactId>
+    <artifactId>cloud-alibaba</artifactId>
     <packaging>pom</packaging>
+
     <modules>
-        <module>nginx</module>
-        <module>mycat</module>
-        <module>mysql</module>
-        <module>seata</module>
+        <module>cmb-service</module>
+        <module>icbc-service</module>
+        <module>transfer-service</module>
     </modules>
 
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
 </project>
