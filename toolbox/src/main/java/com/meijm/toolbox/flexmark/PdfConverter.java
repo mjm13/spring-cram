@@ -21,7 +21,6 @@ public class PdfConverter {
 
 
     public static void main(String[] args) throws Exception {
-        URL url = PdfConverter.class.getClassLoader().getResource("HanYiQiHei-55Jian-Regular-2.ttf");
         String path = PdfConverter.class.getClassLoader().getResource("HanYiQiHei-55Jian-Regular-2.ttf").getPath();
         System.out.println(path);
 
