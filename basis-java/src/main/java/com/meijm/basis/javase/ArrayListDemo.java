@@ -5,13 +5,18 @@ import java.util.List;
 
 public class ArrayListDemo {
     public static void main(String[] args) {
-
-        // ArrayList.DEFAULT_CAPACITY 默认初始容量10
-        List<String> temp = new ArrayList<>(2);
-        temp.add("1");
-        temp.add("2");
-        //java.util.ArrayList.grow  翻倍扩容
-        temp.add("3");
-
+        List<Integer> arr = new ArrayList<>();
+        for (int i = 0; i < 100; i++) {
+            arr.add(i);
+        }
+        try {
+            throw new RuntimeException("test exception");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        for (Integer integer : arr) {
+            arr.remove(integer);
+        }
+        System.out.println("over");
     }
 }
