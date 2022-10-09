@@ -10,16 +10,25 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class JoinDemo {
     public static void main(String[] args) {
-        SequentialExecThread.demo();
+        SequentialExecThread previousThread = null;
+        log.info("join-开始执行");
+        for (int i = 0; i < 10; i++) {
+            SequentialExecThread joinDemo = new SequentialExecThread(previousThread, i);
+            joinDemo.start();
+            previousThread = joinDemo;
+        }
+        while (Thread.activeCount() != 1) {
+        }
+        log.info("join-结束执行");
     }
 }
 
 @Slf4j
 class SequentialExecThread extends Thread {
-    int i;
-    Thread previousThread; //上一个线程
+    private int i;
+    private SequentialExecThread previousThread; //上一个线程
 
-    public SequentialExecThread(Thread previousThread, int i) {
+    public SequentialExecThread(SequentialExecThread previousThread, int i) {
         this.previousThread = previousThread;
         this.i = i;
     }
@@ -28,24 +37,45 @@ class SequentialExecThread extends Thread {
     public void run() {
         try {
             if (previousThread != null) {
-                previousThread.join();
+                previousThread.joinBySelfByThis();
+//                previousThread.joinBySelf();
+//                previousThread.joinBySelfByObject();
             }
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         log.info("执行线程{}", i);
     }
 
-    public static void demo(){
-        Thread previousThread = null;
-        log.info("join-开始执行");
-        for (int i = 0; i < 10; i++) {
-            SequentialExecThread joinDemo = new SequentialExecThread(previousThread, i);
-            joinDemo.start();
-            previousThread = joinDemo;
+    public final synchronized void joinBySelf()
+            throws InterruptedException {
+        while (isAlive()) {
+            log.info("等待执行-开始");
+            wait(0);
+            log.info("等待执行-结束");
         }
-        while (Thread.activeCount() > 2) {
+    }
+
+    public final void joinBySelfByObject()
+            throws InterruptedException {
+        synchronized (Object.class) {
+            while (isAlive()) {
+                log.info("等待执行-开始");
+                Object.class.wait(0);
+                log.info("等待执行-结束");
+            }
         }
-        log.info("join-结束执行");
+    }
+
+    public final void joinBySelfByThis()
+            throws InterruptedException {
+        synchronized (this) {
+            while (isAlive()) {
+                log.info("等待执行-开始");
+                this.wait(0);
+                log.info("等待执行-结束");
+            }
+        }
     }
 }
