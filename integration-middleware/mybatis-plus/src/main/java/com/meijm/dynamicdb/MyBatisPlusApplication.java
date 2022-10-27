@@ -1,4 +1,4 @@
-package com.meijm.mybatisplus;
+package com.meijm.dynamicdb;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;

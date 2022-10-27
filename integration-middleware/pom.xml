@@ -27,5 +27,13 @@
         <module>mybatis-plus</module>
         <module>mybatis</module>
         <module>redis-redisson</module>
+        <module>dynamic-datasource</module>
     </modules>
+
+    <dependencies>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    </dependencies>
 </project>

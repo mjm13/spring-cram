@@ -1,7 +1,7 @@
-package com.meijm.mybatisplus.controller;
+package com.meijm.dynamicdb.controller;
 
-import com.meijm.mybatisplus.entity.User;
-import com.meijm.mybatisplus.mapper.UserMapper;
+import com.meijm.dynamicdb.entity.User;
+import com.meijm.dynamicdb.mapper.UserMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;

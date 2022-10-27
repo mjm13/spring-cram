@@ -1,7 +1,7 @@
-package com.meijm.mybatisplus;
+package com.meijm.dynamicdb;
 
-import com.meijm.mybatisplus.entity.User;
-import com.meijm.mybatisplus.mapper.UserMapper;
+import com.meijm.dynamicdb.entity.User;
+import com.meijm.dynamicdb.mapper.UserMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

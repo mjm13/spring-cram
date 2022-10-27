@@ -1,7 +1,7 @@
-package com.meijm.mybatisplus.mapper;
+package com.meijm.dynamicdb.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.meijm.mybatisplus.entity.User;
+import com.meijm.dynamicdb.entity.User;
 
 import java.util.List;
 

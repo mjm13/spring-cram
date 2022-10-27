@@ -1,4 +1,4 @@
-package com.meijm.mybatisplus.entity;
+package com.meijm.dynamicdb.entity;
 
 import lombok.Data;
 
