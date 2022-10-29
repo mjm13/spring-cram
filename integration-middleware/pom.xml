@@ -28,6 +28,7 @@
         <module>mybatis</module>
         <module>redis-redisson</module>
         <module>dynamic-datasource</module>
+        <module>mini-db</module>
     </modules>
 
     <dependencies>
