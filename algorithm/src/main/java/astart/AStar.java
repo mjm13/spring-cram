@@ -11,7 +11,7 @@ public class AStar {
     private List<Coord> coords;
     private Map<String, Coord> mapInfoMap;
     private Queue<Node> openList = new PriorityQueue<Node>(); // 优先队列(升序);
-    private List<Node> closeList = new ArrayList<Node>();
+    private List<Coord> closeList = new ArrayList<Coord>();
     private Node endNode;
 
     public Node start(List<Coord> coords, Coord start, Coord end) {
@@ -33,38 +33,42 @@ public class AStar {
     public Node searchPath() {
         while (!openList.isEmpty()) {
             Node current = openList.poll();
-            closeList.add(current);
-
             Coord info = current.getCoord();
+            if (closeList.contains(info)) {
+                continue;
+            }
+            closeList.add(info);
             if (info.isDown()) {
-                addCoord(current,info.getX(), info.getY()+1);
+                addCoord(current, info.getX(), info.getY() + 1);
             }
             if (info.isUp()) {
-                addCoord(current,info.getX(), info.getY()-1);
+                addCoord(current, info.getX(), info.getY() - 1);
             }
             if (info.isRight()) {
-                addCoord(current,info.getX()+1, info.getY());
+                addCoord(current, info.getX() + 1, info.getY());
             }
             if (info.isLeft()) {
-                addCoord(current,info.getX()-1, info.getY());
+                addCoord(current, info.getX() - 1, info.getY());
             }
 
-            if (this.endNode.equals(current.getCoord())) {
+            if (this.endNode.getCoord().equals(current.getCoord())) {
                 return current;
             }
         }
-        return  null;
+        return null;
     }
 
-    public void addCoord(Node current, int x,int y) {
-        Coord coord = mapInfoMap.get("01"+ StrUtil.padPre(String.valueOf(x),4,"0")+StrUtil.padPre(String.valueOf(y),4,"0"));
-        if (coord==null) {
+    public void addCoord(Node current, int x, int y) {
+        Coord coord = mapInfoMap.get("01" + StrUtil.padPre(String.valueOf(x), 4, "0") + StrUtil.padPre(String.valueOf(y), 4, "0"));
+        if (coord == null) {
+            return;
+        } else if (closeList.contains(coord)) {
             return;
         }
         Node node = new Node();
         node.setCoord(coord);
         node.setParent(current);
-        node.setEvaluateDistance(calcH(this.endNode.getCoord(),coord));
+        node.setEvaluateDistance(calcH(this.endNode.getCoord(), coord));
         node.setActualDistance(current.getActualDistance() + 1);
         openList.add(node);
     }
@@ -81,7 +85,7 @@ public class AStar {
         String result = xcoords.keySet().stream().sorted().map(y -> {
             return xcoords.get(y).stream()
                     .sorted(Comparator.comparingInt(Coord::getX))
-                    .map(coord -> coord.getId()+"("+coord.getMark()+")")
+                    .map(coord -> coord.getId() + "(" + coord.getMark() + ")")
                     .collect(Collectors.joining("-"));
         }).collect(Collectors.joining("\n"));
         System.out.println(result);

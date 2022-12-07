@@ -29,22 +29,22 @@ public class Coord {
         if (up) {
             result += "U";
         }else{
-            result += "  ";
+            result += " ";
         }
         if (down) {
             result += "D";
         }else{
-            result += "  ";
+            result += " ";
         }
         if (left) {
             result += "L";
         }else{
-            result += "  ";
+            result += " ";
         }
         if (right) {
             result += "R";
         }else{
-            result += "  ";
+            result += " ";
         }
         return result;
     }

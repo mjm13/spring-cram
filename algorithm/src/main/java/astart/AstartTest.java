@@ -67,9 +67,13 @@ public class AstartTest {
         Node endNode = aStar.start(mapInfos,start,end);
         aStar.printMap();
 
+        System.out.println("");
         StringBuffer result = new StringBuffer();
+
         while (!endNode.getParent().getCoord().equals(endNode.getCoord())){
+//            System.out.println(endNode.getCoord().getId());
             result.append(endNode.getCoord().getId()).append("-");
+            endNode = endNode.getParent();
         }
         System.out.println(result.toString());
     }
