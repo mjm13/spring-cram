@@ -1,17 +1,23 @@
 package com.meijm.toolbox.jsqlparser;
 
+import cn.hutool.core.util.ReUtil;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.jsqlparser.JSQLParserException;
 import net.sf.jsqlparser.expression.BinaryExpression;
 import net.sf.jsqlparser.expression.ExpressionVisitorAdapter;
 import net.sf.jsqlparser.expression.operators.conditional.AndExpression;
 import net.sf.jsqlparser.parser.CCJSqlParserUtil;
+import net.sf.jsqlparser.parser.SimpleNode;
 import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.statement.Statement;
 import net.sf.jsqlparser.statement.StatementVisitorAdapter;
 import net.sf.jsqlparser.statement.delete.Delete;
 import net.sf.jsqlparser.statement.select.*;
 import net.sf.jsqlparser.statement.update.Update;
+import org.apache.commons.lang3.RegExUtils;
+
+import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * @Description 使用net.sf.jsqlparser解析sql语句
@@ -21,7 +27,7 @@ import net.sf.jsqlparser.statement.update.Update;
 @Slf4j
 public class JsqlparserDemo {
     public static void main(String[] args) throws JSQLParserException {
-        updateDemo();
+        selectDemo();
     }
 
     public static void updateDemo() throws JSQLParserException {
@@ -63,13 +69,23 @@ public class JsqlparserDemo {
                 "JOIN sys_dept sd ON su.dept_id = sd.dept_id\n" +
                 "JOIN sys_user_role sur ON sur.user_id = su.user_id\n" +
                 "JOIN sys_role sr ON sur.role_id = sr.role_id\n" +
-                "WHERE\n" +
+                "WHERE  %@cc,dd@%  %@aaa,bbb,and@%\n" +
                 "\tsd.dept_name = '研发部门'\n" +
                 "\tand su.user_name = 'admin'\n" +
                 "\tand su.dept_id = 103\n" +
                 "\tor sr.role_name = '超级管理员'\n" +
                 "ORDER BY\n" +
                 "\tsd.create_time DESC";
+
+        String regex = "%@(.*?)@%";
+        List<String> temps =  ReUtil.findAll(regex,sqlStr,0);
+        temps.stream().forEach(s -> {
+            System.out.println("1111");
+            System.out.println(s);
+        });
+        if (true){
+            return;
+        }
         Select querySql = (Select) CCJSqlParserUtil.parse(sqlStr);
         querySql.getSelectBody().accept(new SelectVisitorAdapter() {
             @Override
@@ -80,6 +96,7 @@ public class JsqlparserDemo {
                         @Override
                         public void visit(SelectExpressionItem selectExpressionItem) {
                             log.info(selectExpressionItem.getExpression().toString());
+                            SimpleNode simpleNode = selectExpressionItem.getExpression().getASTNode();
                             if (selectExpressionItem.getAlias() != null) {
                                 log.info("列别名 {}", selectExpressionItem.getAlias().getName());
                             }

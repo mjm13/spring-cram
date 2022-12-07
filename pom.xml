@@ -26,6 +26,7 @@
         <module>middleware</module>
         <module>toolbox</module>
         <module>cloud-alibaba</module>
+        <module>algorithm</module>
     </modules>
 
     <properties>
