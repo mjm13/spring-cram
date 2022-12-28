@@ -1,11 +1,8 @@
-package astart.model;
+package pathPlanning.astart.model;
 
 
 import lombok.Data;
 import lombok.ToString;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 路径求解计算节点

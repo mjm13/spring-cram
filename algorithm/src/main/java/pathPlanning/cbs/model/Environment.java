@@ -1,4 +1,4 @@
-package cbs.model;
+package pathPlanning.cbs.model;
 
 import cn.hutool.core.util.StrUtil;
 import lombok.Data;

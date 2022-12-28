@@ -1,6 +1,5 @@
-package cbs.model;
+package pathPlanning.cbs.model;
 
-import cn.hutool.core.clone.CloneSupport;
 import lombok.Data;
 
 import java.util.HashSet;

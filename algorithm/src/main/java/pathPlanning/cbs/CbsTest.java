@@ -1,7 +1,8 @@
-package cbs;
+package pathPlanning.cbs;
 
 import cbs.model.*;
 import cn.hutool.json.JSONUtil;
+import pathPlanning.cbs.model.*;
 
 import java.util.*;
 

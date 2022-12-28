@@ -1,4 +1,4 @@
-package astart.model;
+package pathPlanning.astart.model;
 
 import lombok.Data;
 

@@ -1,7 +1,7 @@
-package astart;
+package pathPlanning.astart;
 
-import astart.model.Coord;
-import astart.model.Node;
+import pathPlanning.astart.model.Coord;
+import pathPlanning.astart.model.Node;
 import cn.hutool.core.util.StrUtil;
 
 import java.util.*;
