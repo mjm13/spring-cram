@@ -70,11 +70,11 @@ public class AstartTest {
         System.out.println("");
         StringBuffer result = new StringBuffer();
 
-        while (!endNode.getParent().getCoord().equals(endNode.getCoord())){
-//            System.out.println(endNode.getCoord().getId());
-            result.append(endNode.getCoord().getId()).append("-");
+        do{
+            result.append(endNode.getCoord().getId()).append("(step:").append(endNode.getStep()).append(")").append("-");
             endNode = endNode.getParent();
-        }
+        }while (!endNode.getParent().getCoord().equals(endNode.getCoord()));
+        result.append(endNode.getCoord().getId()).append("(step:").append(endNode.getStep()).append(")");
         System.out.println(result.toString());
     }
 }

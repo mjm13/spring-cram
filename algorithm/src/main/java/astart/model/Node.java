@@ -4,9 +4,17 @@ package astart.model;
 import lombok.Data;
 import lombok.ToString;
 
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * 路径求解计算节点
+ */
 @Data
 @ToString(callSuper = false)
 public class Node implements Comparable<Node>{
+
+    private Integer step;
     /**
      * 上一步，用于回溯路径
      */
@@ -39,5 +47,9 @@ public class Node implements Comparable<Node>{
     @Override
     public String toString(){
         return coord.toString()+"g:"+actualDistance+"-h:"+evaluateDistance;
+    }
+
+    public void setParent(Node parent) {
+        this.parent = parent;
     }
 }
