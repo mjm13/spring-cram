@@ -38,7 +38,7 @@ public class State implements Comparable<State>{
 
     private Integer step;
     /**
-     * 上一步，用于回溯路径
+     * 上一步，用于回溯路径,获取路径时清空
      */
     private State parent;
     /**
