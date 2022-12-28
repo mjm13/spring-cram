@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Data
-public class Constraint extends CloneSupport {
+public class Constraint  {
     public Set<VertexConstraint> vertexConstraints = new HashSet<>();
     public Set<EdgeConstraint> edgeConstraints = new HashSet<>();
 }

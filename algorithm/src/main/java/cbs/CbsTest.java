@@ -3,10 +3,7 @@ package cbs;
 import cbs.model.*;
 import cn.hutool.json.JSONUtil;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class CbsTest {
     public static void main(String[] args) {
@@ -29,7 +26,7 @@ public class CbsTest {
 
         Environment environment = new Environment();
         environment.setDimension(dimension);
-        environment.setObstacles(new HashMap<>());
+        environment.setObstacles(new LinkedHashSet<>());
         environment.setConstraints(new Constraint());
 
         Map<String, CbsAgent> agents = new HashMap<>();
@@ -44,6 +41,6 @@ public class CbsTest {
         agents.put(agent1.getId(),agent1);
         agents.put(agent2.getId(),agent2);
         HighLevelNode result = cbs.search(agents,environment);
-        System.out.println("最终结果："+JSONUtil.toJsonStr(result));
+        System.out.println("最终结果："+JSONUtil.toJsonStr(result.getSolutions()));
     }
 }

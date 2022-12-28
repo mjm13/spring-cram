@@ -48,8 +48,10 @@ public class CbsAStar {
     private List<State> getPath(State node) {
         List<State> path = new ArrayList<>();
         do {
+            State nodeP = node.getParent();
+            node.setParent(null);
             path.add(node);
-            node = node.getParent();
+            node = nodeP;
         } while (node != null);
         path.sort((o1, o2) -> o1.getStep().compareTo(o2.getStep()));
         return path;

@@ -3,17 +3,16 @@ package cbs.model;
 import cn.hutool.core.util.StrUtil;
 import lombok.Data;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Data
 public class Environment {
     //坐标集合
     public Map<String, Location> dimension;
     //障碍物
-    public Map<String, Location> obstacles;
+    public Set<Location> obstacles;
+    //移动障碍物
+    public Set<State> moveObstacles;
     //冲突信息
     public Constraint constraints = new Constraint();
     //整体冲突
@@ -68,7 +67,7 @@ public class Environment {
      **/
     public boolean stateValid(State state) {
         VertexConstraint vertexConstraint = new VertexConstraint(state);
-        return obstacles.get(state.getLocation().getId()) == null &&
+        return !obstacles.contains(state.getLocation())&&
                 !constraints.getVertexConstraints().contains(vertexConstraint);
     }
 

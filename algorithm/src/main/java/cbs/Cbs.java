@@ -41,7 +41,6 @@ public class Cbs {
             environment.setConstraintDict(hln.getConstraintDict());
             Conflict conflict = getConflict(hln);
             if (conflict == null) {
-                System.out.println("解决方案："+hln);
                 return hln;
             }
             Map<String, Constraint> constraintDict = createConstraintsFromConflict(conflict);
@@ -63,7 +62,7 @@ public class Cbs {
                     newhln.getConstraintDict().get(entry.getKey()).getEdgeConstraints().addAll(entry.getValue().getEdgeConstraints());
                     newhln.getConstraintDict().get(entry.getKey()).getVertexConstraints().addAll(entry.getValue().getVertexConstraints());
                 }
-                System.out.println(entry.getKey()+"新冲突:"+JSONUtil.toJsonStr(newhln.getConstraintDict()));
+//                System.out.println(entry.getKey()+"新冲突:"+JSONUtil.toJsonStr(newhln.getConstraintDict()));
 
                 //A*求解
                 for (Map.Entry<String, CbsAgent> agentEntry : agents.entrySet()) {

@@ -15,7 +15,7 @@ import java.util.Map;
  * @Date 2022/12/15
  **/
 @Data
-public class HighLevelNode extends CloneSupport implements Comparable<HighLevelNode> {
+public class HighLevelNode implements Comparable<HighLevelNode> {
     //解决方案map，key为小车编号
     private Map<String, List<State>> solutions = new HashMap<>();
     // 冲突字典，key为小车编号
