@@ -19,6 +19,8 @@ public class RgvCommand {
     private int endY;
     private Date startTime;
     private Date endTime;
+    private SaDirection oldDirection;
+    private SaDirection newDirection;
     //移动耗时
     private long costTime;
     private List<SaProbeNode> nodes = new ArrayList<>();
@@ -36,6 +38,9 @@ public class RgvCommand {
             distance = endY - startY;
         }else{
             distance = endX - startX;
+        }
+        if(costTime == 0){
+            distance = 1;
         }
         return distance;
     }
