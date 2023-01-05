@@ -49,7 +49,6 @@ public class PriorityQueueDemo {
         queue.add(t5);
         queue.add(t6);
         System.out.println(queue);
-//        log.info("获得结果:{}", queue.poll());
     }
 }
 

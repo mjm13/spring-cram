@@ -48,12 +48,13 @@ public class SaEnvironment {
         SaDirection nexDirection = null;
         int g = 0;
         if (preDirection.equals(SaDirection.X) && preLocation.getX() != nexLocation.getX()) {
-            g+=2;
+            g+=20;
             nexDirection = SaDirection.Y;
         }else if(preDirection.equals(SaDirection.Y) && preLocation.getY() != nexLocation.getY()){
-            g+=2;
+            g+=20;
             nexDirection = SaDirection.X;
         }else {
+            g+=10;
             nexDirection = preDirection;
         }
 
@@ -94,6 +95,6 @@ public class SaEnvironment {
      * 计算H的估值：“曼哈顿”法，坐标分别取差值相加
      */
     private int calcH(SaLocation end, SaLocation coord) {
-        return (Math.abs(end.getX() - coord.getX()) + Math.abs(end.getY() - coord.getY()));
+        return (Math.abs(end.getX() - coord.getX()) + Math.abs(end.getY() - coord.getY()))*10;
     }
 }

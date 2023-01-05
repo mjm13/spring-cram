@@ -2,7 +2,6 @@ package pathPlanning.stepAstart;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.date.DateUtil;
-import cn.hutool.json.JSONUtil;
 import com.google.common.collect.ImmutableMap;
 import lombok.extern.slf4j.Slf4j;
 import pathPlanning.stepAstart.model.*;
@@ -24,7 +23,7 @@ public class StepTimeAstart {
     //移动耗时字典
     private Map<Integer, Integer> costMap = ImmutableMap.of(1, 10, 2, 14, 3, 15);
 
-    public List<RgvCommand>  searchPath(SaAgent saAgent, SaEnvironment environment, List<SaMoveObstacle> saMoveObstacles) {
+    public List<RgvCommand> searchPath(SaAgent saAgent, SaEnvironment environment, List<SaMoveObstacle> saMoveObstacles) {
         StepAstart stepAstart = new StepAstart();
         int count = 0;
         Map<String, List<SaMoveObstacle>> obstacleMap = saMoveObstacles.stream().
@@ -51,7 +50,7 @@ public class StepTimeAstart {
                  * 2.当下一个点位与上一个点位方向不一致时会生成新命令
                  * 3.最后一个点位会生成新命令
                  */
-                if (lastNode.getSaLocation().equals(node.getSaLocation()) || !node.getSaDirection().equals(lastNode.getSaDirection()) ) {
+               if (lastNode.getSaLocation().equals(node.getSaLocation()) || !node.getSaDirection().equals(lastNode.getSaDirection())) {
                     command.setEndX(lastNode.getSaLocation().getX());
                     command.setEndY(lastNode.getSaLocation().getY());
                     command.setNewDirection(lastNode.getSaDirection());
@@ -61,24 +60,27 @@ public class StepTimeAstart {
                     command.setStartY(lastNode.getSaLocation().getY());
                     command.setOldDirection(lastNode.getSaDirection());
                     command.setNewDirection(node.getSaDirection());
+                    command.getNodes().add(lastNode);
                     command.getNodes().add(node);
+                } else {
                     command.getNodes().add(node);
-                } else if(i == path.size() - 1){
+                }
+
+                if (i == path.size() - 1) {
                     command.setEndX(node.getSaLocation().getX());
                     command.setEndY(node.getSaLocation().getY());
                     command.setNewDirection(node.getSaDirection());
-                    command.getNodes().add(node);
                     commands.add(command);
-                }else {
-                    command.getNodes().add(node);
                 }
                 lastNode = node;
             }
-//            log.info("移动命令：{}", JSONUtil.toJsonStr(commands));
+
+
+
             Date startTime = new Date();
             SaProbeNode conflictNode = null;
+            //计算命令耗时发现冲突则将移动步骤追加至移动障碍物并触发重算
             for (RgvCommand rgvCommand : commands) {
-                //计算命令耗时
                 rgvCommand.setStartTime(startTime);
                 int cost = costMap.get(rgvCommand.getDistance());
                 Date endTime = DateUtil.offsetSecond(startTime, cost);
@@ -97,7 +99,6 @@ public class StepTimeAstart {
             }
             environment.getMoveObstacles().add(conflictNode);
             count++;
-            log.info("count:{}",count);
         }
         return null;
     }

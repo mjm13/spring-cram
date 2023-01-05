@@ -2,6 +2,7 @@ package pathPlanning.stepAstart.model;
 
 import cn.hutool.core.util.StrUtil;
 import lombok.Data;
+import lombok.ToString;
 
 /**
  * @Description 坐标信息
@@ -9,6 +10,7 @@ import lombok.Data;
  * @Date 2022/12/29
  **/
 @Data
+@ToString(exclude = {"x","y"})
 public class SaLocation {
     private String id;
     private int x;

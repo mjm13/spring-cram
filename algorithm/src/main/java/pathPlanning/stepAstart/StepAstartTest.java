@@ -44,9 +44,9 @@ public class StepAstartTest {
 
         List<SaMoveObstacle> saMoveObstacles = new ArrayList<>();
         SaMoveObstacle moveObstacle = new SaMoveObstacle();
-        moveObstacle.setSaLocation(c12);
+        moveObstacle.setSaLocation(c31);
         moveObstacle.setStart(DateUtil.parse("2023-01-05 14:38:00"));
-        moveObstacle.setEnd(DateUtil.parse("2023-01-05 15:47:30"));
+        moveObstacle.setEnd(DateUtil.parse("2023-01-09 17:47:30"));
         saMoveObstacles.add(moveObstacle);
 
         StepTimeAstart stepTimeAstart = new StepTimeAstart();

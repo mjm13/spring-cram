@@ -1,5 +1,6 @@
 package pathPlanning.stepAstart;
 
+import lombok.extern.slf4j.Slf4j;
 import pathPlanning.stepAstart.model.*;
 
 import java.util.*;
@@ -9,6 +10,7 @@ import java.util.*;
  * @Author MeiJM
  * @Date 2022/12/29
  **/
+@Slf4j
 public class StepAstart {
     //待遍历节点，优先队列(升序);
     private Queue<SaProbeNode> openList = new PriorityQueue<SaProbeNode>();
@@ -30,6 +32,7 @@ public class StepAstart {
         // 初始化开始位置
         openList.add(node);
         while (!openList.isEmpty()) {
+            log.info("开始探测新节点:{}",openList);
             SaProbeNode current = openList.poll();
             if (end.equals(current.getSaLocation())) {
                 return getPath(current);
