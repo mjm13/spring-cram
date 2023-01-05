@@ -20,11 +20,11 @@ import java.util.stream.Collectors;
  **/
 @Slf4j
 public class StepTimeAstart {
-    private static int MAX_COUNT = 100;
+    private static int MAX_COUNT = 10000;
     //移动耗时字典
-    private Map<Integer, Integer> costMap = ImmutableMap.of(1, 3, 2, 4, 3, 5);
+    private Map<Integer, Integer> costMap = ImmutableMap.of(1, 10, 2, 14, 3, 15);
 
-    public List<RgvCommand> searchPath(SaAgent saAgent, SaEnvironment environment, List<SaMoveObstacle> saMoveObstacles) {
+    public List<RgvCommand>  searchPath(SaAgent saAgent, SaEnvironment environment, List<SaMoveObstacle> saMoveObstacles) {
         StepAstart stepAstart = new StepAstart();
         int count = 0;
         Map<String, List<SaMoveObstacle>> obstacleMap = saMoveObstacles.stream().
@@ -37,15 +37,13 @@ public class StepTimeAstart {
                 continue;
             }
             //拆分命令
-            SaProbeNode start = path.get(0);
-            SaDirection lastDirection = start.getSaDirection();
-            SaLocation lastLocation = start.getSaLocation();
+            SaProbeNode lastNode = path.get(0);
             commands = new ArrayList<>();
             RgvCommand command = new RgvCommand();
-            command.setStartX(lastLocation.getX());
-            command.setStartY(lastLocation.getY());
-            command.setDirection(lastDirection);
-            command.getNodes().add(start);
+            command.setStartX(lastNode.getSaLocation().getX());
+            command.setStartY(lastNode.getSaLocation().getY());
+            command.setOldDirection(saAgent.getDirection());
+            command.getNodes().add(lastNode);
             for (int i = 1; i < path.size(); i++) {
                 SaProbeNode node = path.get(i);
                 /**
@@ -53,20 +51,28 @@ public class StepTimeAstart {
                  * 2.当下一个点位与上一个点位方向不一致时会生成新命令
                  * 3.最后一个点位会生成新命令
                  */
-                if (lastLocation.equals(node.getSaLocation()) || !node.getSaDirection().equals(lastDirection) || i == path.size() - 1) {
-                    command.setEndX(lastLocation.getX());
-                    command.setEndY(lastLocation.getY());
+                if (lastNode.getSaLocation().equals(node.getSaLocation()) || !node.getSaDirection().equals(lastNode.getSaDirection()) ) {
+                    command.setEndX(lastNode.getSaLocation().getX());
+                    command.setEndY(lastNode.getSaLocation().getY());
+                    command.setNewDirection(lastNode.getSaDirection());
                     commands.add(command);
                     command = new RgvCommand();
-                    command.setStartX(node.getSaLocation().getX());
-                    command.setStartY(node.getSaLocation().getY());
-                    command.setDirection(node.getSaDirection());
+                    command.setStartX(lastNode.getSaLocation().getX());
+                    command.setStartY(lastNode.getSaLocation().getY());
+                    command.setOldDirection(lastNode.getSaDirection());
+                    command.setNewDirection(node.getSaDirection());
                     command.getNodes().add(node);
-                } else {
+                    command.getNodes().add(node);
+                } else if(i == path.size() - 1){
+                    command.setEndX(node.getSaLocation().getX());
+                    command.setEndY(node.getSaLocation().getY());
+                    command.setNewDirection(node.getSaDirection());
+                    command.getNodes().add(node);
+                    commands.add(command);
+                }else {
                     command.getNodes().add(node);
                 }
-                lastLocation = node.getSaLocation();
-                lastDirection = node.getSaDirection();
+                lastNode = node;
             }
 //            log.info("移动命令：{}", JSONUtil.toJsonStr(commands));
             Date startTime = new Date();
@@ -89,7 +95,9 @@ public class StepTimeAstart {
             } else if (count > MAX_COUNT) {
                 break;
             }
+            environment.getMoveObstacles().add(conflictNode);
             count++;
+            log.info("count:{}",count);
         }
         return null;
     }
@@ -104,8 +112,7 @@ public class StepTimeAstart {
                 continue;
             }
             for (SaMoveObstacle tempMo : tempMos) {
-                if ((startTime.before(tempMo.getStart()) && endTime.after(tempMo.getStart())) ||
-                        (startTime.before(tempMo.getEnd()) && endTime.after(tempMo.getEnd()))) {
+                if (!(startTime.before(tempMo.getStart()) || endTime.after(tempMo.getEnd()))) {
                     return node;
                 }
             }

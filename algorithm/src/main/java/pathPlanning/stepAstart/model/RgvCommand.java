@@ -23,7 +23,7 @@ public class RgvCommand {
     private SaDirection newDirection;
     //移动耗时
     private long costTime;
-    private List<SaProbeNode> nodes = new ArrayList<>();
+    private  List<SaProbeNode> nodes = new ArrayList<>();
 
     /**
      * @Description 获取移动距离
@@ -39,7 +39,7 @@ public class RgvCommand {
         }else{
             distance = endX - startX;
         }
-        if(costTime == 0){
+        if(distance == 0){
             distance = 1;
         }
         return distance;

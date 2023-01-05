@@ -31,6 +31,7 @@ public class SaProbeNode implements Comparable<SaProbeNode>{
         this.step = step;
         this.parent = waitNode;
         this.saLocation = waitNode.getSaLocation();
+        this.saDirection = waitNode.getSaDirection();
         this.h = waitNode.getH();
         this.g = waitNode.getG() + step;
     }
