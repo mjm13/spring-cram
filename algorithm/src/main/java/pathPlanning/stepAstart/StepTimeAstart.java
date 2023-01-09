@@ -26,6 +26,7 @@ public class StepTimeAstart {
     public List<RgvCommand> searchPath(SaAgent saAgent, SaEnvironment environment, List<SaMoveObstacle> saMoveObstacles) {
         StepAstart stepAstart = new StepAstart();
         int count = 0;
+        //获取移动障碍物
         Map<String, List<SaMoveObstacle>> obstacleMap = saMoveObstacles.stream().
                 collect(Collectors.groupingBy(saMoveObstacle -> saMoveObstacle.getSaLocation().getId()));
         List<RgvCommand> commands;
@@ -33,7 +34,7 @@ public class StepTimeAstart {
             //计算路径
             List<SaProbeNode> path = stepAstart.searchPath(saAgent, environment);
             if (path == null) {
-                continue;
+                break;
             }
             //拆分命令
             SaProbeNode lastNode = path.get(0);

@@ -8,6 +8,8 @@ import pathPlanning.stepAstart.model.*;
 
 import java.util.*;
 
+import static cn.hutool.core.date.DateUtil.parse;
+
 @Slf4j
 public class StepAstartTest {
     public static void main(String[] args) {
@@ -37,22 +39,19 @@ public class StepAstartTest {
 
         SaAgent agent1 = new SaAgent();
         agent1.setId("agent0");
-        agent1.setDirection(SaDirection.X);
+        agent1.setDirection(SaDirection.Y);
         agent1.setStart("00000000");
         agent1.setGoal("00020002");
 
 
         List<SaMoveObstacle> saMoveObstacles = new ArrayList<>();
-        SaMoveObstacle moveObstacle = new SaMoveObstacle();
-        moveObstacle.setSaLocation(c31);
-        moveObstacle.setStart(DateUtil.parse("2023-01-05 14:38:00"));
-        moveObstacle.setEnd(DateUtil.parse("2023-01-09 17:47:30"));
-        saMoveObstacles.add(moveObstacle);
+        SaMoveObstacle smo1 = new SaMoveObstacle(c31, parse("2023-01-05 14:38:00"), parse("2023-01-09 17:47:30"));
+        saMoveObstacles.add(smo1);
 
         StepTimeAstart stepTimeAstart = new StepTimeAstart();
-        List<RgvCommand> commands = stepTimeAstart.searchPath(agent1, environment,saMoveObstacles);
+        List<RgvCommand> commands = stepTimeAstart.searchPath(agent1, environment, saMoveObstacles);
         JSONConfig jsonConfig = JSONConfig.create();
         jsonConfig.setDateFormat("yyyy-MM-dd HH:mm:ss");
-        log.info("移动命令：{}", JSONUtil.parse(commands,jsonConfig).toString());
+        log.info("移动命令：{}", JSONUtil.parse(commands, jsonConfig).toString());
     }
 }

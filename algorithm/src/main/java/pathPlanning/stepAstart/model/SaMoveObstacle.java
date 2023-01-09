@@ -11,6 +11,11 @@ import java.util.Date;
  **/
 @Data
 public class SaMoveObstacle {
+    public SaMoveObstacle(SaLocation saLocation,Date start,Date end){
+        this.saLocation = saLocation;
+        this.start = start;
+        this.end = end;
+    }
     private SaLocation saLocation;
     private Date start;
     private Date end;
