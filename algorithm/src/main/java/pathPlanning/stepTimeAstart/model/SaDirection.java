@@ -1,4 +1,4 @@
-package pathPlanning.stepAstart.model;
+package pathPlanning.stepTimeAstart.model;
 
 /**
  * @Description 当前方向，用于计算实际移动代价

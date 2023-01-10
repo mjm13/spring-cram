@@ -1,4 +1,4 @@
-package pathPlanning.stepAstart.model;
+package pathPlanning.stepTimeAstart.model;
 
 import cn.hutool.core.util.StrUtil;
 import lombok.Data;

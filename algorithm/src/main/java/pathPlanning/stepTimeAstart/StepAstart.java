@@ -1,7 +1,7 @@
-package pathPlanning.stepAstart;
+package pathPlanning.stepTimeAstart;
 
 import lombok.extern.slf4j.Slf4j;
-import pathPlanning.stepAstart.model.*;
+import pathPlanning.stepTimeAstart.model.*;
 
 import java.util.*;
 

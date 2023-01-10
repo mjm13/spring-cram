@@ -1,4 +1,4 @@
-package pathPlanning.stepAstart.model;
+package pathPlanning.stepTimeAstart.model;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

@@ -1,10 +1,9 @@
-package pathPlanning.stepAstart;
+package pathPlanning.stepTimeAstart;
 
-import cn.hutool.core.date.DateUtil;
 import cn.hutool.json.JSONConfig;
 import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
-import pathPlanning.stepAstart.model.*;
+import pathPlanning.stepTimeAstart.model.*;
 
 import java.util.*;
 
@@ -39,13 +38,13 @@ public class StepAstartTest {
 
         SaAgent agent1 = new SaAgent();
         agent1.setId("agent0");
-        agent1.setDirection(SaDirection.Y);
+        agent1.setDirection(SaDirection.X);
         agent1.setStart("00000000");
         agent1.setGoal("00020002");
 
 
         List<SaMoveObstacle> saMoveObstacles = new ArrayList<>();
-        SaMoveObstacle smo1 = new SaMoveObstacle(c31, parse("2023-01-05 14:38:00"), parse("2023-01-09 17:47:30"));
+        SaMoveObstacle smo1 = new SaMoveObstacle(c31, parse("2023-01-05 14:38:00"), parse("2023-01-19 17:47:30"));
         saMoveObstacles.add(smo1);
 
         StepTimeAstart stepTimeAstart = new StepTimeAstart();
