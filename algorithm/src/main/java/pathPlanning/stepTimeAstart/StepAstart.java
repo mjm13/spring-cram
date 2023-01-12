@@ -34,6 +34,10 @@ public class StepAstart {
         while (!openList.isEmpty()) {
             log.info("开始探测新节点:{}",openList);
             SaProbeNode current = openList.poll();
+            if(closeList.contains(current)){
+                continue;
+            }
+            closeList.add(current);
             if (end.equals(current.getSaLocation())) {
                 return getPath(current);
             }

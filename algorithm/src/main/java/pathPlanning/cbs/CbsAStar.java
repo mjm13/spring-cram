@@ -13,7 +13,7 @@ public class CbsAStar {
     //待遍历节点，优先队列(升序);
     private Queue<State> openList = new PriorityQueue<State>();
     //已遍历节点
-    private List<Location> closeList = new ArrayList<Location>();
+    private List<State> closeList = new ArrayList<State>();
     //终点
     private Location end;
     //最大迭代次数
@@ -33,6 +33,10 @@ public class CbsAStar {
         openList.add(node);
         while (!openList.isEmpty()) {
             State current = openList.poll();
+            if(closeList.contains(current)){
+                continue;
+            }
+            closeList.add(current);
             if (end.equals(current.getLocation())) {
                 return getPath(current);
             }
