@@ -60,12 +60,10 @@ public class StepTimeAstart {
                     command.setStartX(lastNode.getSaLocation().getX());
                     command.setStartY(lastNode.getSaLocation().getY());
                     command.setOldDirection(lastNode.getSaDirection());
-                    command.setNewDirection(node.getSaDirection());
                     command.getNodes().add(lastNode);
-                    command.getNodes().add(node);
-                } else {
-                    command.getNodes().add(node);
+
                 }
+                command.getNodes().add(node);
 
                 if (i == path.size() - 1) {
                     command.setEndX(node.getSaLocation().getX());
