@@ -47,7 +47,7 @@ public class RedissonController {
         RLock lock = redissonClient.getLock("myLock");
         String result = "";
         try {
-            boolean res = lock.tryLock(1, 10, TimeUnit.SECONDS);
+            boolean res = lock.tryLock(10,  TimeUnit.SECONDS);
             if (res) {
                 try {
                     Thread.sleep(2000);
