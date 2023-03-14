@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>oauth2</artifactId>
+    <artifactId>scrap-oauth2</artifactId>
 
     <dependencies>
         <!--        手动加的依赖          -->

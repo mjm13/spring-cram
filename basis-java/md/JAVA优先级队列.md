@@ -7,7 +7,7 @@
   * PriorityBlockingQueue：功能同PriorityQueue额外实现了BlockingQueue接口实现线程安全的读写，内部维护了ReentrantLock在操作队列时加锁保证线程安全。但依然存在内存溢出风险。
 * hutool工具包中优先级队列
   * BoundedPriorityQueue：继承PriorityQueue，增加了数组长度限制，淘汰队列末尾元素。
-# 原理说明
+# 原理简介
 优先级队列中使用数组实现了二叉堆，堆顶(下标为0位置)永远是优先级最高元素。
 由于优先级队列仅保障堆顶为优先级最大，使用二叉堆可有效的减少添加或移除元素后对数组的操作次数，最大程度保障了效率和功能。
 

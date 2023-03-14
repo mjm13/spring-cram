@@ -3,19 +3,18 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>spring-cram</artifactId>
+        <artifactId>scrap-cloud-netflix</artifactId>
         <groupId>com.meijm</groupId>
         <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>cloud-netflix</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>m-eureka</module>
-        <module>m-zuul</module>
-        <module>m-service1</module>
-        <module>m-service2</module>
-    </modules>
+    <artifactId>m-eureka</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+        </dependency>
+    </dependencies>
 </project>
