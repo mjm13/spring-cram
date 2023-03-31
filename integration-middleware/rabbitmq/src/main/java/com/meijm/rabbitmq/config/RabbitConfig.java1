@@ -1,0 +1,43 @@
+package com.meijm.rabbitmq.config;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.MessageListener;
+import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+//@Configuration
+public class RabbitConfig {
+
+    @Autowired
+    private ConnectionFactory connectionFactory;
+
+    @Bean
+    public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory() {
+        SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
+        factory.setConnectionFactory(connectionFactory);
+        return factory;
+    }
+
+    @Bean
+    public SimpleMessageListenerContainer messageListenerContainer() {
+        SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
+        container.setConnectionFactory(connectionFactory);
+        container.setQueueNames("plg-yc-m-test"); //设置要监听的队列
+        container.setMessageListener(new MyMessageListener()); //设置消息监听器
+        container.setConcurrentConsumers(1); //设置并发消费者数量
+        return container;
+    }
+
+    @Slf4j
+    public static class MyMessageListener implements MessageListener {
+        @Override
+        public void onMessage(Message message) {
+            log.info("message:{}",message);
+        }
+    }
+}
