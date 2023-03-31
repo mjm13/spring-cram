@@ -1,0 +1,32 @@
+package com.prolog.rdc.outbound.mq.service;
+
+import com.prolog.framework.core.pojo.Page;
+import com.prolog.product.core.base.pojo.RequestPage;
+import com.prolog.rdc.outbound.mq.entity.ConsumerFailRecord;
+import com.prolog.rdc.outbound.mq.entity.ConsumerFailRecordQueryBO;
+
+import java.util.List;
+
+public interface MQResendService {
+
+    /**
+     * 保存消费失败记录
+     * @param consumerFailRecord 失败记录
+     */
+    void saveRecord(ConsumerFailRecord consumerFailRecord);
+
+    /**
+     * 查询消费失败记录
+     */
+    Page<ConsumerFailRecord> pageRecord(RequestPage<ConsumerFailRecordQueryBO> bo);
+
+    /**
+     * 通过ID批量删除
+     */
+    void deleteRecordByMessageIds(List<String> ids);
+
+    /**
+     * 重发消息
+     */
+    void resendMessage(List<String> ids);
+}
