@@ -24,17 +24,23 @@ public class DynamicRabbitConfig implements ApplicationContextAware {
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        //以业务类型创建exchage
+        DirectExchange exchange = new DirectExchange("plg-yc-exchage");
+        Queue deadLetteQueue = new Queue("plg-yc-m-test-dead-lette",true);
+        rabbitAdmin.declareExchange(exchange);
+        rabbitAdmin.declareQueue(deadLetteQueue);
+        rabbitAdmin.declareBinding(BindingBuilder.bind(deadLetteQueue).to(exchange).with("plg-yc-m-test-dead-lette"));
         for (int i = 0; i < 2; i++) {
             String queueName= "plg-yc-m-test"+i;
-            Queue queue = new Queue(queueName);
-            DirectExchange exchange = new DirectExchange("plg-yc-exchage-"+i);
+            Queue queue = new Queue(queueName,true);
+            //以具体业务创建queue
             rabbitAdmin.declareQueue(queue);
-            rabbitAdmin.declareExchange(exchange);
             rabbitAdmin.declareBinding(BindingBuilder.bind(queue).to(exchange).with(queueName));
 
             DynamicContainer dynamicContainer = applicationContext.getBean(DynamicContainer.class);
+            DynamicMessageListener dynamicMessageListener = applicationContext.getBean(DynamicMessageListener.class);
+            dynamicContainer.setMessageListener(dynamicMessageListener);
             dynamicContainer.setQueueNames(queueName);
-            dynamicContainer.setConcurrentConsumers(1);
             dynamicContainer.start();
         }
     }
