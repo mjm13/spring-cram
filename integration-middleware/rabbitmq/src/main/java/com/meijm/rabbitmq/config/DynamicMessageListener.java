@@ -11,6 +11,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindException;
 
+import java.util.List;
+import java.util.Map;
+
 @Slf4j
 @Scope("prototype")
 @Component
@@ -30,7 +33,9 @@ public class DynamicMessageListener implements ChannelAwareMessageListener {
             process();
             channel.basicAck(deliveryTag, false);
         } catch (Exception e) {
-            message.getMessageProperties().getHeader("x-death");
+//            channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, false);
+//            message.getMessageProperties().getHeader("x-death");
+            List<Map<String, ?>> xDeathHeader = message.getMessageProperties().getXDeathHeader();
             int retryCount = 0 ;
 //            channel.basicReject(deliveryTag, false);
 //                    message.getMessageProperties().getHeader("x-death") != null ?
