@@ -4,6 +4,7 @@ import com.rabbitmq.client.Channel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.AmqpRejectAndDontRequeueException;
 import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.MessageListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.listener.api.ChannelAwareMessageListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +18,13 @@ import java.util.Map;
 @Slf4j
 @Scope("prototype")
 @Component
-public class DynamicMessageListener implements ChannelAwareMessageListener {
+public class DynamicMessageListener implements MessageListener {
     private static String FAIL_COUNT = "failCount";
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
     @Override
-    public void onMessage(Message message, Channel channel) throws Exception {
+    public void onMessage(Message message)  {
         long deliveryTag = message.getMessageProperties().getDeliveryTag();
         Integer count = message.getMessageProperties().getHeader(FAIL_COUNT);
         if (count == null) {
@@ -31,7 +32,6 @@ public class DynamicMessageListener implements ChannelAwareMessageListener {
         }
         try {
             process();
-            channel.basicAck(deliveryTag, false);
         } catch (Exception e) {
 //            channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, false);
 //            message.getMessageProperties().getHeader("x-death");
