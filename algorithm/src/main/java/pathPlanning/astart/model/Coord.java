@@ -2,11 +2,6 @@ package pathPlanning.astart.model;
 
 import lombok.Data;
 
-/**
- * @author JiangZhongXing
- * @create 2019-01-13 9:40 PM
- */
-
 @Data
 public class Coord {
     //坐标集合
