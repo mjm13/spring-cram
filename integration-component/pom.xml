@@ -23,6 +23,7 @@
         <module>statemachine</module>
         <module>udp</module>
         <module>log4j2</module>
+        <module>junit</module>
     </modules>
 
 </project>
