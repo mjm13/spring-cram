@@ -34,7 +34,7 @@ public class Demo1ControllerTest {
         Mockito.when(demoService.insert(Mockito.any())).then(invocation -> 1L);
         ResultActions actions = mvc.perform(post("/demo1/insert").contentType(MediaType.APPLICATION_JSON).content("{\"i\":2,\"str\":\"aaa\",\"lon\":3}"));
         actions.andExpect(status().isOk())
-                .andExpect(content().string("2"));
+                .andExpect(content().string("1"));
     }
 
     @Test
