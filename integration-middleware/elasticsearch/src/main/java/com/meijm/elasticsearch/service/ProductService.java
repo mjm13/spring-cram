@@ -9,13 +9,12 @@ import com.meijm.elasticsearch.entity.Product;
 import com.meijm.elasticsearch.esrepository.ProductRespository;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.aggregations.Aggregation;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.Aggregations;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
-import org.springframework.data.elasticsearch.core.IndexOperations;
-import org.springframework.data.elasticsearch.core.SearchHit;
-import org.springframework.data.elasticsearch.core.SearchHits;
+import org.springframework.data.elasticsearch.core.*;
+import org.springframework.data.elasticsearch.core.clients.elasticsearch7.ElasticsearchAggregations;
 import org.springframework.data.elasticsearch.core.query.*;
 import org.springframework.stereotype.Service;
 
@@ -72,8 +71,10 @@ public class ProductService {
         NativeSearchQueryBuilder queryBuilder = new NativeSearchQueryBuilder();
         queryBuilder.addAggregation(AggregationBuilders.terms(name).field("origin"));
         SearchHits<Product> searchHits =elasticsearchRestTemplate.search(queryBuilder.build(),Product.class);
-        Aggregations aggregations = searchHits.getAggregations();
-        return aggregations.get(name).getMetaData();
+        ElasticsearchAggregations aggregationsContainer = (ElasticsearchAggregations) searchHits.getAggregations();
+        Aggregations aggregations = aggregationsContainer.aggregations();
+        Aggregation aggregation = aggregations.get(name);
+        return aggregation.getMetadata();
     }
 
     public List<Product> criteriaQuery() {

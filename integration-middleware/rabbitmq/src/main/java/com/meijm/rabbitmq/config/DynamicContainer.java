@@ -28,14 +28,14 @@ public class DynamicContainer extends SimpleMessageListenerContainer {
     @PostConstruct
     public void init(){
         this.setConnectionFactory(connectionFactory);
-        this.setAcknowledgeMode(AcknowledgeMode.AUTO);
-        RabbitProperties.SimpleContainer config = rabbitProperties.getListener().getSimple();
-        RabbitProperties.ListenerRetry retryConfig = config.getRetry();
-        if (retryConfig.isEnabled()) {
-            RetryInterceptorBuilder<?, ?> builder = RetryInterceptorBuilder.stateless();
-            builder.retryOperations(retryTemplate);
-            builder.recoverer(recoverer);
-            this.setAdviceChain(builder.build());
-        }
+//        this.setAcknowledgeMode(AcknowledgeMode.AUTO);
+//        RabbitProperties.SimpleContainer config = rabbitProperties.getListener().getSimple();
+//        RabbitProperties.ListenerRetry retryConfig = config.getRetry();
+//        if (retryConfig.isEnabled()) {
+//            RetryInterceptorBuilder<?, ?> builder = RetryInterceptorBuilder.stateless();
+//            builder.retryOperations(retryTemplate);
+//            builder.recoverer(recoverer);
+//            this.setAdviceChain(builder.build());
+//        }
     }
 }

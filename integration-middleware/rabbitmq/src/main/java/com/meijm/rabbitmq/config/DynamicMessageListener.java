@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindException;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
 
@@ -25,43 +26,23 @@ public class DynamicMessageListener implements MessageListener {
 
     @Override
     public void onMessage(Message message)  {
-        long deliveryTag = message.getMessageProperties().getDeliveryTag();
-        Integer count = message.getMessageProperties().getHeader(FAIL_COUNT);
-        if (count == null) {
-            count = 0;
-        }
         try {
-            process();
-        } catch (Exception e) {
-//            channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, false);
-//            message.getMessageProperties().getHeader("x-death");
-            List<Map<String, ?>> xDeathHeader = message.getMessageProperties().getXDeathHeader();
-            int retryCount = 0 ;
-//            channel.basicReject(deliveryTag, false);
-//                    message.getMessageProperties().getHeader("x-death") != null ?
-//                    (int) message.getMessageProperties().getHeader("x-death")[0].get("count") : 0;
-//            if (retryCount >= 3) {
-//                channel.basicReject(deliveryTag, false);
-                // 超过最大重试次数，存储到数据库中
-//                System.out.println("超过最大重试次数");
-//            } else {
-                // 未达到最大重试次数，重新发送消息
-//                channel.basicReject(deliveryTag, false);
-                throw new AmqpRejectAndDontRequeueException("重试消息");
-//            }
-
-//            String exchage = message.getMessageProperties().getReceivedExchange();
-//            String routingKey = message.getMessageProperties().getReceivedRoutingKey();
-//            message.getMessageProperties().setHeader(FAIL_COUNT, ++count);
-//            channel.basicReject(deliveryTag, false);
-//            if (count > 2) {
-//                message.getMessageProperties().setHeader("old-exchage", exchage);
-//                message.getMessageProperties().setHeader("old-routingKey", routingKey);
-//                rabbitTemplate.sendAndReceive(exchage, getDeadLette(), message);
-//            } else {
-//                rabbitTemplate.sendAndReceive(exchage, routingKey, message);
-//            }
+            log.info(new String(message.getBody(),"UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
         }
+
+        throw new RuntimeException("测试重试");
+//        long deliveryTag = message.getMessageProperties().getDeliveryTag();
+//        Integer count = message.getMessageProperties().getHeader(FAIL_COUNT);
+//        if (count == null) {
+//            count = 0;
+//        }
+//        try {
+//            process();
+//        } catch (Exception e) {
+//                throw new AmqpRejectAndDontRequeueException("重试消息");
+//        }
 
 
     }
