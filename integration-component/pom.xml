@@ -24,6 +24,7 @@
         <module>udp</module>
         <module>log4j2</module>
         <module>junit</module>
+        <module>jpa-sqlite</module>
     </modules>
 
 </project>
