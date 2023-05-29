@@ -25,6 +25,7 @@
         <module>log4j2</module>
         <module>junit</module>
         <module>jpa-sqlite</module>
+        <module>tianai-captcha</module>
     </modules>
 
 </project>
