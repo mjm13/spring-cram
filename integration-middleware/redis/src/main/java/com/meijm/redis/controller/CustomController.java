@@ -2,6 +2,7 @@ package com.meijm.redis.controller;
 
 import cn.hutool.core.util.StrUtil;
 import com.meijm.redis.service.CommonService;
+import com.meijm.redis.service.SlidingWindowCounter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -22,6 +23,17 @@ public class CustomController {
 
     @Autowired
     private RedisTemplate redisTemplate;
+    @Autowired
+    private SlidingWindowCounter slidingWindowCounter;
+
+    @GetMapping("/test")
+    public long test() {
+        for (int i = 0; i <10 ; i++) {
+            slidingWindowCounter.addData();
+        }
+        return slidingWindowCounter.getCount();
+    }
+
 
     @GetMapping("/setTemp")
     public void setTemp(String key,String value) {
