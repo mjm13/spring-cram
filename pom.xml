@@ -37,6 +37,7 @@
         <module>toolbox</module>
         <module>cloud-alibaba</module>
         <module>algorithm</module>
+        <module>integration-component/actuator</module>
     </modules>
 
 
