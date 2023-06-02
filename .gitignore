@@ -45,3 +45,4 @@ build/
 /logs-roketmq/*.gz
 /mjm13@126.com
 /mjm13@126.com.pub
+log-actuator
