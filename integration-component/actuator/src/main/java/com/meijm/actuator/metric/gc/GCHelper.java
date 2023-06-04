@@ -6,7 +6,7 @@ import java.util.List;
 
 public class GCHelper {
 
-    public static FullGCInfo getGCInfo(){
+    public  FullGCInfo getGCInfo(){
         List<GarbageCollectorMXBean> list = ManagementFactory.getGarbageCollectorMXBeans();
         for(GarbageCollectorMXBean b : list){
             if(GcGenerationAge.fromName(b.getName()) == GcGenerationAge.OLD){

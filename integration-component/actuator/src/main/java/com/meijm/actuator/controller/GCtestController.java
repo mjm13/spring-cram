@@ -11,9 +11,10 @@ public class GCtestController {
 
     /**
      * 刷内存，执行之后访问
+     * http://localhost:8080/actuator/metrics/jvm.gc.pause?tag=action:end%20of%20major%20GC
      * 服务启动内存-Xms100m -Xmx200m
      * 查看fullgc次数及耗时
-     * 命令行验证  jstat -gc 进程id 5000
+     * 命令行验证  jstat -gc 进程id 1000
      * @return
      */
     @GetMapping("/")
