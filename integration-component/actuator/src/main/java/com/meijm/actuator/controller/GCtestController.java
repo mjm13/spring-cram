@@ -1,10 +1,15 @@
 package com.meijm.actuator.controller;
 
+import com.meijm.actuator.metric.custom.CustomMetrics;
+import io.micrometer.core.instrument.FunctionTimer;
+import io.micrometer.core.instrument.MeterRegistry;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 public class GCtestController {
@@ -17,8 +22,8 @@ public class GCtestController {
      * 命令行验证  jstat -gc 进程id 1000
      * @return
      */
-    @GetMapping("/")
-    public String index(){
+    @GetMapping("/startGc")
+    public String startGc(){
         new Thread(() -> {
             int i = 0;
             List<String> arr = new ArrayList<>();
@@ -70,5 +75,20 @@ public class GCtestController {
             }while (true);
         }).start();
         return "index";
+    }
+
+    @Autowired
+    private MeterRegistry registry;
+
+    @GetMapping("/triggerCustomMetrics")
+    public String triggerCustomMetrics(){
+        FunctionTimer.builder("mjm.metrics", this, value -> {
+                    return 20;
+                }, value -> {
+                    return 30;
+                }, TimeUnit.SECONDS)
+                .description("test CustomMetrics")
+                .register(registry);
+        return "over";
     }
 }

@@ -13,19 +13,21 @@ import java.util.concurrent.TimeUnit;
 public class FullGcMetric {
 
     public FullGcMetric(MeterRegistry registry){
-//        Map<String,Long> map = new HashMap<>();
-//        FullGCInfo info = GCHelper.getGCInfo();
-//        map.put("time",info.getGcTime());
-//        map.put("count",info.getGcCount());
-//        registry.gaugeMapSize("jvm.gc.fullgc", Tags.empty(),map);
-        FullGCInfo info = new FullGCInfo();
-        FunctionTimer.builder("plg.jvm.gc.fullgc", info, temp -> {
-                    return temp.getGcCount();
-                }, temp -> {
-                    return temp.getGcTime();
-                }, TimeUnit.MILLISECONDS)
-                .description("test CustomGCMetrics")
-                .register(registry);
+        Map<String,Long> map = new HashMap<>();
+        FullGCInfo info = new GCHelper().getGCInfo();
+        map.put("time",info.getGcTime());
+        map.put("count",info.getGcCount());
+        registry.gaugeMapSize("jvm.gc.fullgc", Tags.empty(),map);
+
+
+//        GCHelper gcHelper = new GCHelper();
+//        FunctionTimer.builder("plg.jvm.gc.fullgc", gcHelper, temp -> {
+//                    return gcHelper.getGCInfo().getGcCount();
+//                }, temp -> {
+//                    return gcHelper.getGCInfo().getGcTime();
+//                }, TimeUnit.MILLISECONDS)
+//                .description("test CustomMetrics")
+//                .register(registry);
     }
 
 }
