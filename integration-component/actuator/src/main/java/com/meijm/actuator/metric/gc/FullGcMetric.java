@@ -17,7 +17,7 @@ public class FullGcMetric {
         FullGCInfo info = new GCHelper().getGCInfo();
         map.put("time",info.getGcTime());
         map.put("count",info.getGcCount());
-        registry.gaugeMapSize("jvm.gc.fullgc", Tags.empty(),map);
+        registry.gaugeMapSize("111jvm.gc.fullgc", Tags.empty(),map);
 
 
 //        GCHelper gcHelper = new GCHelper();

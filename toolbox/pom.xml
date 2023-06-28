@@ -13,6 +13,14 @@
     <description>工具包例子</description>
 
     <dependencies>
+<!--  离线多因子认证      -->
+        <!-- https://mvnrepository.com/artifact/dev.samstevens.totp/totp -->
+        <dependency>
+            <groupId>dev.samstevens.totp</groupId>
+            <artifactId>totp</artifactId>
+            <version>1.7.1</version>
+        </dependency>
+
 <!--        FTP上传-->
         <dependency>
             <groupId>commons-net</groupId>
@@ -70,4 +78,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>

@@ -13,7 +13,7 @@ public class CustomMetrics implements MeterBinder {
     @Override
     public void bindTo(MeterRegistry registry) {
         GCHelper gcHelper = new GCHelper();
-        FunctionTimer.builder("plg.jvm.gc.fullgc", gcHelper, temp -> {
+        FunctionTimer.builder("jvm.gc.fullgc", gcHelper, temp -> {
                     return gcHelper.getGCInfo().getGcCount();
                 }, temp -> {
                     return gcHelper.getGCInfo().getGcTime();
