@@ -13,6 +13,11 @@
     <description>工具包例子</description>
 
     <dependencies>
+        <dependency>
+            <groupId>com.alibaba.cola</groupId>
+            <artifactId>cola-component-statemachine</artifactId>
+            <version>4.3.2</version>
+        </dependency>
 <!--  离线多因子认证      -->
         <!-- https://mvnrepository.com/artifact/dev.samstevens.totp/totp -->
         <dependency>
