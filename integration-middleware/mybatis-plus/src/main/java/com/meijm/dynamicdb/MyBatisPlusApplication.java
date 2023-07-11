@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@MapperScan("com.meijm.mybatisplus.mapper")
+@MapperScan("com.meijm.dynamicdb.mapper")
 public class MyBatisPlusApplication {
 
     public static void main(String[] args) {
