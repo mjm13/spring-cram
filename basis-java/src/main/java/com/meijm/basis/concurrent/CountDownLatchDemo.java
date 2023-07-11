@@ -10,9 +10,9 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class CountDownLatchDemo {
     public static void main(String[] args) throws InterruptedException {
-        final CountDownLatch latch = new CountDownLatch(7);
+        final CountDownLatch latch = new CountDownLatch(20);
         ExecutorService service = Executors.newCachedThreadPool();
-        for (int i = 1; i <=7 ; i++) {
+        for (int i = 1; i <=20 ; i++) {
             service.execute(new CountDownLatchThread("thread-"+i,latch));
         }
         latch.await();
