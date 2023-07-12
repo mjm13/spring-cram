@@ -21,6 +21,7 @@
         <module>customSecurity</module>
 <!--        <module>scrap-oauth2</module>-->
         <module>statemachine</module>
+        <module>actuator</module>
         <module>udp</module>
         <module>log4j2</module>
         <module>junit</module>

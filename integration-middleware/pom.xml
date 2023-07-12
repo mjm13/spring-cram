@@ -28,8 +28,10 @@
         <module>mybatis</module>
         <module>redis-redisson</module>
         <module>dynamic-datasource</module>
+        <module>redis-custom</module>
         <module>mini-db</module>
         <module>rabbitmq</module>
+        <module>jetcache</module>
     </modules>
 
     <dependencies>
