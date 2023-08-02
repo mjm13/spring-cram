@@ -27,6 +27,7 @@
         <module>junit</module>
         <module>jpa-sqlite</module>
         <module>tianai-captcha</module>
+        <module>stomp</module>
     </modules>
 
 </project>
