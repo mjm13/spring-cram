@@ -19,7 +19,7 @@
 
     <dependencies>
 <!--        <dependency>-->
-<!--            <groupId>com.prolog.product.core</groupId>-->
+<!--            <groupId>com.meijm.product.core</groupId>-->
 <!--            <artifactId>upcloud-product-core-rabbitmq-reliable</artifactId>-->
 <!--            <version>4.0.0.std-SNAPSHOT</version>-->
 <!--        </dependency>-->

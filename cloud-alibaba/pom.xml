@@ -13,14 +13,17 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>cmb-service</module>
-        <module>icbc-service</module>
-        <module>transfer-service</module>
+        <module>seata-demo2</module>
+        <module>seata-demo1</module>
     </modules>
 
 
 
     <dependencies>
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-seata</artifactId>
+        </dependency>
         <dependency>
             <groupId>javax.interceptor</groupId>
             <artifactId>javax.interceptor-api</artifactId>

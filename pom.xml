@@ -37,6 +37,7 @@
         <module>toolbox</module>
         <module>cloud-alibaba</module>
         <module>algorithm</module>
+        <module>cloud-alibaba/seata-demo1</module>
     </modules>
 
 
