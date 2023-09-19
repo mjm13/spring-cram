@@ -8,14 +8,8 @@
         <version>1.0.0</version>
     </parent>
 
-    <name>seata-demo1</name>
-    <artifactId>seata-demo2</artifactId>
+    <name>nacos-demo</name>
+    <artifactId>nacos-demo</artifactId>
     <packaging>jar</packaging>
 
-    <dependencies>
-        <dependency>
-            <groupId>io.seata</groupId>
-            <artifactId>seata-spring-boot-starter</artifactId>
-        </dependency>
-    </dependencies>
 </project>

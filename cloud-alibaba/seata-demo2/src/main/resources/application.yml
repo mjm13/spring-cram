@@ -1,0 +1,43 @@
+
+spring:
+  application:
+    name: seata-demo2
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8
+    username: root
+    password: root
+
+
+seata:
+  enabled: true
+  
+  tx-service-group: default
+  enable-auto-data-source-proxy: true
+  service:
+    vgroup-mapping:
+      default: plg-seata-server
+  registry:
+    type: eureka
+    eureka:
+      weight: 1
+      service-url: http://admin:prolog00212@192.168.1.21:6001/eureka/
+
+# eureka
+eureka:
+  client:
+    service-url:
+      defaultZone: http://admin:prolog00212@192.168.1.21:6001/eureka/
+    enabled: true
+  instance:
+    app-group-name: SEATA-DEMO
+prolog:
+  apidoc:
+    title: "seata-demo2"
+    basePackage: com.prolog.seataDemo2.controller
+
+logging:
+  level:
+    root: info
+server:
+  port: 9091

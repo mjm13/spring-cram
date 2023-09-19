@@ -15,15 +15,13 @@
     <modules>
         <module>seata-demo2</module>
         <module>seata-demo1</module>
+        <module>nacos-demo</module>
+        <module>gateway-demo</module>
     </modules>
 
 
 
     <dependencies>
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-seata</artifactId>
-        </dependency>
         <dependency>
             <groupId>javax.interceptor</groupId>
             <artifactId>javax.interceptor-api</artifactId>
