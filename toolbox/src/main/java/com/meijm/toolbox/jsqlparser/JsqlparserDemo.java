@@ -69,7 +69,7 @@ public class JsqlparserDemo {
                 "JOIN sys_dept sd ON su.dept_id = sd.dept_id\n" +
                 "JOIN sys_user_role sur ON sur.user_id = su.user_id\n" +
                 "JOIN sys_role sr ON sur.role_id = sr.role_id\n" +
-                "WHERE  %@cc,dd@%  %@aaa,bbb,and@%\n" +
+                "WHERE  \n" +
                 "\tsd.dept_name = '研发部门'\n" +
                 "\tand su.user_name = 'admin'\n" +
                 "\tand su.dept_id = 103\n" +
@@ -77,15 +77,15 @@ public class JsqlparserDemo {
                 "ORDER BY\n" +
                 "\tsd.create_time DESC";
 
-        String regex = "%@(.*?)@%";
-        List<String> temps =  ReUtil.findAll(regex,sqlStr,0);
-        temps.stream().forEach(s -> {
-            System.out.println("1111");
-            System.out.println(s);
-        });
-        if (true){
-            return;
-        }
+//        String regex = "%@(.*?)@%";
+//        List<String> temps =  ReUtil.findAll(regex,sqlStr,0);
+//        temps.stream().forEach(s -> {
+//            System.out.println("1111");
+//            System.out.println(s);
+//        });
+//        if (true){
+//            return;
+//        }
         Select querySql = (Select) CCJSqlParserUtil.parse(sqlStr);
         querySql.getSelectBody().accept(new SelectVisitorAdapter() {
             @Override
@@ -105,6 +105,12 @@ public class JsqlparserDemo {
                 });
                 log.info("--------------From Table Info----------------------------------------");
                 log.info(plainSelect.getFromItem().toString());
+                if (plainSelect.getFromItem().getPivot() != null) {
+                    log.info(plainSelect.getFromItem().getPivot().toString());
+                }
+                if (plainSelect.getFromItem().getUnPivot() != null) {
+                    log.info(plainSelect.getFromItem().getUnPivot().toString());
+                }
                 if (plainSelect.getFromItem().getAlias() != null) {
                     log.info("表别名" + plainSelect.getFromItem().getAlias().getName());
                 }

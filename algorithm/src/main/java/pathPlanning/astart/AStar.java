@@ -10,8 +10,11 @@ import java.util.stream.Collectors;
 public class AStar {
     private List<Coord> coords;
     private Map<String, Coord> mapInfoMap;
+    //待探测节点
     private Queue<Node> openList = new PriorityQueue<Node>(); // 优先队列(升序);
+    //已探测过的节点
     private List<Coord> closeList = new ArrayList<Coord>();
+    //结束节点
     private Node endNode;
 
     public Node start(List<Coord> coords, Coord start, Coord end) {
@@ -38,6 +41,9 @@ public class AStar {
             if (closeList.contains(info)) {
                 continue;
             }
+            if (this.endNode.getCoord().equals(current.getCoord())) {
+                return current;
+            }
             closeList.add(info);
             if (info.isDown()) {
                 addCoord(current, info.getX(), info.getY() + 1);
@@ -52,9 +58,7 @@ public class AStar {
                 addCoord(current, info.getX() - 1, info.getY());
             }
 
-            if (this.endNode.getCoord().equals(current.getCoord())) {
-                return current;
-            }
+
         }
         return null;
     }

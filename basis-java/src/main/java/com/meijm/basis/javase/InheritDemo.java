@@ -3,7 +3,7 @@ package com.meijm.basis.javase;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * @Description 继承边界测试
+ * @Description 继承边界测试，查看重载后实体执行结果
  * @Author MeiJM
  * @Date 2022/4/27
  **/

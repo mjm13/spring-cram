@@ -5,11 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Slf4j
-@Component
+//@Component
 public class A {
     public A(){
         log.info("初始化A");
     }
-    @Autowired
+//    @Autowired
     private B b;
 }
