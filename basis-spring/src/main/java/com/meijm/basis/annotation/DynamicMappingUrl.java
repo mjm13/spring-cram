@@ -3,6 +3,7 @@ package com.meijm.basis.annotation;
 import cn.hutool.json.JSONUtil;
 import com.meijm.basis.dto.PageQueryDto;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.lang.reflect.InvocationTargetException;
@@ -22,7 +23,7 @@ public class DynamicMappingUrl {
         this.source = source;
     }
 
-    public String addMapping(Map<String,String> param){
+    public String addMapping(@RequestParam Map<String,String> param){
         log.info("in addMapping:{}", JSONUtil.toJsonStr(param));
         param.put("location","DynamicMappingUrl");
         try {
@@ -31,6 +32,16 @@ public class DynamicMappingUrl {
             throw new RuntimeException(e);
         }
         return JSONUtil.toJsonStr(param);
+    }
+
+    public void addVoidMapping(Map<String,String> param){
+        log.info("in addMapping:{}", JSONUtil.toJsonStr(param));
+        param.put("location","DynamicMappingUrl");
+        try {
+            method.invoke(source,param);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
 

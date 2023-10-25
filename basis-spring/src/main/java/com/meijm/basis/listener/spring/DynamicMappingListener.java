@@ -46,6 +46,13 @@ public class DynamicMappingListener implements ApplicationListener<ContextRefres
                                 .options(options)
                                 .build();
                         handlerMapping.registerMapping(info,dmu,DynamicMappingUrl.class.getMethod("addMapping", Map.class));
+
+                        RequestMappingInfo voidInfo = RequestMappingInfo
+                                .paths(path+"_void")
+                                .methods(RequestMethod.GET)
+                                .options(options)
+                                .build();
+                        handlerMapping.registerMapping(voidInfo,dmu,DynamicMappingUrl.class.getMethod("addVoidMapping", Map.class));
                     } catch (NoSuchMethodException e) {
                         throw new RuntimeException(e);
                     }
