@@ -1,0 +1,9 @@
+
+spring:
+  application:
+    name: demo
+logging:
+  level:
+    root: info
+server:
+  port: 10001

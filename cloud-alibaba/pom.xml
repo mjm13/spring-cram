@@ -17,6 +17,7 @@
         <module>seata-demo1</module>
         <module>nacos-demo</module>
         <module>gateway-demo</module>
+        <module>demo</module>
     </modules>
 
 
