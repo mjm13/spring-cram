@@ -20,39 +20,39 @@ public class AstartTest {
             mapInfo.setId(zIndex+xIndex+yIndex);
             mapInfo.setX(x);
             mapInfo.setY(y);
-            if(x ==1){
+             if(x==2 &&  y%5==0){
                 mapInfo.setDown(true);
                 mapInfo.setUp(true);
                 mapInfo.setLeft(true);
                 mapInfo.setRight(true);
-            }else if(x==2 &&  y%5==0){
+            }else if(x%5 ==0 && y!= 1 && y!= 5 && y!= 10){
                 mapInfo.setDown(true);
                 mapInfo.setUp(true);
+                mapInfo.setLeft(false);
+                mapInfo.setRight(false);
+            }else if(x ==1){
+                 mapInfo.setDown(true);
+                 mapInfo.setUp(true);
+                 mapInfo.setLeft(true);
+                 mapInfo.setRight(true);
+             }else if( y==1){
                 mapInfo.setLeft(true);
                 mapInfo.setRight(true);
+                mapInfo.setDown(true);
+                mapInfo.setUp(true);
             }else if(x==2 ){
                 mapInfo.setDown(true);
                 mapInfo.setUp(true);
                 mapInfo.setLeft(true);
                 mapInfo.setRight(false);
-            }else if (x%5 ==0 && y%5==0) {
+            }else if (y%5==0) {
                 mapInfo.setDown(true);
                 mapInfo.setUp(true);
                 mapInfo.setLeft(true);
                 mapInfo.setRight(true);
-            }else if(x%5 ==0){
-                mapInfo.setDown(true);
-                mapInfo.setUp(true);
-                mapInfo.setLeft(false);
-                mapInfo.setRight(false);
-            }else if(y%5==0){
-                mapInfo.setLeft(true);
-                mapInfo.setRight(true);
-                mapInfo.setDown(false);
-                mapInfo.setUp(false);
             }else{
-                mapInfo.setDown(false);
-                mapInfo.setUp(false);
+                mapInfo.setDown(true);
+                mapInfo.setUp(true);
                 mapInfo.setLeft(false);
                 mapInfo.setRight(false);
             }
@@ -61,9 +61,9 @@ public class AstartTest {
 
         AStar aStar = new AStar();
         Coord start = new Coord();
-        start.setId("0100010001");
+        start.setId("0100030001");
         Coord end = new Coord();
-        end.setId("0100100009");
+        end.setId("0100070010");
         Node endNode = aStar.start(mapInfos,start,end);
         aStar.printMap();
 
