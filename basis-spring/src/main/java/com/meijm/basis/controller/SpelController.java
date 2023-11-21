@@ -1,6 +1,7 @@
 package com.meijm.basis.controller;
 
 import cn.hutool.json.JSONUtil;
+import com.google.common.collect.ImmutableList;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.expression.EvaluationContext;
 import org.springframework.expression.ExpressionParser;
@@ -28,8 +29,41 @@ public class SpelController {
 
         TempSpel tempSpel = new TempSpel();
         map.put("tempSpel",tempSpel);
+        
         parser.parseExpression("# map['tempSpel']['temp']").setValue(context,"bbb");
+
+        TempSpel temp1 = new TempSpel();
+        TempSpel temp2 = new TempSpel();
+        TempSpel temp3 = new TempSpel();
+        TempSpel temp4 = new TempSpel();
+        TempSpel temp5 = new TempSpel();
+        map.put("list", ImmutableList.of(temp1,temp2,temp3,temp4,temp5));
+        parser.parseExpression("# map['list']['temp']").setValue(context,"bbb");
+        
         return map;
+    }
+
+    public static void main(String[] args) {
+        Map<String,Object> map = new HashMap<>();
+        StandardEvaluationContext context = new StandardEvaluationContext();
+        context.setVariable("map", map);
+        ExpressionParser parser = new SpelExpressionParser();
+        parser.parseExpression("# map['test']").setValue(context,"aaaaa");
+
+        TempSpel tempSpel = new TempSpel();
+        map.put("tempSpel",tempSpel);
+
+        parser.parseExpression("# map['tempSpel']['temp']").setValue(context,"bbb");
+
+//        TempSpel temp1 = new TempSpel();
+//        TempSpel temp2 = new TempSpel();
+//        TempSpel temp3 = new TempSpel();
+//        TempSpel temp4 = new TempSpel();
+//        TempSpel temp5 = new TempSpel();
+//        map.put("list", ImmutableList.of(temp1,temp2,temp3,temp4,temp5));
+//        parser.parseExpression("# map['list'].?[# temp]").setValue(context,"bbb");
+        System.out.println(JSONUtil.toJsonStr(map));
+
     }
 
 }
