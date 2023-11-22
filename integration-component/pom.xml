@@ -28,6 +28,7 @@
         <module>jpa-sqlite</module>
         <module>tianai-captcha</module>
         <module>stomp</module>
+        <module>jackson-crypto</module>
     </modules>
 
 </project>
