@@ -8,7 +8,7 @@
     </parent>
 
     <groupId>com.prolog.framework.datasecurity</groupId>
-    <artifactId>jackson-crypto</artifactId>
+    <artifactId>jackson-custom</artifactId>
     <packaging>jar</packaging>
 
     <name>jackson-crypto</name>
