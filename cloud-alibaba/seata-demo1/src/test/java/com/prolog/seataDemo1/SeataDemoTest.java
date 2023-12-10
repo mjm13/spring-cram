@@ -2,7 +2,7 @@ package com.prolog.seataDemo1;
 
 import cn.hutool.http.HttpUtil;
 import lombok.extern.log4j.Log4j2;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.CountDownLatch;
 
