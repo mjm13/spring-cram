@@ -48,14 +48,24 @@ public class ThreadLocalDemo {
             fc("子线程修改为1");
             latch.countDown();
         }));
+//        executorService.submit(() -> {
+//            fc("子线程修改前为0");
+//            setLocal("1");
+//            fc("子线程修改为1");
+//            latch.countDown();
+//        });
 
         latch.await();
 
         CountDownLatch latch2 = new CountDownLatch(1);
         executorService.submit(TtlRunnable.get(() -> {
-            fc("其它线程查看");
+            fc("差异");
             latch2.countDown();
         }));
+//        executorService.submit(() -> {
+//            fc("其它线程查看");
+//            latch2.countDown();
+//        });
         latch2.await();
 
         fc("主线程修改前0");
@@ -64,9 +74,13 @@ public class ThreadLocalDemo {
 
         CountDownLatch latch3 = new CountDownLatch(1);
         executorService.submit(TtlRunnable.get(() -> {
-            fc("其它线程查看");
+            fc("差异");
             latch3.countDown();
         }));
+//        executorService.submit(() -> {
+//            fc("其它线程查看");
+//            latch3.countDown();
+//        });
         latch3.await();
         log.info("执行结束");
     }

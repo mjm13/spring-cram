@@ -32,6 +32,8 @@
         <module>mini-db</module>
         <module>rabbitmq</module>
         <module>jetcache</module>
+        <module>mongodb</module>
+        <module>spring-stream</module>
     </modules>
 
     <dependencies>
