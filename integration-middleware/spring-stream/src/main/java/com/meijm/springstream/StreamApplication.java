@@ -10,24 +10,10 @@ import org.springframework.integration.channel.DirectChannel;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.SubscribableChannel;
 
-@EnableBinding(Source.class)
 @SpringBootApplication
 public class StreamApplication {
     public static void main(String[] args) {
         SpringApplication.run(StreamApplication.class, args);
     }
-    @Bean
-    public Sink sink() {
-        return new Sink() {
-            @Override
-            public SubscribableChannel input() {
-                return null;
-            }
-        };
-    }
 
-    @Bean
-    public MessageChannel input() {
-        return new DirectChannel();
-    }
 }
