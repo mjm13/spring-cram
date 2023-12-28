@@ -1,0 +1,27 @@
+
+spring:
+  application:
+    name: basis
+
+server:
+  port: 8080
+  
+
+custom:
+  complex:
+    test: aaa
+    mapList:
+      - addresses: 192.168.1.17:5672
+        username: root
+        password: root
+        virtual-host: /
+      - addresses: 192.168.1.18:5672
+        username: common
+        password: prolog-mq-20191229
+        virtual-host: /
+    mapMap:
+      "[10.196.132.71]":
+        ip: 10.196.132.71
+        username: admin
+        pwd: sany318!
+        port: 8000    
