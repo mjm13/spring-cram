@@ -18,8 +18,15 @@ git config --global http.sslVerify "false"
 
 ```
 git config --global http.proxy 'socks5://127.0.0.1:49776' 
+```
+
+```
 git config --global https.proxy 'socks5://127.0.0.1:49776'
 ```
+
+
+
+
 
 查看代理：
 
