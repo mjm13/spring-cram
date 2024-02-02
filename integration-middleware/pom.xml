@@ -34,6 +34,7 @@
         <module>jetcache</module>
         <module>mongodb</module>
         <module>spring-stream</module>
+        <module>oceanbase</module>
     </modules>
 
     <dependencies>
