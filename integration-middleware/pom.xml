@@ -35,6 +35,7 @@
         <module>mongodb</module>
         <module>spring-stream</module>
         <module>oceanbase</module>
+        <module>rabbitmq-manual</module>
     </modules>
 
     <dependencies>
