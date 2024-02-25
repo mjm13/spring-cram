@@ -18,6 +18,9 @@ public class SendController {
     @Autowired
     private Channel channel;
 
+    /**
+     * 创建消息监听
+     */
     @PostConstruct
     public void init(){
         try {
@@ -26,12 +29,18 @@ public class SendController {
                 System.out.println("Received message: " + message);
             };
             // 将监听器添加到队列
-            channel.basicConsume("hello", true, deliverCallback, consumerTag -> {});
+            channel.basicConsume("temp-queue", true, deliverCallback, consumerTag -> {});
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
+    /**
+     * http://localhost:8080/send?message=bbb 
+     * 发送消息示例
+     * @param message
+     * @return
+     */
     @GetMapping("/send")
     public String sendMessage(String message){
         try {

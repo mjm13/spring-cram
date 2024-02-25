@@ -17,10 +17,10 @@ public class RabbitMqConfig {
         try {
             ConnectionFactory factory = new ConnectionFactory();
             // 设置连接参数
-            factory.setHost("localhost");
+            factory.setHost("192.168.110.200");
             factory.setPort(5672);
-            factory.setUsername("guest");
-            factory.setPassword("guest");
+            factory.setUsername("admin");
+            factory.setPassword("prolog0212");
             Channel channel =  factory.newConnection().createChannel();
             channel.queueDeclare("temp-queue",false,false,false,null);
             channel.exchangeDeclare("temp-exchange", BuiltinExchangeType.DIRECT);

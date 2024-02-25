@@ -25,7 +25,6 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         }
         Set<String> dbAuthsSet = new HashSet<String>();
         dbAuthsSet.add("customUser");
-
         Collection<? extends GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(dbAuthsSet.toArray(new String[0]));
         return new CustomAuthenticationToken(secretKey, secretKey, authorities);
     }

@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @EnableRabbit
 @SpringBootApplication
-public class RabbitMqApplication {
+public class RabbitMqManualApplication {
     public static void main(String[] args) {
-        SpringApplication.run(RabbitMqApplication.class, args);
+        SpringApplication.run(RabbitMqManualApplication.class, args);
     }
 }
