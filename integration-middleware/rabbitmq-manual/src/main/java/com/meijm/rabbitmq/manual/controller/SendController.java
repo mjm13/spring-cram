@@ -23,6 +23,8 @@ public class SendController {
      */
     @PostConstruct
     public void init(){
+        long a = 945026673617801216L;
+        
         try {
             DeliverCallback deliverCallback = (consumerTag, delivery) -> {
                 String message = new String(delivery.getBody(), "UTF-8");
