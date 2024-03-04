@@ -10,7 +10,7 @@ import dev.samstevens.totp.time.TimeProvider;
 
 public class CodeCheck {
     public static void main(String[] args) throws CodeGenerationException, InterruptedException {
-
+        
 // 生成密钥key
         String secret = "test";
 
