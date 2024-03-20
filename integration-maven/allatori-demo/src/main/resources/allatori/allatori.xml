@@ -1,0 +1,46 @@
+<config>
+    <input>
+        <jar in="zxgcs-2.0.0.1-SNAPSHOT.jar" out="plg-gcs.jar"/>
+    </input>
+
+    <keep-names>
+        <!--<class template="class *.TestFrame"/>-->
+        <class access="protected+">
+            <field access="protected+" />
+            <method access="protected+" />
+        </class>
+        <!-- 视图层的方法参数名称不做混淆，否则传参会对应不上，不怕麻烦的也可以加@RequestParam指定入参名称 -->
+        <class template="class *Controller">
+            <method template="private+ *(**)" parameters="keep"/>
+        </class>
+    </keep-names>
+    <ignore-classes>
+        <!-- 注意：spring的框架相关的文件需要排除，避免启动报错 -->
+        <class template="class *Application*"/>
+        <class template="class *springframework*"/>
+        <class template="class *.netty.*"/>
+        <class template="class *.apache.*"/>
+        <class template="class *shardingjdbc*" />
+        <class template="class *.jni.*" />
+        <class template="class *.alibaba.*"/>
+        <class template="class *.persistence.*"/>
+        <class template="class *.google.*"/>
+        <class template="class *.bouncycastle.*"/>
+        <class template="class *.eclipse.*"/>
+        <class template="class *.sun.*"/>
+        <class template="class *java*"/>
+        <class template="class *lombok*"/>
+        <class template="class *kotlin*"/>
+        <class template="class *logback*"/>
+        <class template="class org.*"/>
+        <class template="class ch.*"/>
+        <class template="class *.github.*"/>
+        <!-- 排除业务类 -->
+        <class template="class com.meijm.allatori.controller.*" />
+    </ignore-classes>
+    <!-- 到期时间(到期后无法启动jar) 格式：yyyy/mm/dd-->
+<!--    <expiry date="2021/01/01" string="SERVICE EXPIRED!"/>-->
+    <!-- 随机命名混淆字符，默认用当前时间，每次打包混淆的类名、变量名都不一样，如果做了配置那么两次打包内容就一样-->
+<!--    <property name="random-seed" value="abcdef ghnljk svi"/>-->
+    <property name="log-file" value="log.xml"/>
+</config>

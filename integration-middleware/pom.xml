@@ -36,7 +36,6 @@
         <module>spring-stream</module>
         <module>oceanbase</module>
         <module>rabbitmq-manual</module>
-        <module>mvnpackage</module>
     </modules>
 
     <dependencies>

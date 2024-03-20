@@ -6,7 +6,6 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.6.3</version>
-        <relativePath/>
     </parent>
 
     <groupId>com.meijm</groupId>
@@ -37,6 +36,7 @@
         <module>toolbox</module>
         <module>cloud-alibaba</module>
         <module>algorithm</module>
+        <module>integration-maven</module>
     </modules>
 
 
