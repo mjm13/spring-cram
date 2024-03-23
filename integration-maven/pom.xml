@@ -16,6 +16,7 @@
     <modules>
         <module>mvnpackage</module>
         <module>allatori-demo</module>
+        <module>temp</module>
     </modules>
     
     <dependencies>
