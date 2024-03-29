@@ -29,13 +29,13 @@
         <module>redis-redisson</module>
         <module>dynamic-datasource</module>
         <module>redis-custom</module>
-        <module>mini-db</module>
         <module>rabbitmq</module>
         <module>jetcache</module>
         <module>mongodb</module>
         <module>spring-stream</module>
         <module>oceanbase</module>
         <module>rabbitmq-manual</module>
+        <module>clickhouse</module>
     </modules>
 
     <dependencies>
