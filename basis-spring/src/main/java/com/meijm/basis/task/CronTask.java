@@ -8,11 +8,18 @@ import org.springframework.stereotype.Component;
  * 测试执行是否会重复触发
  */
 @Slf4j
-//@Component
+@Component
 public class CronTask {
 //    @Scheduled(cron="*/1 * * * * *")
     public void doSomething() throws InterruptedException {
         log.info("任务执行中");
         Thread.sleep(2000);
+    }
+
+
+    @Scheduled(fixedRate = 10000)
+    public void test() {
+        log.info("任务执行中");
+        throw new RuntimeException("111");
     }
 }
