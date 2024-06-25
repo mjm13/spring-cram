@@ -17,7 +17,7 @@ public class CronTask {
     }
 
 
-    @Scheduled(fixedRate = 5000)
+//    @Scheduled(fixedRate = 5000)
     public void test() {
         log.info("任务执行中");
         throw new RuntimeException("111");
