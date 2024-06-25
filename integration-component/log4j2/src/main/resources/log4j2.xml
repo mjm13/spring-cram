@@ -38,6 +38,9 @@ Configuration后面的status，这个用于设置log4j2自身内部的信息输�
 
         </console>
 
+        <custom name="Custom" ignoreExceptions="true">
+        </custom>
+
         <!--文件会打印出所有信息，这个log每次运行程序会自动清空，由append属性决定，适合临时测试用-->
         <File name="FileLog" fileName="${FILE_PATH}/test.log" append="false">
             <PatternLayout pattern="${LOG_PATTERN}"/>
@@ -107,6 +110,7 @@ Configuration后面的status，这个用于设置log4j2自身内部的信息输�
 
         <root level="info">
             <appender-ref ref="Console"/>
+            <appender-ref ref="Custom"/>
             <appender-ref ref="FileLog"/>
             <appender-ref ref="RollingFileInfo"/>
             <appender-ref ref="RollingFileWarn"/>
