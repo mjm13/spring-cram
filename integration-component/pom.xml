@@ -29,6 +29,7 @@
         <module>tianai-captcha</module>
         <module>stomp</module>
         <module>jackson-custom</module>
+        <module>i18n</module>
     </modules>
 
 </project>

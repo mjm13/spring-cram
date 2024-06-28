@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"  th:lang="${lang}">
+
+<head>
+    <meta charset="utf-8">
+    <title>I18N Spring Boot</title>
+</head>
+<body>
+<h2 th:text="#{home.welcome('xxx')}"></h2>
+<p th:text="#{home.info}"></p>
+<p th:text="#{home.changelanguage}"></p>
+<ul>
+    <li><a href="?lang=en" th:text="#{home.lang.en}"></a></li>
+    <li><a href="?lang=de" th:text="#{home.lang.de}"></a></li>
+    <li><a href="?lang=zh" th:text="#{home.lang.zh}"></a></li>
+</ul>
+locale：
+<div th:text="${#locale}"></div>
+</body>
+<script th:src="@{/js/i18next.js}"></script>
+<script th:src="@{/js/i18nextHttpBackend.js}"></script>
+<script th:inline="javascript">
+    var _baseUrl = /*[[@{/}]]*/;
+</script>
+<script>
+    i18next
+        .use(i18nextHttpBackend)
+        .init({
+                debug: true
+                ,keySeparator:false
+                , backend: {
+                    loadPath: _baseUrl +"loadI18N?lang={lng}&ns={ns}"
+                }
+                ,interpolation:{
+                    prefix:"{"
+                    ,suffix:"}"
+                }
+            }
+            , function (err, t) {
+                if (err) {
+                    return console.log('something went wrong loading', err);
+                }
+                console.log(t("home.lang.en"));
+                console.log(i18next.t("home.welcome",{"0":"aaa"}));
+                console.log(t("home.welcome",["aaa"]));
+            });
+</script>
+</html>
