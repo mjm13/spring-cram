@@ -3,6 +3,9 @@ package structure;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * 过滤掉父子结构中无效的节点
+ */
 public class ClearData {
     public static void main(String[] args) {
         // 示例数据
@@ -45,25 +48,3 @@ public class ClearData {
 }
 
 
-class Data {
-    private final int id;
-    private final int pid;
-
-    public Data(int id, int pid) {
-        this.id = id;
-        this.pid = pid;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public int getPid() {
-        return pid;
-    }
-
-    @Override
-    public String toString() {
-        return "Data{id=" + id + ", pid=" + pid + '}';
-    }
-}
