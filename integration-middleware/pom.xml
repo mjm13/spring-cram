@@ -36,6 +36,8 @@
         <module>oceanbase</module>
         <module>rabbitmq-manual</module>
         <module>clickhouse</module>
+        <module>liteflow</module>
+        <module>cola-statemachine</module>
     </modules>
 
     <dependencies>
