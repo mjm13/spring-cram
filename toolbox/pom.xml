@@ -13,6 +13,13 @@
     <description>工具包例子</description>
 
     <dependencies>
+<!--   字符串映射为Class     -->
+        <dependency>
+            <groupId>org.apache.groovy</groupId>
+            <artifactId>groovy</artifactId>
+            <version>4.0.10</version>
+        </dependency>
+        
         
         <dependency>
             <groupId>org.bouncycastle</groupId>
