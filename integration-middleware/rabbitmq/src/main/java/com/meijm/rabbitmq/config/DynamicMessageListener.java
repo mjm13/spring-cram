@@ -27,24 +27,14 @@ public class DynamicMessageListener implements MessageListener {
     @Override
     public void onMessage(Message message)  {
         try {
-            log.info(new String(message.getBody(),"UTF-8"));
-        } catch (UnsupportedEncodingException e) {
+            log.info("开始消费消息");
+            Thread.sleep(10000L);
+            log.info("优先级:{}-消息:{}",message.getMessageProperties().getPriority(),new String(message.getBody(),"UTF-8"));
+        } catch (Exception e) {
             throw new RuntimeException(e);
+        }finally {
+            log.info("结束消费消息");
         }
-
-        throw new RuntimeException("测试重试");
-//        long deliveryTag = message.getMessageProperties().getDeliveryTag();
-//        Integer count = message.getMessageProperties().getHeader(FAIL_COUNT);
-//        if (count == null) {
-//            count = 0;
-//        }
-//        try {
-//            process();
-//        } catch (Exception e) {
-//                throw new AmqpRejectAndDontRequeueException("重试消息");
-//        }
-
-
     }
 
     public void process() {
