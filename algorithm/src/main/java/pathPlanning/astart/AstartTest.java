@@ -71,10 +71,10 @@ public class AstartTest {
         StringBuffer result = new StringBuffer();
 
         do{
-            result.append(endNode.getCoord().getId()).append("(step:").append(endNode.getStep()).append(")").append("-");
+            result.append(endNode.getCoord().getId()).append(")").append("-");
             endNode = endNode.getParent();
         }while (!endNode.getParent().getCoord().equals(endNode.getCoord()));
-        result.append(endNode.getCoord().getId()).append("(step:").append(endNode.getStep()).append(")");
+        result.append(endNode.getCoord().getId()).append(")");
         System.out.println(result.toString());
     }
 }

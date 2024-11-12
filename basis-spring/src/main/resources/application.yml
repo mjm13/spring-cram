@@ -2,7 +2,10 @@
 spring:
   application:
     name: basis
-
+  task:
+    scheduling:
+      pool:
+        size: 5
 server:
   port: 8080
   

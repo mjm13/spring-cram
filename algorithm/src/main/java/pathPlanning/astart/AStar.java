@@ -26,7 +26,6 @@ public class AStar {
         this.openList.clear();
         this.closeList.clear();
         Node node = new Node();
-        node.setStep(1);
         node.setCoord(mapInfoMap.get(start.getId()));
         node.setParent(node);
         // 开始搜索
@@ -71,7 +70,6 @@ public class AStar {
             return;
         }
         Node node = new Node();
-        node.setStep(current.getStep()+1);
         node.setCoord(coord);
         node.setParent(current);
         node.setEvaluateDistance(calcH(this.endNode.getCoord(), coord));

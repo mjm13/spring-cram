@@ -11,7 +11,6 @@ import lombok.ToString;
 @ToString(callSuper = false)
 public class Node implements Comparable<Node>{
 
-    private Integer step;
     /**
      * 上一步，用于回溯路径
      */
