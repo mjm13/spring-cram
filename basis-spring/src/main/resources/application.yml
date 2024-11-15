@@ -1,15 +1,22 @@
 
+
 spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
   application:
     name: basis
   task:
     scheduling:
       pool:
         size: 5
+
+
+        
 server:
   port: 8080
   
-
+  
 custom:
   complex:
     test: aaa
@@ -27,4 +34,10 @@ custom:
         ip: 10.196.132.71
         username: admin
         pwd: sany318!
-        port: 8000    
+        port: 8000
+
+
+
+logging:
+  level:
+    root: info

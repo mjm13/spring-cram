@@ -16,6 +16,7 @@ import java.util.Map;
 
 @Slf4j
 @RestController
+@RequestMapping("/")
 public class PropController {
     @Autowired
     private ComplexProp complexProp;
