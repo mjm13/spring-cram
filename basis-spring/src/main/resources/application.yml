@@ -10,7 +10,9 @@ spring:
     scheduling:
       pool:
         size: 5
-
+  threads:
+    virtual:
+      enabled: true
 
         
 server:
