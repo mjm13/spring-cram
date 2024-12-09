@@ -30,9 +30,10 @@ public class CustomAuthenticationFilter extends AbstractAuthenticationProcessing
             //设置附属信息,sessionid,ip
             setDetails(request, authentication);
             //通过Provider验证token
+            
             authentication = (CustomAuthenticationToken) getAuthenticationManager().authenticate(authentication);
             //
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+//            SecurityContextHolder.getContext().setAuthentication(authentication);
         } catch (Exception e) {
             throw new AuthenticationServiceException("secretKey认证失败",e);
         }

@@ -6,6 +6,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -26,6 +27,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         Set<String> dbAuthsSet = new HashSet<String>();
         dbAuthsSet.add("customUser");
         Collection<? extends GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(dbAuthsSet.toArray(new String[0]));
+//        SecurityContextHolder.getContext().setAuthentication(authentication);
         return new CustomAuthenticationToken(secretKey, secretKey, authorities);
     }
 
