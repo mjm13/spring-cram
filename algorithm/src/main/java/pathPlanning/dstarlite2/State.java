@@ -18,12 +18,29 @@ package pathPlanning.dstarlite2;
  *
  */
 
+import java.net.URLEncoder;
+
 public class State implements Comparable, java.io.Serializable
 {
 	public int x=0;
 	public int y=0;
-	public Pair<Double, Double> k = new Pair(0.0,0.0);
 
+	public double g=0;
+	public double rhs=0;
+	public double cost=0;
+	/**
+	 * 探测优先级-总代价
+	 * 值=min(g, rhs) + h(s, sstart) + km
+	 * min(g, rhs): 取g值和rhs值中的较小值
+	 * h(s, sstart): 从当前节点到起点的启发式估计值
+	 * km 路径代价修正值  
+	 */
+	public double totalCost;
+	/**
+	 * 探测优先级-局部最小代价
+	 * 值=min(g, rhs)
+	 */
+	public double localCost;
 
 	//Default constructor
 	public State()
@@ -32,11 +49,12 @@ public class State implements Comparable, java.io.Serializable
 	}
 
 	//Overloaded constructor
-	public State(int x, int y, Pair<Double,Double> k)
+	public State(int x, int y, double totalCost,double localCost)
 	{
 		this.x = x;
 		this.y = y;
-		this.k = k;
+		this.totalCost = totalCost;
+		this.localCost = localCost;
 	}
 
 	//Overloaded constructor
@@ -44,7 +62,8 @@ public class State implements Comparable, java.io.Serializable
 	{
 		this.x = other.x;
 		this.y = other.y;
-		this.k = other.k;
+		this.totalCost = other.totalCost;
+		this.localCost = other.localCost;
 	}
 
 	//Equals
@@ -62,25 +81,25 @@ public class State implements Comparable, java.io.Serializable
 	//Greater than
 	public boolean gt(final State s2)
 	{
-		if (k.first()-0.00001 > s2.k.first()) return true;
-		else if (k.first() < s2.k.first()-0.00001) return false;
-		return k.second() > s2.k.second();
+		if (totalCost-0.00001 > s2.totalCost) return true;
+		else if (totalCost < s2.totalCost-0.00001) return false;
+		return localCost > s2.localCost;
 	}
 
 	//Less than or equal to
 	public boolean lte(final State s2)
 	{
-		if (k.first() < s2.k.first()) return true;
-		else if (k.first() > s2.k.first()) return false;
-		return k.second() < s2.k.second() + 0.00001;
+		if (totalCost < s2.totalCost) return true;
+		else if (totalCost > s2.totalCost) return false;
+		return localCost < s2.localCost + 0.00001;
 	}
 
 	//Less than
 	public boolean lt(final State s2)
 	{
-		if (k.first() + 0.000001 < s2.k.first()) return true;
-		else if (k.first() - 0.000001 > s2.k.first()) return false;
-		return k.second() < s2.k.second();
+		if (totalCost + 0.000001 < s2.totalCost) return true;
+		else if (totalCost - 0.000001 > s2.totalCost) return false;
+		return localCost < s2.localCost;
 	}
 
 	//CompareTo Method. This is necessary when this class is used in a priority queue
@@ -88,10 +107,10 @@ public class State implements Comparable, java.io.Serializable
 	{
 		//This is a modified version of the gt method
 		State other = (State)that;
-		if (k.first()-0.00001 > other.k.first()) return 1;
-		else if (k.first() < other.k.first()-0.00001) return -1;
-		if (k.second() > other.k.second()) return 1;
-		else if (k.second() < other.k.second()) return -1;
+		if (totalCost-0.00001 > other.totalCost) return 1;
+		else if (totalCost < other.totalCost-0.00001) return -1;
+		if (localCost > other.localCost) return 1;
+		else if (localCost < other.localCost) return -1;
 		return 0;
 	}
 
@@ -124,4 +143,8 @@ public class State implements Comparable, java.io.Serializable
 
 	}
 
+	public String getId(){
+		URLEncoder.encode("");
+		return x+"_"+y;
+	}
 }
