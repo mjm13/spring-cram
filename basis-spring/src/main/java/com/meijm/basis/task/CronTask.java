@@ -17,12 +17,10 @@ public class CronTask {
 
     private final AtomicInteger scheduledCounter = new AtomicInteger();
 
-    @Scheduled(fixedRate = 1)
-    public synchronized void doSomething() throws  IllegalAccessException {
-        Thread t = new Thread(() -> {
-            log.info(HttpUtil.get("http://localhost:9821/dispatchswitch/getSwitchByCode?switchCode=ACROSS_SCHEDULE"));
-        });
-        t.start();
+    @Scheduled(initialDelay=3000,fixedDelay=1000)
+    public  void doSomething() throws  Exception {
+        Thread.sleep(60*1000*20);
+        log.error("1111111111111111");
     }
 
 
