@@ -37,7 +37,7 @@
         <module>rabbitmq-manual</module>
         <module>clickhouse</module>
         <module>liteflow</module>
-        <module>cola-statemachine</module>
+<!--        <module>cola-statemachine</module>-->
         <module>kstry</module>
         <module>lite-flow-design</module>
         <module>loki-query</module>
