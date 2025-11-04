@@ -4,6 +4,7 @@ import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
+import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
@@ -15,30 +16,32 @@ import java.util.stream.Collectors;
 @Slf4j
 public class HutoolReqestTest {
     public static void main(String[] args) {
-        String baseUrl = "https://api-inference.huggingface.co/models/meta-llama/Llama-3.2-11B-Vision-Instruct/v1/chat/completions";
-        HttpResponse response = HttpRequest.post(baseUrl).header("Authorization","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").body("{\n" +
-                "    \"model\": \"meta-llama/Llama-3.2-11B-Vision-Instruct\",\n" +
-                "    \"messages\": [\n" +
-                "\t\t{\n" +
-                "\t\t\t\"role\": \"user\",\n" +
-                "\t\t\t\"content\": [\n" +
-                "\t\t\t\t{\n" +
-                "\t\t\t\t\t\"type\": \"text\",\n" +
-                "\t\t\t\t\t\"text\": \"Describe this image in one sentence.\"\n" +
-                "\t\t\t\t},\n" +
-                "\t\t\t\t{\n" +
-                "\t\t\t\t\t\"type\": \"image_url\",\n" +
-                "\t\t\t\t\t\"image_url\": {\n" +
-                "\t\t\t\t\t\t\"url\": \"https://cdn.britannica.com/61/93061-050-99147DCE/Statue-of-Liberty-Island-New-York-Bay.jpg\"\n" +
-                "\t\t\t\t\t}\n" +
-                "\t\t\t\t}\n" +
-                "\t\t\t]\n" +
-                "\t\t}\n" +
-                "\t],\n" +
-                "    \"max_tokens\": 500,\n" +
-                "    \"stream\": true\n" +
-                "}","application/json").execute();
-        System.out.println(response.body());
+        String res = HttpUtil.get("https://10.200.144.235:8080/mask-api/openApi/algorithmList?accessKeyId=ywkrivgdsrgmf13prwhh2e6g981k1n4l&accessTime=1752141958199&accessSign=8858bc80daf326ee3e48e9eed282e14c");
+        System.out.println(res);
+//        String baseUrl = "https://api-inference.huggingface.co/models/meta-llama/Llama-3.2-11B-Vision-Instruct/v1/chat/completions";
+//        HttpResponse response = HttpRequest.post(baseUrl).header("Authorization","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").body("{\n" +
+//                "    \"model\": \"meta-llama/Llama-3.2-11B-Vision-Instruct\",\n" +
+//                "    \"messages\": [\n" +
+//                "\t\t{\n" +
+//                "\t\t\t\"role\": \"user\",\n" +
+//                "\t\t\t\"content\": [\n" +
+//                "\t\t\t\t{\n" +
+//                "\t\t\t\t\t\"type\": \"text\",\n" +
+//                "\t\t\t\t\t\"text\": \"Describe this image in one sentence.\"\n" +
+//                "\t\t\t\t},\n" +
+//                "\t\t\t\t{\n" +
+//                "\t\t\t\t\t\"type\": \"image_url\",\n" +
+//                "\t\t\t\t\t\"image_url\": {\n" +
+//                "\t\t\t\t\t\t\"url\": \"https://cdn.britannica.com/61/93061-050-99147DCE/Statue-of-Liberty-Island-New-York-Bay.jpg\"\n" +
+//                "\t\t\t\t\t}\n" +
+//                "\t\t\t\t}\n" +
+//                "\t\t\t]\n" +
+//                "\t\t}\n" +
+//                "\t],\n" +
+//                "    \"max_tokens\": 500,\n" +
+//                "    \"stream\": true\n" +
+//                "}","application/json").execute();
+//        System.out.println(response.body());
         
 //        String baseUrl = "http://192.168.1.22:6001/data/status";
 //        String result =HttpRequest.get(baseUrl).cogokie("JSESSIONID=FD65BB9397086D2380E8985B7D9BFD50").execute().body();

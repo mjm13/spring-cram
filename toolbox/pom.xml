@@ -13,6 +13,11 @@
     <description>工具包例子</description>
 
     <dependencies>
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>4.9.1</version> <!-- 可以使用最新版本 -->
+        </dependency>
         <!--    word文件读写-->
         <dependency>
             <groupId>jakarta.xml.bind</groupId>
