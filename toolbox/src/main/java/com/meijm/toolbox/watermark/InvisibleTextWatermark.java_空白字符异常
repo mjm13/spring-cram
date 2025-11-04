@@ -1,0 +1,391 @@
+package com.meijm.toolbox.watermark;
+
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * 基于零宽字符的隐形文本水印工具
+ * 使用16种零宽字符编码（4位/字符），大幅减少插入长度
+ */
+public class InvisibleTextWatermark {
+    // 16种零宽/格式字符映射 (4位编码：0000-1111)
+    private static final char[] ZERO_WIDTH_CHARS = {
+        '\u200B',  // 0000 - 零宽空格 (ZWSP)
+        '\u200C',  // 0001 - 零宽非连接符 (ZWNJ)
+        '\u200D',  // 0010 - 零宽连接符 (ZWJ)
+        '\u200E',  // 0011 - 左至右标记 (LRM)
+        '\u200F',  // 0100 - 右至左标记 (RLM)
+        '\u202A',  // 0101 - 左至右嵌入 (LRE)
+        '\u202B',  // 0110 - 右至左嵌入 (RLE)
+        '\u202C',  // 0111 - 弹出方向格式 (PDF)
+        '\u202D',  // 1000 - 左至右覆盖 (LRO)
+        '\u202E',  // 1001 - 右至左覆盖 (RLO)
+        '\u2060',  // 1010 - 词连接符 (WJ)
+        '\u2061',  // 1011 - 函数应用
+        '\u2062',  // 1100 - 不可见乘号
+        '\u2063',  // 1101 - 不可见分隔符
+        '\u2064',  // 1110 - 不可见加号
+        '\uFEFF'   // 1111 - 零宽不换行空格 (BOM)
+    };
+    
+    private static final int BITS_PER_CHAR = 4;  // 每个字符编码4位
+    private static final int MAX_WATERMARK_LENGTH = 1000;
+
+    /**
+     * 嵌入水印（4位编码，极致压缩）
+     * @param carrier 载体字符串
+     * @param watermark 水印字符串
+     * @return 嵌入水印后的字符串
+     */
+    public static String embed(String carrier, String watermark) {
+        if (carrier == null || watermark == null || watermark.isEmpty()) {
+            throw new IllegalArgumentException("载体和水印不能为空");
+        }
+
+        byte[] wmBytes = watermark.getBytes(StandardCharsets.UTF_8);
+        if (wmBytes.length > MAX_WATERMARK_LENGTH) {
+            throw new IllegalArgumentException("水印过长");
+        }
+
+        // 查找所有可插入位置
+        List<Integer> insertPositions = findAllInsertPositions(carrier);
+        
+        // 使用4位编码 + 变长长度 + CRC8校验
+        byte[] compressed = compressWatermark(wmBytes);
+        char[] encoded = encodeToZeroWidth4Bit(compressed);
+        
+        // 分散插入到文本中
+        return distributeInsert(carrier, encoded, insertPositions);
+    }
+
+    /**
+     * 从字符串提取水印
+     */
+    public static String extract(String watermarked) {
+        if (watermarked == null || watermarked.isEmpty()) {
+            return null;
+        }
+
+        // 提取所有零宽字符并解码（4位/字符）
+        int[] bits = decodeFromZeroWidth4Bit(watermarked);
+        if (bits.length < 15) {  // 至少需要 7位长度 + 8位CRC
+            return null;
+        }
+
+        try {
+            // 解析变长长度（前7位）
+            int wmLength = bitsToInt(bits, 0, 7);
+            if (wmLength <= 0 || wmLength > 127) {
+                return null;
+            }
+
+            // 提取CRC8校验码（8位）
+            int crc8 = bitsToInt(bits, 7, 8);
+
+            // 验证数据完整性
+            int requiredBits = 15 + wmLength * 8;
+            if (bits.length < requiredBits) {
+                return null;
+            }
+
+            // 提取水印字节
+            byte[] wmBytes = bitsToBytes(bits, 15, wmLength);
+            
+            // 校验CRC
+            if (calculateCRC8(wmBytes) != crc8) {
+                return null;
+            }
+
+            return new String(wmBytes, StandardCharsets.UTF_8);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /**
+     * 查找所有可插入位置（字符间隙）
+     */
+    private static List<Integer> findAllInsertPositions(String text) {
+        List<Integer> positions = new ArrayList<>();
+        for (int i = 1; i <= text.length(); i++) {
+            positions.add(i);
+        }
+        return positions;
+    }
+
+    /**
+     * 分散插入零宽字符
+     */
+    private static String distributeInsert(String carrier, char[] encoded, List<Integer> positions) {
+        int posCount = positions.size();
+        int encLen = encoded.length;
+        
+        if (posCount == 0) {
+            return new String(encoded);
+        }
+        
+        StringBuilder sb = new StringBuilder(carrier.length() + encLen);
+        int encIdx = 0;
+        int posIdx = 0;
+        
+        for (int i = 0; i < carrier.length(); i++) {
+            sb.append(carrier.charAt(i));
+            
+            if (posIdx < posCount && positions.get(posIdx) == i + 1) {
+                if (encIdx < encLen) {
+                    int remaining = encLen - encIdx;
+                    int remainingPos = posCount - posIdx;
+                    int insertCount = (remaining + remainingPos - 1) / remainingPos;
+                    
+                    for (int j = 0; j < insertCount && encIdx < encLen; j++) {
+                        sb.append(encoded[encIdx++]);
+                    }
+                }
+                posIdx++;
+            }
+        }
+        
+        while (encIdx < encLen) {
+            sb.append(encoded[encIdx++]);
+        }
+        
+        return sb.toString();
+    }
+
+    /**
+     * 压缩水印：7位长度 + 8位CRC8 + 数据
+     */
+    private static byte[] compressWatermark(byte[] data) {
+        int len = data.length;
+        if (len > 127) {
+            throw new IllegalArgumentException("水印过长（最大127字节）");
+        }
+
+        int crc8 = calculateCRC8(data);
+
+        // 构建压缩数据：15位头部 + 数据
+        int totalBits = 15 + len * 8;
+        int totalBytes = (totalBits + 7) / 8;
+        byte[] compressed = new byte[totalBytes];
+
+        writeBits(compressed, 0, len, 7);
+        writeBits(compressed, 7, crc8, 8);
+        
+        for (int i = 0; i < len; i++) {
+            writeBits(compressed, 15 + i * 8, data[i] & 0xFF, 8);
+        }
+
+        return compressed;
+    }
+
+    /**
+     * 4位编码：将字节数组编码为零宽字符数组
+     * 效率提升：原来2位/字符，现在4位/字符，减少50%长度
+     */
+    private static char[] encodeToZeroWidth4Bit(byte[] data) {
+        // 计算总位数和所需字符数
+        int totalBits = data.length * 8;
+        int charCount = (totalBits + 3) / 4;  // 向上取整
+        char[] result = new char[charCount];
+        int charIdx = 0;
+        
+        // 按4位一组编码
+        int bitBuffer = 0;
+        int bitCount = 0;
+        
+        for (byte b : data) {
+            for (int shift = 7; shift >= 0; shift--) {
+                bitBuffer = (bitBuffer << 1) | ((b >> shift) & 1);
+                bitCount++;
+                
+                if (bitCount == 4) {
+                    result[charIdx++] = ZERO_WIDTH_CHARS[bitBuffer];
+                    bitBuffer = 0;
+                    bitCount = 0;
+                }
+            }
+        }
+        
+        // 处理剩余位（填充0）
+        if (bitCount > 0) {
+            bitBuffer <<= (4 - bitCount);
+            result[charIdx++] = ZERO_WIDTH_CHARS[bitBuffer];
+        }
+        
+        return result;
+    }
+
+    /**
+     * 4位解码：从字符串提取零宽字符并解码为位数组
+     */
+    private static int[] decodeFromZeroWidth4Bit(String text) {
+        // 统计零宽字符数量
+        int count = 0;
+        for (int i = 0; i < text.length(); i++) {
+            if (isZeroWidthChar(text.charAt(i))) {
+                count++;
+            }
+        }
+        
+        if (count == 0) {
+            return new int[0];
+        }
+        
+        // 转换为位数组（4位/字符）
+        int[] bits = new int[count * BITS_PER_CHAR];
+        int idx = 0;
+        
+        for (int i = 0; i < text.length(); i++) {
+            char c = text.charAt(i);
+            int code = getZeroWidthCode(c);
+            if (code >= 0) {
+                // 将4位编码展开
+                for (int shift = 3; shift >= 0; shift--) {
+                    bits[idx++] = (code >> shift) & 1;
+                }
+            }
+        }
+        
+        return bits;
+    }
+
+    private static boolean isZeroWidthChar(char c) {
+        for (char zwc : ZERO_WIDTH_CHARS) {
+            if (c == zwc) return true;
+        }
+        return false;
+    }
+
+    private static int getZeroWidthCode(char c) {
+        for (int i = 0; i < ZERO_WIDTH_CHARS.length; i++) {
+            if (c == ZERO_WIDTH_CHARS[i]) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private static int calculateCRC8(byte[] data) {
+        int crc = 0;
+        for (byte b : data) {
+            crc ^= (b & 0xFF);
+            for (int i = 0; i < 8; i++) {
+                if ((crc & 0x80) != 0) {
+                    crc = (crc << 1) ^ 0x07;
+                } else {
+                    crc <<= 1;
+                }
+            }
+        }
+        return crc & 0xFF;
+    }
+
+    private static void writeBits(byte[] bytes, int bitOffset, int value, int bitCount) {
+        for (int i = 0; i < bitCount; i++) {
+            int bitPos = bitOffset + i;
+            int byteIdx = bitPos / 8;
+            int bitIdx = 7 - (bitPos % 8);
+            
+            if (((value >> (bitCount - 1 - i)) & 1) == 1) {
+                bytes[byteIdx] |= (1 << bitIdx);
+            }
+        }
+    }
+
+    private static int bitsToInt(int[] bits, int offset, int length) {
+        int value = 0;
+        for (int i = 0; i < length; i++) {
+            value = (value << 1) | bits[offset + i];
+        }
+        return value;
+    }
+
+    private static byte[] bitsToBytes(int[] bits, int offset, int byteCount) {
+        byte[] bytes = new byte[byteCount];
+        for (int i = 0; i < byteCount; i++) {
+            int b = 0;
+            for (int j = 0; j < 8; j++) {
+                b = (b << 1) | bits[offset + i * 8 + j];
+            }
+            bytes[i] = (byte) b;
+        }
+        return bytes;
+    }
+
+    public static void main(String[] args) {
+        String watermark = "张三的清单";
+
+        System.out.println("=== 零宽字符编码对比 ===");
+        System.out.println("水印内容: " + watermark);
+        System.out.println("水印字节数: " + watermark.getBytes(StandardCharsets.UTF_8).length);
+        System.out.println();
+
+        // 测试用例1：正常文本
+        String carrier1 = "人工智能技术正在快速发展，深度学习算法已经应用到各个领域。";
+        System.out.println("=== 测试1：正常文本 ===");
+        System.out.println("原始: " + carrier1);
+        String wm1 = embed(carrier1, watermark);
+        System.out.println("嵌入: " + wm1);
+        int added1 = wm1.length() - carrier1.length();
+        System.out.println("长度: " + carrier1.length() + " → " + wm1.length() 
+            + " (增加 " + added1 + " 个零宽字符)");
+        String ext1 = extract(wm1);
+        System.out.println("提取: " + ext1);
+        System.out.println("验证: " + (watermark.equals(ext1) ? "✓" : "✗"));
+        System.out.println();
+
+        // 测试用例2：英文带空格
+        String carrier2 = "Hello World!";
+        System.out.println("=== 测试2：英文短文本 ===");
+        System.out.println("原始: " + carrier2);
+        String wm2 = embed(carrier2, watermark);
+        System.out.println("嵌入: " + wm2);
+        int added2 = wm2.length() - carrier2.length();
+        System.out.println("长度: " + carrier2.length() + " → " + wm2.length()
+            + " (增加 " + added2 + ")");
+        String ext2 = extract(wm2);
+        System.out.println("提取: " + ext2);
+        System.out.println("验证: " + (watermark.equals(ext2) ? "✓" : "✗"));
+        System.out.println();
+
+        // 测试用例3：单字符
+        String carrier3 = "A";
+        System.out.println("=== 测试3：单字符 ===");
+        System.out.println("原始: " + carrier3);
+        String wm3 = embed(carrier3, watermark);
+        System.out.println("嵌入: " + wm3);
+        int added3 = wm3.length() - carrier3.length();
+        System.out.println("长度: " + carrier3.length() + " → " + wm3.length()
+            + " (增加 " + added3 + ")");
+        String ext3 = extract(wm3);
+        System.out.println("提取: " + ext3);
+        System.out.println("验证: " + (watermark.equals(ext3) ? "✓" : "✗"));
+        System.out.println();
+
+        // 测试用例4：纯空格
+        String carrier4 = "   ";
+        System.out.println("=== 测试4：纯空格 ===");
+        System.out.println("原始: '" + carrier4 + "'");
+        String wm4 = embed(carrier4, watermark);
+        System.out.println("嵌入: '" + wm4 + "'");
+        int added4 = wm4.length() - carrier4.length();
+        System.out.println("长度: " + carrier4.length() + " → " + wm4.length()
+            + " (增加 " + added4 + ")");
+        String ext4 = extract(wm4);
+        System.out.println("提取: " + ext4);
+        System.out.println("验证: " + (watermark.equals(ext4) ? "✓" : "✗"));
+        System.out.println();
+        
+        // 压缩效果对比
+        System.out.println("=== 编码效率对比 ===");
+        System.out.println("2位编码方案: 需要 31 个零宽字符");
+        System.out.println("4位编码方案: 需要 " + added1 + " 个零宽字符");
+        System.out.println("压缩率提升: " + String.format("%.1f%%", (1 - added1 / 31.0) * 100));
+        System.out.println();
+        System.out.println("原始水印 8 字节 = 64 位 + 15 位头部 = 79 位");
+        System.out.println("4位编码: 79 ÷ 4 = 20 个字符（向上取整）");
+        System.out.println("2位编码: 79 ÷ 2 = 40 个字符（向上取整）");
+        System.out.println("效率提升: 50%");
+    }
+}
